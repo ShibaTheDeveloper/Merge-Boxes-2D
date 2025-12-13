@@ -1,0 +1,22 @@
+_G.windowWidth = 800
+_G.windowHeight = 600
+
+_G.minWindowWidth = 400
+_G.minWindowHeight = 300
+
+function love.conf(config)
+    config.identity = "Incremental Game"
+
+    config.window.width = _G.windowWidth
+    config.window.height = _G.windowHeight
+
+    config.window.minwidth = _G.minWindowWidth
+    config.window.minheight = _G.minWindowHeight
+
+    config.window.fullscreentype = "desktop"
+
+    config.window.resizable = true
+    config.console = true
+
+    config.window.vsync = 0
+end
