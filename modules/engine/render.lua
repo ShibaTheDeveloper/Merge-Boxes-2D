@@ -1,5 +1,5 @@
 local IdManagerModule = require("modules.engine.id_manager")
-local idManager = IdManagerModule:createManager()
+local manager = IdManagerModule:createManager()
 
 local Module = {}
 Module.fullscreen = false
@@ -44,7 +44,7 @@ function Element:remove()
     local id = self.id
 
     Module._elements[id] = nil
-    idManager:release(id)
+    manager:release(id)
 end
 
 function Element:draw(windowScaleFactor, windowOffsetX, windowOffsetY)
@@ -78,7 +78,7 @@ function Module:createElement(data)
     if (data.type ~= "text") and (data.type ~= "sprite") then return end
 
     local element = setmetatable({
-        id = idManager:get(),
+        id = manager:get(),
 
         type = data.type or "sprite",
         zIndex = data.zIndex or 0,
