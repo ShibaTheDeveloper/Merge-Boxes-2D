@@ -75,7 +75,7 @@ function Element:draw(windowScaleFactor, windowOffsetX, windowOffsetY)
 end
 
 function Module:createElement(data)
-    if (data.type ~= "text") and (data.type ~= "sprite") then return end
+    if (data.type ~= "text") and (data.type ~= "sprite") then data.type = "sprite" end
 
     local element = setmetatable({
         id = manager:get(),
