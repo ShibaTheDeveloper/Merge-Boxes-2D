@@ -2,7 +2,7 @@
 
 return {
     {
-        spritePath = "assets/sprites/gerald.png",
+        spritePath = "assets/sprites/boxes/box1.png",
 
         description = "C'mon, it's Gerald! Do I really need to describe him? He's perfect!",
         quote = "Gerald.",
@@ -13,7 +13,7 @@ return {
         tier = 1,
     },
     {
-        spritePath = "assets/sprites/jimbo.png",
+        spritePath = "assets/sprites/boxes/box2.png",
 
         description = "Jimbo is constantly shocked at everything, constantly horrified of what'll happen next.",
         quote = "WHAT??",
@@ -24,7 +24,7 @@ return {
         tier = 2,
     },
     {
-        spritePath = "assets/sprites/glumbo.png",
+        spritePath = "assets/sprites/boxes/box3.png",
 
         description = "Glumbo's constantly planning on taking over the world, but that'll never happen because he's telling his plans to everyone. He's the reason for his brother Jimbo's constant shock.",
         quote = "And that's how I'll take over the world!",
@@ -35,7 +35,7 @@ return {
         tier = 3,
     },
     {
-        spritePath = "assets/sprites/jeremy.png",
+        spritePath = "assets/sprites/boxes/box4.png",
 
         description = "Jeremy loves to remind the teacher about the homework. Nobody likes Jeremy.",
         quote = "Ermm.. actually.. ☝️🤓",
@@ -46,7 +46,7 @@ return {
         tier = 4,
     },
     {
-        spritePath = "assets/sprites/muncher.png",
+        spritePath = "assets/sprites/boxes/box5.png",
 
         description = "An overweight box that most definitely ate that cookie.",
         quote = "I didn't eat that cookie!",
@@ -57,7 +57,7 @@ return {
         tier = 5,
     },
     {
-        spritePath = "assets/sprites/dylan.png",
+        spritePath = "assets/sprites/boxes/box6.png",
 
         description = [[Dylan loves clothes shopping at "Cold Subject". He isn't very talkative.]],
         quote = "...",
@@ -68,7 +68,7 @@ return {
         tier = 6,
     },
     {
-        spritePath = "assets/sprites/carlos.png",
+        spritePath = "assets/sprites/boxes/box7.png",
 
         description = "A really enthusiastic box, loves bothering people. Annoying.",
         quote = "HEY!!!",
@@ -79,7 +79,7 @@ return {
         tier = 7,
     },
     {
-        spritePath = "assets/sprites/goobster.png",
+        spritePath = "assets/sprites/boxes/box8.png",
 
         description = "This goofy goober of a box loves sticking out his tongue! A very silly creature indeed.",
         quote = "Blehhhh!",
@@ -90,7 +90,7 @@ return {
         tier = 8,
     },
     {
-        spritePath = "assets/sprites/angel.png",
+        spritePath = "assets/sprites/boxes/box9.png",
 
         description = "Goodness gracious!! Is this thing okay!?!? It's eyes are bloodshot!!",
         quote = "YASS QWEEN 💅💅 WE'RE GETTING SOME GEMINI ENERGY! SLAYY! 💅💅💅",
@@ -101,7 +101,7 @@ return {
         tier = 9,
     },
     {
-        spritePath = "assets/sprites/gochged.png",
+        spritePath = "assets/sprites/boxes/box10.png",
 
         description = "A granite-man transformed into a box. He's the creator of the faces you see on the boxes.",
         quote = "ROCK NOISES!!!",
@@ -112,7 +112,7 @@ return {
         tier = 10,
     },
     {
-        spritePath = "assets/sprites/dizzy.png",
+        spritePath = "assets/sprites/boxes/box11.png",
 
         description = "A dizzy cube which bears a striking resemblance to the creator of the game.",
         quote = "Whuh? wha-?",
