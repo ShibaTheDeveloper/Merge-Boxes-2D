@@ -72,15 +72,15 @@ function Module:mergeUpdate(deltaTime)
             goto continue
         end
 
-        local t = math.min(merge.timeSinceStart / merge.duration, 1)
-        local eased = EasingData.easeInQuad(t)
+        local timerLocalized = math.min(merge.timeSinceStart / merge.duration, 1)
+        local eased = EasingData.easeInQuad(timerLocalized)
 
         merge.boxA.element.x = extra.lerp(merge.startAX, merge.middleX, eased)
         merge.boxA.element.y = extra.lerp(merge.startAY, merge.middleY, eased)
         merge.boxB.element.x = extra.lerp(merge.startBX, merge.middleX, eased)
         merge.boxB.element.y = extra.lerp(merge.startBY, merge.middleY, eased)
 
-        if t >= 1 then
+        if timerLocalized >= 1 then
             merge.boxA:remove()
             merge.boxB:remove()
 
