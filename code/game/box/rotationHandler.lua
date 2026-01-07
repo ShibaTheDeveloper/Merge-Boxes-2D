@@ -1,10 +1,12 @@
-local BoxesObjectModule = require("modules.game.box.object")
-local CONSTANTS = require("modules.game.box.constants")
+local BoxesObjectModule = require("code.game.box.object")
+local CONSTANTS = require("code.game.box.constants")
 
 local Module = {}
 
 function Module:update()
     for _, box in pairs(BoxesObjectModule.boxes) do
+        if box.merging then goto continue end
+
         if box.dragging then
             local maxTilt = (box.dragging and math.huge or CONSTANTS.DRAGGING_MAX_TILT)
             local targetRotation = box.velocityX * CONSTANTS.DRAG_ROTATION_MULTIPLIER
@@ -15,6 +17,8 @@ function Module:update()
             local velocity = (box.velocityX + box.velocityY) / 2
             box.element:setRotation(math.deg(box.element.rotation) + velocity / CONSTANTS.FREE_ROTATION_VELOCITY_DIVISOR)
         end
+
+        :: continue ::
     end
 end
 

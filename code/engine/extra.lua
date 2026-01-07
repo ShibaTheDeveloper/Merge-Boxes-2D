@@ -36,4 +36,8 @@ function Module.getScaledMousePos()
     return x, y
 end
 
+function Module.lerp(a, b, lerpFactor)
+    return a + (b - a) * lerpFactor
+end
+
 return Module

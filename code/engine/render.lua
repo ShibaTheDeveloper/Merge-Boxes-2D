@@ -1,4 +1,4 @@
-local IdManagerModule = require("modules.engine.id_manager")
+local IdManagerModule = require("code.engine.id_manager")
 local manager = IdManagerModule:createManager()
 
 local Module = {}

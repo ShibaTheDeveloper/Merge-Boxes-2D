@@ -1,9 +1,13 @@
+--
+
 local Module = {}
 
-local BoxesObjectModule = require("modules.game.box.object")
-local extra = require("modules.engine.extra")
+local BoxDragHandlerModule = require("code.game.box.dragHandler")
+local BoxesObjectModule = require("code.game.box.object")
 
-local CONSTANTS = require("modules.game.box.constants")
+local extra = require("code.engine.extra")
+
+local CONSTANTS = require("code.game.box.constants")
 
 local function applyFriction(box, deltaTime)
     local weightFactor = CONSTANTS.BASE_WEIGHT / box.weight
@@ -12,7 +16,7 @@ local function applyFriction(box, deltaTime)
     box.velocityY = box.velocityY * (1 - CONSTANTS.FRICTION * fpsFactor * weightFactor)
 end
 
-local function edgeBounceLR(box)
+local function edgeBounceLR(box) -- check for edge bounces on left and right of the play area
     local width = box.element.drawable:getWidth() * box.element.scaleX
     local halfWidth = width * box.element.anchorX
 
@@ -25,7 +29,7 @@ local function edgeBounceLR(box)
     end
 end
 
-local function edgeBounceUD(box)
+local function edgeBounceUD(box) -- check for edge bounces on up and down of the play area
     local height = box.element.drawable:getHeight() * box.element.scaleY
     local halfHeight = height * box.element.anchorY
 
@@ -53,10 +57,12 @@ local function changePosition(box, deltaTime)
 end
 
 function Module:update(deltaTime)
+    if BoxDragHandlerModule.draggedBox then
+        dragPhysics(BoxDragHandlerModule.draggedBox)
+    end
+
     for _, box in pairs(BoxesObjectModule.boxes) do
         if box.merging then goto continue end
-
-        dragPhysics(box)
 
         changePosition(box, deltaTime)
 
@@ -65,7 +71,7 @@ function Module:update(deltaTime)
         edgeBounceLR(box)
         edgeBounceUD(box)
 
-        ::continue::
+        :: continue ::
     end
 end
 

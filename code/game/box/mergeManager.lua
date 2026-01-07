@@ -1,10 +1,10 @@
-local BoxesObjectModule = require("modules.game.box.object")
-local AnimateModule = require("modules.engine.animate")
+local BoxesObjectModule = require("code.game.box.object")
+local extra = require("code.engine.extra")
 
-local EasingData = require("modules.data.easing")
-local BoxesData = require("modules.data.boxes")
+local EasingData = require("code.data.easing")
+local BoxesData = require("code.data.boxes")
 
-local CONSTANTS = require("modules.game.box.constants")
+local CONSTANTS = require("code.game.box.constants")
 
 local Module = {}
 Module._activeMerges = {}
@@ -12,9 +12,9 @@ Module._activeMerges = {}
 function Module:merge(boxA, boxB)
     if boxA.dragging or boxB.dragging then return end
     if boxA.merging or boxB.merging then return end
-    if boxA.tier ~= boxB.tier then return end
 
     if #BoxesData < (boxA.tier + 1) then return end
+    if boxA.tier ~= boxB.tier then return end
 
     boxA.merging = true
     boxB.merging = true
@@ -55,15 +55,26 @@ end
 function Module:mergeUpdate(deltaTime)
     for i = #self._activeMerges, 1, -1 do
         local merge = self._activeMerges[i]
+        if not merge then goto continue end
+
         merge.timeSinceStart = merge.timeSinceStart + deltaTime
+
+        if merge.boxA.dragging or merge.boxB.dragging then
+            merge.boxA.merging = false
+            merge.boxB.merging = false
+
+            self._activeMerges[i] = nil
+
+            goto continue
+        end
 
         local t = math.min(merge.timeSinceStart / merge.duration, 1)
         local eased = EasingData.easeInQuad(t)
 
-        merge.boxA.element.x = AnimateModule.lerp(merge.startAX, merge.middleX, eased)
-        merge.boxA.element.y = AnimateModule.lerp(merge.startAY, merge.middleY, eased)
-        merge.boxB.element.x = AnimateModule.lerp(merge.startBX, merge.middleX, eased)
-        merge.boxB.element.y = AnimateModule.lerp(merge.startBY, merge.middleY, eased)
+        merge.boxA.element.x = extra.lerp(merge.startAX, merge.middleX, eased)
+        merge.boxA.element.y = extra.lerp(merge.startAY, merge.middleY, eased)
+        merge.boxB.element.x = extra.lerp(merge.startBX, merge.middleX, eased)
+        merge.boxB.element.y = extra.lerp(merge.startBY, merge.middleY, eased)
 
         if t >= 1 then
             merge.boxA:remove()
@@ -91,10 +102,13 @@ function Module:mergeUpdate(deltaTime)
 
             table.remove(self._activeMerges, i)
         end
+
+        :: continue ::
     end
 end
 
 function Module:checkMerges()
+    --%note TODO: optimize this with quadtrees
     for _, boxA in pairs(BoxesObjectModule.boxes) do
         if boxA.merging then goto continue end
 

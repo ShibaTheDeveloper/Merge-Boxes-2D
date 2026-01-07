@@ -9,7 +9,7 @@ return {
     AREA_HEIGHT = 600,
 
     -- Physics
-    ELASTICITY = 0.7,
+    ELASTICITY = 0.8,
     FRICTION = 0.0016,
     BASE_WEIGHT = 60,
 

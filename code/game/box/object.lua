@@ -1,13 +1,13 @@
-local IdManagerModule = require("modules.engine.id_manager")
-local RenderModule = require("modules.engine.render")
-local BoxesData = require("modules.data.boxes")
+local IdManagerModule = require("code.engine.id_manager")
+local RenderModule = require("code.engine.render")
+local BoxesData = require("code.data.boxes")
 
 local manager = IdManagerModule:createManager()
 
 local Module = {}
 Module.boxes = {}
 
-local CONSTANTS = require("modules.game.box.constants")
+local CONSTANTS = require("code.game.box.constants")
 
 local Box = {
     id = 0,
@@ -77,7 +77,7 @@ function Module:createBox(tier, x, y)
         targetX = data.scale,
         targetY = data.scale,
         timeSinceStart = 0,
-        duration = CONSTANTS.BASE_SCALE_TWEEN_DURATION * (1 + box.weight / CONSTANTS.WEIGHT_ANIM_DURATION_DIVISOR)
+        duration = CONSTANTS.BASE_SCALE_TWEEN_DURATION
     }
 
     return box

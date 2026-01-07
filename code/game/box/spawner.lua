@@ -1,7 +1,7 @@
-local BoxesObjectModule = require("modules.game.box.object")
-local extra = require("modules.engine.extra")
+local BoxesObjectModule = require("code.game.box.object")
+local extra = require("code.engine.extra")
 
-local CONSTANTS = require("modules.game.box.constants")
+local CONSTANTS = require("code.game.box.constants")
 
 local Module = {}
 
@@ -28,6 +28,7 @@ function Module:update()
 
         local spawnTier = getSpawnedBoxTier()
         local box = BoxesObjectModule:createBox(spawnTier, math.random(0, CONSTANTS.AREA_WIDTH), math.random(0, CONSTANTS.AREA_HEIGHT))
+
         box.velocityX = math.random(-1, 1)
         box.velocityY = math.random(-1, 1)
     end

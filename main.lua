@@ -1,5 +1,5 @@
-local BoxUpdateHandler = require("modules.game.box.updateHandler")
-local RenderModule = require("modules.engine.render")
+local BoxUpdateHandler = require("code.game.box.updateHandler")
+local RenderModule = require("code.engine.render")
 
 function love.update(deltaTime)
     BoxUpdateHandler:update(deltaTime)

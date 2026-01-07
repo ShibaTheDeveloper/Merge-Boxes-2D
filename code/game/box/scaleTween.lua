@@ -1,7 +1,7 @@
-local BoxesObjectModule = require("modules.game.box.object")
-local AnimateModule = require("modules.engine.animate")
+local BoxesObjectModule = require("code.game.box.object")
+local extra = require("code.engine.extra")
 
-local EasingData = require("modules.data.easing")
+local EasingData = require("code.data.easing")
 
 local Module = {}
 
@@ -14,8 +14,8 @@ function Module:update(deltaTime)
             local timerLocalized = math.min(tween.timeSinceStart / tween.duration, 1)
             local lerpFactor = EasingData.easeOutQuad(timerLocalized)
 
-            box.element.scaleX = AnimateModule.lerp(tween.startX, tween.targetX, lerpFactor)
-            box.element.scaleY = AnimateModule.lerp(tween.startY, tween.targetY, lerpFactor)
+            box.element.scaleX = extra.lerp(tween.startX, tween.targetX, lerpFactor)
+            box.element.scaleY = extra.lerp(tween.startY, tween.targetY, lerpFactor)
 
             if timerLocalized >= 1 then
                 box._scaleTween = nil
