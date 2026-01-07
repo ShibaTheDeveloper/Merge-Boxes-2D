@@ -1,5 +1,7 @@
 -- ~/code/data/boxes.lua
 
+local RenderModule = require("code.engine.render")
+
 return {
     {
         spritePath = "assets/sprites/boxes/box1.png",
@@ -51,6 +53,11 @@ return {
         description = "An overweight box that most definitely ate that cookie.",
         quote = "I didn't eat that cookie!",
         name = "Muncher",
+
+        screenFlashFadeDuration = 1.5,
+        flashScreen = true,
+
+        mergeSoundData = {soundPath = "assets/sounds/merge/special.ogg"},
 
         weight = 250,
         scale = 1.1,
@@ -107,6 +114,11 @@ return {
         quote = "ROCK NOISES!!!",
         name = "Gochged",
 
+        screenFlashFadeDuration = 1.5,
+        flashScreen = true,
+
+        mergeSoundData = {soundPath = "assets/sounds/merge/special.ogg"},
+
         weight = 600,
         scale = 1.6,
         tier = 10,
@@ -119,7 +131,57 @@ return {
         name = "Dizzy",
 
         weight = 450,
+        scale = 1.6,
+        tier = 11,
+    },
+    {
+        spritePath = "assets/sprites/boxes/box12.png",
+
+        description = "Unknown",
+        quote = "Unknown",
+        name = "Unknown",
+
+        weight = 500,
         scale = 1.7,
-        tier = 10,
+        tier = 12,
+    },
+    {
+        spritePath = "assets/sprites/boxes/box13.png",
+
+        description = "A box that grew so big, it became classifiable as a mountain! Going past this point may not be wise..",
+        quote = "Big back, big back! Big back, big back! Yeah, my back is loaded up with snacks and different foods!",
+        name = "Mt. Box",
+
+        weight = 1500,
+        scale = 1.8,
+        tier = 13,
+    },
+    {
+        spritePath = "assets/sprites/boxes/box14.png",
+
+        description = "This box is so massive that it became red-hot from the outside! Being able to fuse so much matter into one point is inhuman.",
+        quote = "RAAAAAAAAAHHH!!!",
+        name = "Unstable",
+
+        weight = 3000,
+        scale = 1.865,
+        tier = 14,
+    },
+    {
+        spritePath = "assets/sprites/boxes/box15.png",
+
+        description = "A box that has been enlightened with the knowledge of everything, even the fact that it's in a game! It has become mute and un-reactive, as it is trying to process everything at once.",
+        quote = "...",
+        name = "Transcended",
+
+        screenFlashColor = RenderModule:createColor(255, 255, 255, 1),
+        screenFlashFadeDuration = 2.25,
+        flashScreen = true,
+
+        mergeSoundData = {soundPath = "assets/sounds/merge/box15.ogg"},
+
+        weight = 6000,
+        scale = 1.95,
+        tier = 15,
     },
 }

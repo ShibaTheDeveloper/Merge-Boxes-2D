@@ -5,7 +5,6 @@ local BoxPhysicsHandlerModule = require("code.game.box.physicsHandler")
 local BoxMergeManagerModule = require("code.game.box.mergeManager")
 local BoxDragHandlerModule = require("code.game.box.dragHandler")
 local BoxScaleTweenModule = require("code.game.box.scaleTween")
-local BoxSpawnerModule = require("code.game.box.spawner")
 
 local Module = {}
 
@@ -15,7 +14,6 @@ function Module:update(deltaTime)
     BoxScaleTweenModule:update(deltaTime)
     BoxRotationHandlerModule:update()
     BoxDragHandlerModule:update()
-    BoxSpawnerModule:update()
  end
 
 return Module

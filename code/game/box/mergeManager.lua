@@ -1,6 +1,8 @@
 -- ~/code/game/box/mergeManager.lua
 
+local ScreenFlashModule = require("code.game.vfx.screenFlash")
 local BoxesObjectModule = require("code.game.box.object")
+local SoundModule = require("code.engine.sound")
 local extra = require("code.engine.extra")
 
 local EasingData = require("code.data.easing")
@@ -82,8 +84,9 @@ function Module:mergeUpdate(deltaTime)
             merge.boxA:remove()
             merge.boxB:remove()
 
-            local newTier = merge.boxA.tier + 1
-            local newBox = BoxesObjectModule:createBox(newTier, merge.middleX, merge.middleY)
+            local newBoxTier = merge.boxA.tier + 1
+            local newBoxData = BoxesObjectModule:getBoxDataByTier(newBoxTier, merge.middleX, merge.middleY)
+            local newBox = BoxesObjectModule:createBox(newBoxData)
 
             if newBox then
                 newBox.velocityX = (merge.boxA.velocityX + merge.boxB.velocityX) * CONSTANTS.ELASTICITY
@@ -100,6 +103,17 @@ function Module:mergeUpdate(deltaTime)
 
                 newBox.element.scaleX = merge.boxA.element.scaleX
                 newBox.element.scaleY = merge.boxA.element.scaleY
+
+                local mergeSound = SoundModule:createSound(newBox.mergeSoundData)
+
+                if mergeSound then
+                    mergeSound:play()
+                    mergeSound:remove()
+                end
+
+                if newBox.flashScreen then
+                    ScreenFlashModule:flash(newBox.screenFlashColor)
+                end
             end
 
             table.remove(self._activeMerges, i)

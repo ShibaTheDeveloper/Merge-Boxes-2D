@@ -3,11 +3,9 @@
 local IdManagerModule = require("code.engine.idManager")
 local RenderModule = require("code.engine.render")
 local BoxesData = require("code.data.boxes")
+local extra = require("code.engine.extra")
 
 local manager = IdManagerModule:createManager()
-
-local Module = {}
-Module.boxes = {}
 
 local CONSTANTS = require("code.game.box.constants")
 
@@ -22,6 +20,10 @@ local Box = {
     quote = "",
     name = "",
 
+    screenFlashColor = nil,
+    screenFlashFadeDuration = 2,
+    flashScreen = false,
+
     weight = 0,
     tier = 1,
 
@@ -29,6 +31,9 @@ local Box = {
     velocityY = 0,
 }
 Box.__index = Box
+
+local Module = {}
+Module.boxes = {}
 
 function Box:remove()
     local id = self.id
@@ -39,13 +44,20 @@ function Box:remove()
     self.element:remove()
 end
 
-function Module:createBox(tier, x, y)
-    local data = BoxesData[tier]
+function Module:getBoxDataByTier(tier, x, y)
+    local data = extra.cloneTable(BoxesData[tier])
+    if x then data.x = x end
+    if y then data.y = y end
+
+    return data
+end
+
+function Module:createBox(data)
     if not data then return end
 
     local element = RenderModule:createElement({
-        x = x,
-        y = y,
+        x = data.x or 0,
+        y = data.y or 0,
         spritePath = data.spritePath,
         type = "sprite",
         scaleX = data.scale,
@@ -63,6 +75,12 @@ function Module:createBox(tier, x, y)
         description = data.description,
         quote = data.quote,
         name = data.name,
+
+        screenFlashColor = data.screenFlashColor or nil,
+        screenFlashFadeDuration = data.screenFlashFadeDuration or 2,
+        flashScreen = data.flashScreen or false,
+
+        mergeSoundData = data.mergeSoundData or {soundPath = "assets/sounds/merge/default.ogg"},
 
         weight = data.weight,
         tier = data.tier,
