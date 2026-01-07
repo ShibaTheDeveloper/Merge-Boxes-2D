@@ -83,4 +83,18 @@ function Module:createBox(tier, x, y)
     return box
 end
 
+function Module:getSortedArray()
+    local array = {}
+
+    for _, box in pairs(self.boxes) do
+        table.insert(array, box)
+    end
+
+    table.sort(array, function(a, b)
+        return a.element.zIndex > b.element.zIndex
+    end)
+
+    return array
+end
+
 return Module

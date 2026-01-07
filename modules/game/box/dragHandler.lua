@@ -15,27 +15,25 @@ function Module:update()
     local mouseX, mouseY = extra.getScaledMousePos()
 
     if mouseDown and not self._wasMouseDown then
-        local boxesArray = {}
+        local boxesArray = BoxesObjectModule:getSortedArray()
 
-        for _, box in pairs(BoxesObjectModule.boxes) do
-            table.insert(boxesArray, box)
-        end
-
-        table.sort(boxesArray, function(a, b)
-            return a.element.zIndex > b.element.zIndex
-        end)
-
+        local success = false
         for _, box in pairs(boxesArray) do
-            if box.element:isPointInside(mouseX, mouseY) and not box.merging then
-                self._draggedBox = box
-                self._draggedBox.dragging = true
+            if not box.element:isPointInside(mouseX, mouseY) then goto continue end
+            if box.merging then goto continue end
 
-                lastDraggedBoxAlpha = self._draggedBox.element.color.alpha
-                self._draggedBox.element.color.alpha = CONSTANTS.DRAGGED_BOX_ALPHA
-                self._draggedBox.element.zIndex = CONSTANTS.BASE_BOX_ZINDEX + 2
+            self._draggedBox = box
+            self._draggedBox.dragging = true
 
-                break
-            end
+            lastDraggedBoxAlpha = self._draggedBox.element.color.alpha
+            self._draggedBox.element.color.alpha = CONSTANTS.DRAGGED_BOX_ALPHA
+
+            self._draggedBox.element.zIndex = CONSTANTS.BASE_BOX_ZINDEX + 2
+
+            success = true
+
+            if success then break end
+            :: continue ::
         end
     end
 
