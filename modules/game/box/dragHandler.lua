@@ -8,6 +8,7 @@ Module._wasMouseDown = false
 Module._mouseDown = false
 Module._draggedBox = nil
 
+local lastDraggedBoxAlpha = 0
 
 function Module:update()
     local mouseDown = love.mouse.isDown(1)
@@ -19,8 +20,9 @@ function Module:update()
                 self._draggedBox = box
                 self._draggedBox.dragging = true
 
-                self._draggedBox.element.color.alpha = .8
-                self._draggedBox.element.zIndex = 2
+                lastDraggedBoxAlpha = self._draggedBox.element.color.alpha
+                self._draggedBox.element.color.alpha = CONSTANTS.DRAGGED_BOX_ALPHA
+                self._draggedBox.element.zIndex = CONSTANTS.BASE_BOX_ZINDEX + 1
 
                 break
             end
@@ -28,7 +30,7 @@ function Module:update()
     end
 
     if not mouseDown and self._draggedBox then
-        self._draggedBox.element.color.alpha = 1
+        self._draggedBox.element.color.alpha = lastDraggedBoxAlpha
 
         self._draggedBox.dragging = false
         self._draggedBox = nil

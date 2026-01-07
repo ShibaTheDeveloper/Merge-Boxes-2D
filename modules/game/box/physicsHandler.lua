@@ -2,6 +2,7 @@ local Module = {}
 
 local BoxesObjectModule = require("modules.game.box.object")
 local extra = require("modules.engine.extra")
+
 local CONSTANTS = require("modules.game.box.constants")
 
 local function applyFriction(box, deltaTime)
@@ -51,18 +52,6 @@ local function changePosition(box, deltaTime)
     box.element.y = box.element.y + box.velocityY * fpsFactor
 end
 
-local function changeRotation(box)
-    if box.dragging then
-        local maxTilt = (box.dragging and math.huge or CONSTANTS.DRAGGING_MAX_TILT)
-        local targetRotation = box.velocityX * CONSTANTS.DRAG_ROTATION_MULTIPLIER
-        targetRotation = math.max(-maxTilt, math.min(maxTilt, targetRotation))
-        box.element.rotation = box.element.rotation + (targetRotation - box.element.rotation) * CONSTANTS.BASE_DRAGGING_TILT_SPEED
-    else
-        local velocity = (box.velocityX + box.velocityY) / 2
-        box.element.rotation = box.element.rotation + velocity / CONSTANTS.FREE_ROTATION_VELOCITY_DIVISOR
-    end
-end
-
 function Module:update(deltaTime)
     for _, box in pairs(BoxesObjectModule.boxes) do
         if box.merging then goto continue end
@@ -70,7 +59,6 @@ function Module:update(deltaTime)
         dragPhysics(box)
 
         changePosition(box, deltaTime)
-        changeRotation(box)
 
         applyFriction(box, deltaTime)
 

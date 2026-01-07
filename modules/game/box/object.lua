@@ -47,7 +47,8 @@ function Module:createBox(tier, x, y)
         spritePath = data.spritePath,
         type = "sprite",
         scaleX = data.scale,
-        scaleY = data.scale
+        scaleY = data.scale,
+        zIndex = CONSTANTS.BASE_BOX_ZINDEX
     })
 
     local box = setmetatable({

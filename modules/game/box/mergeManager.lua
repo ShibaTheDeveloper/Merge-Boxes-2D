@@ -73,8 +73,8 @@ function Module:mergeUpdate(deltaTime)
             local newBox = BoxesObjectModule:createBox(newTier, merge.middleX, merge.middleY)
 
             if newBox then
-                newBox.velocityX = (merge.boxA.velocityX + merge.boxB.velocityX) / 2
-                newBox.velocityY = (merge.boxA.velocityY + merge.boxB.velocityY) / 2
+                newBox.velocityX = (merge.boxA.velocityX + merge.boxB.velocityX) * CONSTANTS.ELASTICITY
+                newBox.velocityY = (merge.boxA.velocityY + merge.boxB.velocityY) * CONSTANTS.ELASTICITY
 
                 newBox._scaleTween = {
                     startX = merge.boxA.element.scaleX,

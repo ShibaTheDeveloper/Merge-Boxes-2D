@@ -1,3 +1,6 @@
+math.randomseed(os.time())
+math.random()
+
 _G.WINDOW_WIDTH = 800
 _G.WINDOW_HEIGHT = 600
 
