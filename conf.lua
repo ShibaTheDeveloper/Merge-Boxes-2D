@@ -1,3 +1,5 @@
+-- ~/conf.lua
+
 math.randomseed(os.time())
 math.random()
 

@@ -1,4 +1,6 @@
-local IdManagerModule = require("code.engine.id_manager")
+-- ~/code/game/box/object.lua
+
+local IdManagerModule = require("code.engine.idManager")
 local RenderModule = require("code.engine.render")
 local BoxesData = require("code.data.boxes")
 

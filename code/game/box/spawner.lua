@@ -1,3 +1,5 @@
+-- ~/code/game/box/spawner.lua
+
 local BoxesObjectModule = require("code.game.box.object")
 local extra = require("code.engine.extra")
 
@@ -29,8 +31,8 @@ function Module:update()
         local spawnTier = getSpawnedBoxTier()
         local box = BoxesObjectModule:createBox(spawnTier, math.random(0, CONSTANTS.AREA_WIDTH), math.random(0, CONSTANTS.AREA_HEIGHT))
 
-        box.velocityX = math.random(-1, 1)
-        box.velocityY = math.random(-1, 1)
+        box.velocityX = math.random(CONSTANTS.MIN_SPAWN_VELOCITY, CONSTANTS.MAX_SPAWN_VELOCITY)
+        box.velocityY = math.random(CONSTANTS.MIN_SPAWN_VELOCITY, CONSTANTS.MAX_SPAWN_VELOCITY)
     end
 end
 

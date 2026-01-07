@@ -1,4 +1,8 @@
+-- ~/code/game/box/rotationHandler.lua
+
 local BoxesObjectModule = require("code.game.box.object")
+local extra = require("code.engine.extra")
+
 local CONSTANTS = require("code.game.box.constants")
 
 local Module = {}
@@ -8,9 +12,8 @@ function Module:update()
         if box.merging then goto continue end
 
         if box.dragging then
-            local maxTilt = (box.dragging and math.huge or CONSTANTS.DRAGGING_MAX_TILT)
             local targetRotation = box.velocityX * CONSTANTS.DRAG_ROTATION_MULTIPLIER
-            targetRotation = math.max(-maxTilt, math.min(maxTilt, targetRotation))
+            targetRotation = math.max(-CONSTANTS.DRAGGING_MAX_TILT, math.min(CONSTANTS.DRAGGING_MAX_TILT, targetRotation))
 
             box.element:setRotation(box.element.rotation + (targetRotation - box.element.rotation) * CONSTANTS.BASE_DRAGGING_TILT_SPEED)
         else

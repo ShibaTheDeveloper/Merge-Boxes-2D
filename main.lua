@@ -1,3 +1,5 @@
+-- ~/main.lua
+
 local BoxUpdateHandler = require("code.game.box.updateHandler")
 local RenderModule = require("code.engine.render")
 

@@ -1,3 +1,5 @@
+-- ~/code/data/boxes.lua
+
 return {
     {
         spritePath = "assets/sprites/gerald.png",

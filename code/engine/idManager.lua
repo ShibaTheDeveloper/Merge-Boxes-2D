@@ -1,3 +1,5 @@
+-- ~/code/engine/idManager.lua
+
 local Manager = {
     _freeIds = {},
     _nextId = 0

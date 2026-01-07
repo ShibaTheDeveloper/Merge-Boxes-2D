@@ -1,3 +1,5 @@
+-- ~/code/data/easing.lua
+
 return {
     easeInOutQuad = function(t)
         if t < 0.5 then

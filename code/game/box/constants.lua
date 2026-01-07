@@ -1,7 +1,11 @@
+-- ~/code/game/box/constants.lua
+
 return {
     -- Spawner
-    MIN_TIER = 1,
-    MAX_TIER = math.huge,
+    MIN_SPAWN_TIER = 1,
+    MAX_SPAWN_TIER = math.huge,
+    MIN_SPAWN_VELOCITY = -1,
+    MAX_SPAWN_VELOCITY = 1,
     SPAWN_TIER_SCALING_DIVISOR = 10,
 
     -- Play Area
@@ -24,7 +28,7 @@ return {
     -- Merge
     BASE_MERGE_SPEED = 400,
     BASE_MERGE_RANGE = 150,
-    VELOCITY_MERGE_DURATION_FACTOR = 1,
+    VELOCITY_MERGE_DURATION_FACTOR = .85,
 
     -- Animation
     SPAWN_SCALE_MULTIPLIER = 1.25,

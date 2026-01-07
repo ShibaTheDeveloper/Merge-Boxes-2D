@@ -1,4 +1,6 @@
-local IdManagerModule = require("code.engine.id_manager")
+-- ~/code/engine/render.lua
+
+local IdManagerModule = require("code.engine.idManager")
 local manager = IdManagerModule:createManager()
 
 local Module = {}
