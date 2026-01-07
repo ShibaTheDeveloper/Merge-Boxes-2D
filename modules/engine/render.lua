@@ -47,7 +47,7 @@ function Element:remove()
     manager:release(id)
 end
 
-function Element:isPointInside(x, y)
+function Element:isPointInside(pointX, pointY)
     local width, height = 0, 0
 
     if self.type == "sprite" and self.drawable then
@@ -56,15 +56,26 @@ function Element:isPointInside(x, y)
     elseif self.type == "text" and self.text then
         local font = love.graphics.getFont()
         width = font:getWidth(self.text) * self.scaleX
-        height = font:getHeight(self.text) * self.scaleY
+        height = font:getHeight() * self.scaleY
     end
 
-    local left = self.x - width * self.anchorX
-    local right = self.x + width * (1 - self.anchorX)
-    local top = self.y - height * self.anchorY
-    local bottom = self.y + height * (1 - self.anchorY)
+    local deltaX = pointX - (self.x + (self.offsetX or 0))
+    local deltaY = pointY - (self.y + (self.offsetY or 0))
 
-    return x >= left and x <= right and y >= top and y <= bottom
+    local rotation = self.rotation * (self.flip and -1 or 1)
+    local cosRotation = math.cos(-rotation)
+    local sinRotation = math.sin(-rotation)
+
+    local localX = deltaX * cosRotation - deltaY * sinRotation
+    local localY = deltaX * sinRotation + deltaY * cosRotation
+
+    local left = -width * self.anchorX
+    local right = width * (1 - self.anchorX)
+    local top = -height * self.anchorY
+    local bottom = height * (1 - self.anchorY)
+
+    return localX >= left and localX <= right
+       and localY >= top and localY <= bottom
 end
 
 function Element:draw(windowScaleFactor, windowOffsetX, windowOffsetY)
@@ -74,7 +85,7 @@ function Element:draw(windowScaleFactor, windowOffsetX, windowOffsetY)
     local scaleX = self.scaleX * (self.flip and -1 or 1) * windowScaleFactor
     local scaleY = self.scaleY * windowScaleFactor
 
-    local rotation = math.rad(self.rotation * (self.flip and -1 or 1))
+    local rotation = self.rotation * (self.flip and -1 or 1)
 
     local offsetX, offsetY = 0, 0
 
@@ -92,6 +103,10 @@ function Element:draw(windowScaleFactor, windowOffsetX, windowOffsetY)
 
     if self.type == "sprite" then love.graphics.draw(self.drawable, x, y, rotation, scaleX, scaleY, offsetX, offsetY)
     else love.graphics.print(self.text, x, y, rotation, scaleX, scaleY, offsetX, offsetY) end
+end
+
+function Element:setRotation(rotation)
+    self.rotation = math.rad(rotation)
 end
 
 function Module:createElement(data)

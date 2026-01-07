@@ -15,14 +15,24 @@ function Module:update()
     local mouseX, mouseY = extra.getScaledMousePos()
 
     if mouseDown and not self._wasMouseDown then
+        local boxesArray = {}
+
         for _, box in pairs(BoxesObjectModule.boxes) do
+            table.insert(boxesArray, box)
+        end
+
+        table.sort(boxesArray, function(a, b)
+            return a.element.zIndex > b.element.zIndex
+        end)
+
+        for _, box in pairs(boxesArray) do
             if box.element:isPointInside(mouseX, mouseY) and not box.merging then
                 self._draggedBox = box
                 self._draggedBox.dragging = true
 
                 lastDraggedBoxAlpha = self._draggedBox.element.color.alpha
                 self._draggedBox.element.color.alpha = CONSTANTS.DRAGGED_BOX_ALPHA
-                self._draggedBox.element.zIndex = CONSTANTS.BASE_BOX_ZINDEX + 1
+                self._draggedBox.element.zIndex = CONSTANTS.BASE_BOX_ZINDEX + 2
 
                 break
             end
@@ -31,6 +41,7 @@ function Module:update()
 
     if not mouseDown and self._draggedBox then
         self._draggedBox.element.color.alpha = lastDraggedBoxAlpha
+        self._draggedBox.element.zIndex = CONSTANTS.BASE_BOX_ZINDEX + 1
 
         self._draggedBox.dragging = false
         self._draggedBox = nil
