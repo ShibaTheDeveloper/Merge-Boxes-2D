@@ -17,13 +17,7 @@ local DEFAULT_FILE_DATA = {
             musicVolume = .5
         }
     },
-    boxes = {
-        {
-            tier = 1,
-            x = 5,
-            y = 5
-        }
-    }
+    boxes = {}
 }
 
 local LUA_KEYWORDS = {

@@ -1,6 +1,0 @@
--- ~/code/game/ui/constants.lua
-
-return {
-    BUTTON_CLICK_SCALE_SUBTRACTION = .065,
-    BASE_BUTTON_CLICK_SCALE_SPEED = 2,
-}

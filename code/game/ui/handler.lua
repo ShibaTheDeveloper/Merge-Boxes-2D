@@ -1,18 +1,15 @@
 -- ~/code/game/ui/handler.lua
 
-local UIButtonsModule = require("code.game.ui.buttons")
+local UIButtonObjectModule = require("code.game.ui.objects.button")
 
 local Module = {}
 
 function Module:mousePressed(x, y, button)
-    UIButtonsModule:mousePressed(x, y, button)
+    UIButtonObjectModule:mousePressed(x, y, button)
 end
 
 function Module:update(deltaTime)
-    UIButtonsModule:update(deltaTime)
-end
-
-function Module.init()
+    UIButtonObjectModule:updateAll(deltaTime)
 end
 
 return Module

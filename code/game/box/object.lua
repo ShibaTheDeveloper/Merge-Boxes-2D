@@ -117,4 +117,10 @@ function Module:getSortedArray()
     return array
 end
 
+function Module:clearBoxes()
+    for _, box in pairs(self:getSortedArray()) do
+        box:remove()
+    end
+end
+
 return Module

@@ -7,10 +7,8 @@ local UIHandlerModule = require("code.game.ui.handler")
 local SaveFilesModule = require("code.engine.saveFiles")
 local RenderModule = require("code.engine.render")
 
-local extra = require("code.engine.extra")
-
 VFXHandlerModule.init()
-UIHandlerModule.init()
+--UIHandlerModule.init()
 
 SaveFilesModule.loadFile(1)
 
@@ -25,8 +23,8 @@ function love.draw()
 end
 
 function love.mousepressed(_, _, button)
-    local virtualX, virtualY = extra.getScaledMousePos()
-    UIHandlerModule:mousePressed(virtualX, virtualY, button)
+    local mouseX, mouseY = RenderModule:getMousePos()
+    UIHandlerModule:mousePressed(mouseX, mouseY, button)
 end
 
 function love.quit()

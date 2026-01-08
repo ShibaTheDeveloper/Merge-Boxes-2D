@@ -4,9 +4,8 @@ local Module = {}
 
 local BoxDragHandlerModule = require("code.game.box.dragHandler")
 local BoxesObjectModule = require("code.game.box.object")
-local SoundModule = require("code.engine.sound")
 
-local extra = require("code.engine.extra")
+local RenderModule = require("code.engine.render")
 
 local CONSTANTS = require("code.game.box.constants")
 
@@ -52,7 +51,7 @@ end
 
 local function dragPhysics(box)
     if box.dragging then
-        local mouseX, mouseY = extra.getScaledMousePos()
+        local mouseX, mouseY = RenderModule:getMousePos()
         local weightFactor = getWeightFactor(box)
 
         box.velocityX = (mouseX - box.element.x)

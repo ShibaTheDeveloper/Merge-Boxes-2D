@@ -181,6 +181,11 @@ function Module:getScaledDimensions(x, y)
     return virtualX, virtualY
 end
 
+function Module:getMousePos()
+    local x, y = love.mouse.getPosition()
+    return self:getScaledDimensions(x, y)
+end
+
 local function getSortOrder(element)
     return element.zIndex + ((element.id / 1000) % 1)
 end

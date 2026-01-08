@@ -1,9 +1,8 @@
 -- ~/code/game/box/dragHandler.lua
 
 local BoxesObjectModule = require("code.game.box.object")
-local SoundModule = require("code.engine.sound")
 
-local extra = require("code.engine.extra")
+local RenderModule = require("code.engine.render")
 
 local CONSTANTS = require("code.game.box.constants")
 
@@ -15,7 +14,7 @@ local lastDraggedBoxAlpha = 0
 
 function Module:update()
     local mouseDown = love.mouse.isDown(1)
-    local mouseX, mouseY = extra.getScaledMousePos()
+    local mouseX, mouseY = RenderModule:getMousePos()
 
     if mouseDown and not self.draggedBox then
         local boxesArray = BoxesObjectModule:getSortedArray()
