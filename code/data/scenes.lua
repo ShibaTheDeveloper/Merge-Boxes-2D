@@ -19,7 +19,8 @@ return {
             x = spawnButtonX,
             y = spawnButtonY,
 
-            color = RenderModule:createColor(255, 200, 0)
+            color = RenderModule:createColor(255, 200, 0),
+            zIndex = 1001
         },
 
         spawnButtonCostLabel = {
@@ -30,7 +31,8 @@ return {
             y = spawnButtonY + 15,
 
             color = RenderModule:createColor(255, 255, 255),
-            font = love.graphics.newFont(stanberryFontPath, 20)
+            font = love.graphics.newFont(stanberryFontPath, 20),
+            zIndex = 1002
         },
 
         spawnButtonLabel = {
@@ -41,7 +43,8 @@ return {
             y = spawnButtonY - 8,
 
             color = RenderModule:createColor(255, 255, 255),
-            font = love.graphics.newFont(stanberryFontPath, 28)
+            font = love.graphics.newFont(stanberryFontPath, 28),
+            zIndex = 1002
         },
 
         playAreaBackground = {
@@ -49,7 +52,8 @@ return {
             type = "sprite",
 
             anchorX = 0,
-            anchorY = 0
+            anchorY = 0,
+            zIndex = 1
         },
 
         sidebarBackground = {
@@ -59,7 +63,8 @@ return {
             anchorX = 0,
             anchorY = 0,
 
-            x = BOX_CONSTANTS.AREA_WIDTH
+            x = BOX_CONSTANTS.AREA_WIDTH,
+            zIndex = 1000
         }
     }
 }
