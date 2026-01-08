@@ -2,6 +2,7 @@
 
 local BoxFactoryModule = require("code.game.box.factory")
 local RenderModule = require("code.engine.render")
+local SoundModule = require("code.engine.sound")
 
 local BOX_CONSTANTS = require("code.game.box.constants")
 local CONSTANTS = require("code.game.ui.constants")
@@ -10,27 +11,29 @@ local Module = {}
 Module._buttons = {
     spawnButton = {
         hitbox = nil,
+
+        defaultScaleX = 0,
+        defaultScaleY = 0,
+
         elements = {
             background = nil,
+            costLabel = nil,
             label = nil
         },
         callback = function()
+            local clickSound = SoundModule:createSound({soundPath = "assets/sounds/ui/click.wav"})
+
+            if clickSound then
+                clickSound:play(true)
+                clickSound:remove()
+            end
+
             BoxFactoryModule:spawn()
         end
     }
 }
 
 local initiated = false
-
-local function buttonClick(button)
-    for _, element in pairs(button.elements) do
-        element.scaleX, element.scaleY = element.scaleX - CONSTANTS.BUTTON_CLICK_SCALE_SUBTRACTION, element.scaleY - CONSTANTS.BUTTON_CLICK_SCALE_SUBTRACTION
-    end
-
-    if button.callback then
-        button.callback()
-    end
-end
 
 function Module:update(deltaTime)
     if not initiated then return end
@@ -39,17 +42,27 @@ function Module:update(deltaTime)
         if not button.hitbox then goto continue end
 
         for _, element in pairs(button.elements) do
-            if element.scaleX < 1 then
+            if element.scaleX < button.defaultScaleX then
                 local scalePerSecond = 1 / CONSTANTS.BASE_BUTTON_CLICK_SCALE_SPEED
                 local scale = element.scaleX + scalePerSecond * deltaTime
 
                 element.scaleX, element.scaleY = scale, scale
             else
-                element.scaleX, element.scaleY = 1, 1
+                element.scaleX, element.scaleY = button.defaultScaleX, button.defaultScaleY
             end
         end
 
         :: continue ::
+    end
+end
+
+local function buttonClick(button)
+    for _, element in pairs(button.elements) do
+        element.scaleX, element.scaleY = button.defaultScaleX - CONSTANTS.BUTTON_CLICK_SCALE_SUBTRACTION, button.defaultScaleY - CONSTANTS.BUTTON_CLICK_SCALE_SUBTRACTION
+    end
+
+    if button.callback then
+        button.callback()
     end
 end
 
@@ -67,6 +80,20 @@ local function setupSpawnButton()
     local spawnButtonX = BOX_CONSTANTS.AREA_WIDTH + (_G.WINDOW_WIDTH - BOX_CONSTANTS.AREA_WIDTH) / 2
     local spawnButtonY = 475
 
+    Module._buttons.spawnButton.elements.costLabel = RenderModule:createElement({
+        text = [[Cost: (FREE)]],
+        type = "text",
+
+        font = love.graphics.newFont("assets/fonts/Stanberry.ttf", 20),
+
+        x = spawnButtonX,
+        y = spawnButtonY + 20,
+
+        zIndex = 1001,
+
+        color = RenderModule:createColor(255, 255, 255, 1)
+    })
+
     Module._buttons.spawnButton.elements.label = RenderModule:createElement({
         text = [[Spawn Box!]],
         type = "text",
@@ -74,7 +101,7 @@ local function setupSpawnButton()
         font = love.graphics.newFont("assets/fonts/Stanberry.ttf", 28),
 
         x = spawnButtonX,
-        y = spawnButtonY,
+        y = spawnButtonY - 5,
 
         zIndex = 1001,
 
@@ -94,6 +121,8 @@ local function setupSpawnButton()
     })
 
     Module._buttons.spawnButton.hitbox = Module._buttons.spawnButton.elements.background
+    Module._buttons.spawnButton.defaultScaleX = 1
+    Module._buttons.spawnButton.defaultScaleY = 1
 end
 
 function Module.init()

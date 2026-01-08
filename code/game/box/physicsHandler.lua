@@ -4,16 +4,24 @@ local Module = {}
 
 local BoxDragHandlerModule = require("code.game.box.dragHandler")
 local BoxesObjectModule = require("code.game.box.object")
+local SoundModule = require("code.engine.sound")
 
 local extra = require("code.engine.extra")
 
 local CONSTANTS = require("code.game.box.constants")
 
+local function getWeightFactor(box)
+    return box.weight / CONSTANTS.BASE_WEIGHT
+end
+
 local function applyFriction(box, deltaTime)
-    local weightFactor = CONSTANTS.BASE_WEIGHT / box.weight
     local fpsFactor = deltaTime * _G.FPS_SCALE
-    box.velocityX = box.velocityX * (1 - CONSTANTS.FRICTION * fpsFactor * weightFactor)
-    box.velocityY = box.velocityY * (1 - CONSTANTS.FRICTION * fpsFactor * weightFactor)
+    local weightFactor = getWeightFactor(box)
+
+    local friction = CONSTANTS.FRICTION * weightFactor
+
+    box.velocityX = box.velocityX * (1 - friction * fpsFactor)
+    box.velocityY = box.velocityY * (1 - friction * fpsFactor)
 end
 
 local function edgeBounceLR(box) -- check for edge bounces on the x axis
@@ -45,8 +53,15 @@ end
 local function dragPhysics(box)
     if box.dragging then
         local mouseX, mouseY = extra.getScaledMousePos()
-        box.velocityX = (mouseX - box.element.x) * CONSTANTS.DRAG_VELOCITY_MULTIPLIER
-        box.velocityY = (mouseY - box.element.y) * CONSTANTS.DRAG_VELOCITY_MULTIPLIER
+        local weightFactor = getWeightFactor(box)
+
+        box.velocityX = (mouseX - box.element.x)
+            * CONSTANTS.DRAG_VELOCITY_MULTIPLIER
+            / weightFactor
+
+        box.velocityY = (mouseY - box.element.y)
+            * CONSTANTS.DRAG_VELOCITY_MULTIPLIER
+            / weightFactor
     end
 end
 

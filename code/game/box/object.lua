@@ -44,12 +44,12 @@ function Box:remove()
     self.element:remove()
 end
 
-function Module:getBoxDataByTier(tier, x, y)
-    local data = extra.cloneTable(BoxesData[tier])
-    if x then data.x = x end
-    if y then data.y = y end
+function Module:getBoxDataByTier(tier)
+    local data = BoxesData[tier]
+    if not BoxesData[tier] then return end
 
-    return data
+    local clonedData = extra.cloneTable(data)
+    return clonedData
 end
 
 function Module:createBox(data)

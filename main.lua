@@ -3,12 +3,16 @@
 local BoxHandlerModule = require("code.game.box.handler")
 local VFXHandlerModule = require("code.game.vfx.handler")
 local UIHandlerModule = require("code.game.ui.handler")
-local extra = require("code.engine.extra")
 
+local SaveFilesModule = require("code.engine.saveFiles")
 local RenderModule = require("code.engine.render")
+
+local extra = require("code.engine.extra")
 
 VFXHandlerModule.init()
 UIHandlerModule.init()
+
+SaveFilesModule.loadFile(1)
 
 function love.update(deltaTime)
     BoxHandlerModule:update(deltaTime)
@@ -27,4 +31,5 @@ end
 
 function love.quit()
     love.window.setFullscreen(false)
+    SaveFilesModule.saveFile(SaveFilesModule.loadedFile.slot)
 end
