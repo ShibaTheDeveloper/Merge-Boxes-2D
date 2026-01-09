@@ -1,6 +1,7 @@
 -- ~/code/game/ui/sceneHandler.lua
 
 local Module = {}
+Module._activeTransition = nil
 Module.currentScene = nil
 
 local function sceneExists(name)

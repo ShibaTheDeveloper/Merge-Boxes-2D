@@ -13,8 +13,8 @@ local stanberryFontPath = "assets/fonts/Stanberry.ttf"
 local middleX = _G.WINDOW_WIDTH / 2
 local middleY = _G.WINDOW_HEIGHT / 2
 
-local newGameButtonY = 300
-local backButtonY = 460
+local newGameButtonY = 350
+local quitButtonY = newGameButtonY + 100
 
 return {
     game = {
@@ -83,6 +83,16 @@ return {
             zIndex = 1
         },
 
+        logo = {
+            spritePath = "assets/sprites/ui/logo.png",
+            type = "sprite",
+
+            x = middleX,
+            y = newGameButtonY - 200,
+
+            zIndex = 2
+        },
+
         playGameButtonHitbox = {
             spritePath = defaultButtonPath,
             type = "sprite",
@@ -111,7 +121,7 @@ return {
             type = "sprite",
 
             x = middleX,
-            y = newGameButtonY + 100,
+            y = quitButtonY,
 
             color = RenderModule:createColor(204, 49, 61),
             zIndex = 1001
@@ -122,7 +132,7 @@ return {
             type = "text",
 
             x = middleX,
-            y = newGameButtonY + 100,
+            y = quitButtonY,
 
             color = RenderModule:createColor(255, 255, 255),
             font = love.graphics.newFont(stanberryFontPath, 28),
@@ -144,7 +154,7 @@ return {
             type = "sprite",
 
             x = middleX,
-            y = backButtonY,
+            y = quitButtonY,
 
             color = RenderModule:createColor(204, 49, 61),
             zIndex = 1001
@@ -155,19 +165,19 @@ return {
             type = "text",
 
             x = middleX,
-            y = backButtonY,
+            y = quitButtonY,
 
             color = RenderModule:createColor(255, 255, 255),
             font = love.graphics.newFont(stanberryFontPath, 28),
             zIndex = 1002
         },
 
-        templateSaveFileButtonHitbox = {
+        templateSaveFileBackground = {
             spritePath = defaultButtonPath,
             type = "sprite",
 
             x = middleX,
-            y = middleY - 75,
+            y = newGameButtonY / 1.6,
 
             rotation = math.rad(90),
 
@@ -178,12 +188,12 @@ return {
             zIndex = 1001
         },
 
-        templateSaveFileButtonLabel = {
+        templateSaveFileLabel = {
             text = "Slot ",
             type = "text",
 
             x = middleX,
-            y = middleY - 200,
+            y = newGameButtonY - 310,
 
             color = RenderModule:createColor(255, 255, 255),
             font = love.graphics.newFont(stanberryFontPath, 28),

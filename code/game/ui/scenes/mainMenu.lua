@@ -1,5 +1,7 @@
 -- ~/code/game/ui/scenes/mainMenu.lua
 
+local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 
@@ -27,6 +29,11 @@ function Module:clean()
     self._buttons = {}
 end
 
+local function setupLogo(self)
+    local logo = RenderModule:createElement(SceneData.logo)
+    table.insert(self._elements, logo)
+end
+
 local function setupBackground(self)
     local background = RenderModule:createElement(SceneData.background)
     table.insert(self._elements, background)
@@ -47,9 +54,15 @@ local function setupPlayGameButton(self)
 
         hitboxElement = playGameButtonHitbox,
 
+        cooldown = 999,
+
         mouseButton = 1,
         onClick = function()
-            UISceneHandlerModule:switch("saveFiles")
+            ScreenTransitionModule:transition({
+                callback = function()
+                    UISceneHandlerModule:switch("saveFiles")
+                end
+            })
         end
     })
 
@@ -71,9 +84,15 @@ local function setupQuitButton(self)
 
         hitboxElement = quitButtonHitbox,
 
+        cooldown = 999,
+
         mouseButton = 1,
         onClick = function()
-            love.event.quit()
+            ScreenTransitionModule:transition({
+                callback = function()
+                    love.event.quit()
+                end
+            })
         end
     })
 
@@ -84,6 +103,7 @@ function Module:init()
     setupPlayGameButton(self)
     setupQuitButton(self)
     setupBackground(self)
+    setupLogo(self)
 end
 
 return Module

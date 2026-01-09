@@ -1,5 +1,7 @@
 -- ~/code/game/ui/scenes/game.lua
 
+local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local BoxFactoryModule = require("code.game.box.factory")
 

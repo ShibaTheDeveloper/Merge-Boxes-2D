@@ -77,8 +77,8 @@ function Module:createButton(data)
 
         elements = data.elements or {},
 
-        cooldown = data.cooldown or 0.25,
-        lastUsed = 0,
+        cooldown = data.cooldown or .25,
+        lastUsed = -math.huge,
 
         hitboxElement = data.hitboxElement,
 

@@ -1,5 +1,7 @@
 -- ~/code/game/ui/scenes/saveFiles.lua
 
+local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 
@@ -36,35 +38,28 @@ end
 local function setupSaveFileButtons(self)
     local saves = SaveFilesModule.getAllSaveFiles()
 
-    for index, save in pairs(saves) do
-        local saveFileButtonHitbox = RenderModule:createElement(SceneData.templateSaveFileButtonHitbox)
-        local saveFileButtonLabel = RenderModule:createElement(SceneData.templateSaveFileButtonLabel)
+    if #saves == 0 then return end
 
-        table.insert(self._elements, saveFileButtonHitbox)
-        table.insert(self._elements, saveFileButtonLabel)
+    local firstHitbox = RenderModule:createElement(SceneData.templateSaveFileBackground)
+    local buttonWidth = firstHitbox.drawable:getWidth()
+    firstHitbox:remove()
 
-        local CalculationX = saveFileButtonHitbox.x * (index / 2)
-        saveFileButtonHitbox.x = CalculationX
-        saveFileButtonLabel.x = CalculationX
+    local totalWidth = (#saves * buttonWidth) + ((#saves - 1))
+    local startX = (_G.WINDOW_WIDTH - totalWidth) / 2
 
-        saveFileButtonLabel.text = "Slot " .. tostring(save.slot)
+    for index, save in ipairs(saves) do
+        local templateSaveFileBackground = RenderModule:createElement(SceneData.templateSaveFileBackground)
+        local templateSaveFileLabel = RenderModule:createElement(SceneData.templateSaveFileLabel)
 
-        local saveFileButton = UIButtonObjectModule:createButton({
-            elements = {
-                saveFileButtonHitbox,
-                saveFileButtonLabel
-            },
+        local x = startX + (buttonWidth / 2) + ((index - 1) * (buttonWidth))
 
-            hitboxElement = saveFileButtonHitbox,
+        templateSaveFileBackground.x = x
+        templateSaveFileLabel.x = x
 
-            mouseButton = 1,
-            onClick = function()
-                UISceneHandlerModule:switch("game")
-                SaveFilesModule.loadFile(save.slot)
-            end
-        })
+        templateSaveFileLabel.text = "Slot " .. tostring(save.slot)
 
-        table.insert(self._buttons, saveFileButton)
+        table.insert(self._elements, templateSaveFileBackground)
+        table.insert(self._elements, templateSaveFileLabel)
     end
 end
 
@@ -83,9 +78,15 @@ local function setupBackToMenuButton(self)
 
         hitboxElement = backToMenuButtonHitbox,
 
+        cooldown = 999,
+
         mouseButton = 1,
         onClick = function()
-            UISceneHandlerModule:switch("mainMenu")
+            ScreenTransitionModule:transition({
+                callback = function()
+                    UISceneHandlerModule:switch("mainMenu")
+                end
+            })
         end
     })
 
