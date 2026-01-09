@@ -10,7 +10,7 @@ local SAVE_SLOTS = 3
 local DEFAULT_FILE_DATA = {
     slot = 1,
 
-    highestBoxTier = 1,
+    highestBoxTier = 0,
     boxSpawnTier = 1,
 
     playtime = 0,
@@ -98,10 +98,25 @@ local function deepCopy(tbl)
     return copy
 end
 
+-- Recursively adds missing keys from defaultData into targetData
+local function mergeDefaults(targetData, defaultData)
+    for key, defaultValue in pairs(defaultData) do
+        if targetData[key] == nil then
+            if type(defaultValue) == "table" then
+                targetData[key] = deepCopy(defaultValue)
+            else
+                targetData[key] = defaultValue
+            end
+        elseif type(defaultValue) == "table" and type(targetData[key]) == "table" then
+            mergeDefaults(targetData[key], defaultValue)
+        end
+    end
+end
+
 function Module.saveFile(slot)
     Module.loadedFile.boxes = {}
 
-    local highestTier = 1
+    local highestTier = 0
     for _, box in pairs(BoxesObjectModule:getSortedArray()) do
         table.insert(Module.loadedFile.boxes, {
             velocityX = box.velocityX,
@@ -204,14 +219,21 @@ end
 function Module.init()
     for slot = 1, SAVE_SLOTS do
         local path = string.format(SAVE_FILE_TEMPLATE, slot)
+        local data
 
-        if not love.filesystem.getInfo(path) then
-            local data = deepCopy(DEFAULT_FILE_DATA)
+        if love.filesystem.getInfo(path) then
+            local chunk = love.filesystem.load(path)
+            data = chunk()
             data.slot = slot
-
-            local serialized = "return " .. serialize(data)
-            love.filesystem.write(path, serialized)
+        else
+            data = deepCopy(DEFAULT_FILE_DATA)
+            data.slot = slot
         end
+
+        mergeDefaults(data, DEFAULT_FILE_DATA)
+
+        local serialized = "return " .. serialize(data)
+        love.filesystem.write(path, serialized)
     end
 end
 
