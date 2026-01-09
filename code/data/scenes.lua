@@ -70,6 +70,34 @@ return {
             color = RenderModule:createColor(42, 42, 42),
             zIndex = 1000
         },
+
+        sessionPlaytimeLabel = {
+            text = "Session Time: ",
+            type = "text",
+
+            font = love.graphics.newFont(STANBERRY_FONT_PATH, 20),
+
+            anchorX = 0,
+            anchorY = 0,
+
+            x = 5,
+            y = 5,
+
+            zIndex = 1003,
+        },
+
+        backToMenuButtonHitbox = {
+            spritePath = "assets/sprites/ui/buttonmenu74x74.png",
+            type = "sprite",
+            x = _G.WINDOW_WIDTH - 35,
+            y = 35,
+            anchorX = .5,
+            anchorY = .5,
+            scaleX = .6,
+            scaleY = .6,
+            color = RenderModule:createColor(117, 124, 136),
+            zIndex = 1004
+        }
     },
 
     mainMenu = {

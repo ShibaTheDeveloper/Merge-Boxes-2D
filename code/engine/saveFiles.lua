@@ -1,6 +1,7 @@
 ---@diagnostic disable: inject-field
 -- ~/code/engine/saveFiles.lua
 
+local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 local BoxesObjectModule = require("code.game.box.object")
 
 local SAVE_FILE_TEMPLATE = "slot%d.lua"
@@ -97,24 +98,6 @@ local function deepCopy(tbl)
     return copy
 end
 
-local function mergeDefaults(target, defaults)
-    for key, defaultValue in pairs(defaults) do
-        local targetValue = target[key]
-
-        if targetValue == nil then
-            if type(defaultValue) == "table" then
-                target[key] = deepCopy(defaultValue)
-            else
-                target[key] = defaultValue
-            end
-        elseif type(targetValue) == "table" and type(defaultValue) == "table" then
-            mergeDefaults(targetValue, defaultValue)
-        end
-    end
-
-    return target
-end
-
 function Module.saveFile(slot)
     Module.loadedFile.boxes = {}
 
@@ -155,11 +138,7 @@ function Module.loadFile(slot)
     if love.filesystem.getInfo(path) then
         local chunk = love.filesystem.load(path)
         Module.loadedFile = chunk()
-
-        mergeDefaults(Module.loadedFile, DEFAULT_FILE_DATA)
         Module.loadedFile.slot = slot
-
-        Module.saveFile(slot)
     else
         Module.loadedFile = deepCopy(DEFAULT_FILE_DATA)
         Module.loadedFile.slot = slot

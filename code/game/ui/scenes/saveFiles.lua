@@ -9,6 +9,7 @@ local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 
 local SaveFilesModule = require("code.engine.saveFiles")
 local RenderModule = require("code.engine.render")
+local extra = require("code.engine.extra")
 
 local ScenesData = require("code.data.scenes")
 
@@ -40,17 +41,9 @@ local function setupBackground(self)
     table.insert(self._elements, background)
 end
 
-local function formatTime(seconds)
-    local hours = math.floor(seconds / 3600)
-    local minutes = math.floor((seconds % 3600) / 60)
-    local secs = math.floor(seconds % 60)
-
-    return string.format("%02d:%02d:%02d", hours, minutes, secs)
-end
-
 local function setupSavePlaytime(self, backgroundElement, save)
     local templateSavePlaytime = RenderModule:createElement(SceneData.templateSavePlaytime)
-    templateSavePlaytime.text = formatTime(save.playtime)
+    templateSavePlaytime.text = extra.formatTime(save.playtime)
     templateSavePlaytime.x = backgroundElement.x
 
     table.insert(self._elements, templateSavePlaytime)
@@ -65,6 +58,8 @@ local function setupSaveHighestTier(self, backgroundElement, save)
 end
 
 local function setupSaveFileBoxPreview(self, backgroundElement, save)
+    if save.playtime == 0 then return end
+
     local data = BoxesObjectModule:getBoxDataByTier(save.highestBoxTier)
     local templateSaveFileBoxPreview = BoxesObjectModule:createBoxElement(data)
 
