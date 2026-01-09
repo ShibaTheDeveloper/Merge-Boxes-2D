@@ -54,8 +54,6 @@ local function setupPlayGameButton(self)
 
         hitboxElement = playGameButtonHitbox,
 
-        cooldown = 999,
-
         mouseButton = 1,
         onClick = function()
             ScreenTransitionModule:transition({
@@ -83,8 +81,6 @@ local function setupQuitButton(self)
         },
 
         hitboxElement = quitButtonHitbox,
-
-        cooldown = 999,
 
         mouseButton = 1,
         onClick = function()

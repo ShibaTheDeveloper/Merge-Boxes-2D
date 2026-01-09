@@ -9,7 +9,11 @@ local SAVE_SLOTS = 3
 local DEFAULT_FILE_DATA = {
     slot = 1,
 
+    highestBoxTier = 1,
     boxSpawnTier = 1,
+
+    playtime = 0,
+
     money = 0,
 
     settings = {
@@ -93,9 +97,28 @@ local function deepCopy(tbl)
     return copy
 end
 
+local function mergeDefaults(target, defaults)
+    for key, defaultValue in pairs(defaults) do
+        local targetValue = target[key]
+
+        if targetValue == nil then
+            if type(defaultValue) == "table" then
+                target[key] = deepCopy(defaultValue)
+            else
+                target[key] = defaultValue
+            end
+        elseif type(targetValue) == "table" and type(defaultValue) == "table" then
+            mergeDefaults(targetValue, defaultValue)
+        end
+    end
+
+    return target
+end
+
 function Module.saveFile(slot)
     Module.loadedFile.boxes = {}
 
+    local highestTier = 1
     for _, box in pairs(BoxesObjectModule:getSortedArray()) do
         table.insert(Module.loadedFile.boxes, {
             velocityX = box.velocityX,
@@ -106,7 +129,11 @@ function Module.saveFile(slot)
             y = box.element.y,
             tier = box.tier
         })
+
+        if box.tier > highestTier then highestTier = box.tier end
     end
+
+    Module.loadedFile.highestBoxTier = highestTier
 
     local path = string.format(SAVE_FILE_TEMPLATE, slot)
     local data = "return " .. serialize(Module.loadedFile)
@@ -128,9 +155,15 @@ function Module.loadFile(slot)
     if love.filesystem.getInfo(path) then
         local chunk = love.filesystem.load(path)
         Module.loadedFile = chunk()
+
+        mergeDefaults(Module.loadedFile, DEFAULT_FILE_DATA)
+        Module.loadedFile.slot = slot
+
+        Module.saveFile(slot)
     else
         Module.loadedFile = deepCopy(DEFAULT_FILE_DATA)
-        Module.loadedFile.fileNum = slot
+        Module.loadedFile.slot = slot
+
         Module.saveFile(slot)
     end
 
@@ -141,13 +174,10 @@ function Module.loadFile(slot)
         if box then
             box.velocityX = savedBoxData.velocityX
             box.velocityY = savedBoxData.velocityY
-
             box.element.x = savedBoxData.x
             box.element.y = savedBoxData.y
-
             box.element.rotation = savedBoxData.rotation
         end
-
     end
 
     return Module.loadedFile
@@ -183,6 +213,13 @@ function Module.quit()
     if Module.loadedFile.slot then
         Module.saveFile(Module.loadedFile.slot)
     end
+end
+
+function Module:update(deltaTime)
+    if not Module.loadedFile then return end
+    if Module.loadedFile.playtime == nil then return end
+
+    Module.loadedFile.playtime = Module.loadedFile.playtime + deltaTime
 end
 
 function Module.init()

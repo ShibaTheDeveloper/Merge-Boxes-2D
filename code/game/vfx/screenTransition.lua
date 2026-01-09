@@ -5,15 +5,16 @@ local RenderModule = require("code.engine.render")
 local Module = {}
 Module._screenTransitionElement = nil
 Module._currentTransition = {}
+Module.transitioning = false
 
 function Module:transition(data)
     if not data then data = {} end
 
+    self.transitioning = true
     self._currentTransition = {
         callback = data.callback or nil,
 
-        duration = data.duration or 1,
-        speed = data.speed or 1,
+        duration = data.duration or .8,
 
         timeSinceStart = 0,
         callbackFired = false
@@ -27,7 +28,7 @@ function Module:update(deltaTime)
     local transition = self._currentTransition
     if not transition.duration then return end
 
-    transition.timeSinceStart = transition.timeSinceStart + (deltaTime * transition.speed)
+    transition.timeSinceStart = transition.timeSinceStart + (deltaTime)
 
     local halfDuration = transition.duration / 2
     local progress = transition.timeSinceStart / halfDuration
@@ -42,7 +43,9 @@ function Module:update(deltaTime)
         element.color.alpha = math.max(1 - (progress - 1), 0)
     else
         element.color.alpha = 0
+
         self._currentTransition = {}
+        self.transitioning = false
     end
 end
 

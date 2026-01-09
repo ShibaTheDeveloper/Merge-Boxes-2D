@@ -16,6 +16,7 @@ function love.update(deltaTime)
     BoxHandlerModule:update(deltaTime)
     VFXHandlerModule:update(deltaTime)
     UIHandlerModule:update(deltaTime)
+    SaveFilesModule:update(deltaTime)
 end
 
 function love.draw()
