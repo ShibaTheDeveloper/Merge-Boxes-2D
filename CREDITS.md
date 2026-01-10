@@ -13,4 +13,4 @@ All third-party assets in this project are CC0/public domain. All original conte
 - [merge/special.wav](https://freesound.org/people/David819/sounds/668436/)
 
 **OST:**
-All tracks were made by my friend and can be found on [his channel](www.to-be-added.com).
+All tracks were made by my friend and can be found on [his channel](https://www.youtube.com/@orzech05) in [this playlist](https://www.youtube.com/playlist?list=PL4SfVAqmkT2WSjVqtZ7hU-KLh6ys-MNjb).

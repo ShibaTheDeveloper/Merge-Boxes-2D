@@ -182,11 +182,14 @@ function Module:createElement(data)
         end
 
         if not Module._imageCache[data.spritePath] then
-            Module._imageCache[data.spritePath] = love.graphics.newImage(data.spritePath)
+            local drawable = love.graphics.newImage(data.spritePath)
+            Module._imageCache[data.spritePath] = drawable
         end
 
         element.drawable = Module._imageCache[data.spritePath]
         element.spritePath = data.spritePath
+    elseif data.type == "text" then
+        data.font:setFilter("nearest", "nearest")
     end
 
     return element

@@ -16,6 +16,8 @@ Module._buttons = {}
 Module.name = "mainMenu"
 
 local SceneData = ScenesData[Module.name]
+
+local logo2 = nil
 local logo = nil
 
 function Module:clean()
@@ -34,6 +36,9 @@ end
 local function setupLogo(self)
     logo = RenderModule:createElement(SceneData.logo)
     table.insert(self._elements, logo)
+
+    logo2 = RenderModule:createElement(SceneData.logo2)
+    table.insert(self._elements, logo2)
 end
 
 local function setupBackground(self)
@@ -100,6 +105,10 @@ end
 function Module:update()
     if logo then
         logo:setRotation(math.sin(os.clock()) * 2)
+    end
+
+    if logo2 then
+        logo2:setRotation(math.sin(os.clock()) * 2)
     end
 end
 

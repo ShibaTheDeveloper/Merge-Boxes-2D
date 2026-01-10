@@ -5,10 +5,11 @@ local BOX_CONSTANTS = require("code.game.box.constants")
 
 local BUTTON_Y_OFFSET = 100
 local SPAWN_BUTTON_Y = 475
-local NEW_GAME_BUTTON_Y = 350
-local TEMPLATE_SAVE_FILE_SLOT_OFFSET = 310
+local NEW_GAME_BUTTON_Y = 375
+local TEMPLATE_SAVE_FILE_SLOT_OFFSET = 325
 local TEMPLATE_SAVE_FILE_Y_DIVIDER = 1.6
-local TEMPLATE_LOAD_BUTTON_OFFSET = 50
+local TEMPLATE_RESET_BUTTON_OFFSET = 10
+local TEMPLATE_LOAD_BUTTON_OFFSET = 60
 local TEMPLATE_ROTATION = math.rad(90)
 local TEMPLATE_SCALE_X = 1.5
 local TEMPLATE_SCALE_Y = 2
@@ -113,8 +114,23 @@ return {
             spritePath = "assets/sprites/ui/logo.png",
             type = "sprite",
             x = MIDDLE_X,
-            y = NEW_GAME_BUTTON_Y - 200,
+            y = NEW_GAME_BUTTON_Y - 225,
+
+            scaleX = .5,
+            scaleY = .5,
+
             zIndex = 2
+        },
+        logo2 = {
+            spritePath = "assets/sprites/ui/logo2.png",
+            type = "sprite",
+            x = MIDDLE_X,
+            y = NEW_GAME_BUTTON_Y - 100,
+
+            scaleX = .35,
+            scaleY = .35,
+
+            zIndex = 3
         },
 
         playGameButtonHitbox = {
@@ -233,7 +249,7 @@ return {
             spritePath = DEFAULT_BUTTON_PATH,
             type = "sprite",
             x = MIDDLE_X,
-            y = NEW_GAME_BUTTON_Y,
+            y = NEW_GAME_BUTTON_Y - TEMPLATE_RESET_BUTTON_OFFSET,
             scaleX = TEMPLATE_SMALL_SCALE,
             scaleY = TEMPLATE_SMALL_SCALE,
             color = RenderModule:createColor(204, 49, 61),
@@ -244,7 +260,7 @@ return {
             text = "Reset File",
             type = "text",
             x = MIDDLE_X,
-            y = NEW_GAME_BUTTON_Y,
+            y = NEW_GAME_BUTTON_Y - TEMPLATE_RESET_BUTTON_OFFSET,
             scaleX = TEMPLATE_SMALL_SCALE,
             scaleY = TEMPLATE_SMALL_SCALE,
             color = RenderModule:createColor(255, 255, 255),
