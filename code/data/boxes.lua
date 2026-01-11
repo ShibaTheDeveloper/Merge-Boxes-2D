@@ -164,7 +164,7 @@ return {
         name = "Gochged",
 
         weight = 600,
-        scale = 1.7,
+        scale = .85,
         tier = 12,
     },
     {

@@ -31,6 +31,7 @@ Third-party assets, including audio, fonts, artwork, and music, are used with pe
 ### Art
 All artwork was created by a collaborator.
 Artwork © Gochged. Licensed for use in Merge Boxes! 2D.
+
 Artist: https://www.youtube.com/@gochgo
 
 ### OST (Original Soundtrack)

@@ -108,7 +108,7 @@ function Module:update()
     end
 
     if logo2 then
-        logo2:setRotation(math.sin(os.clock()) * 2)
+        logo2:setRotation(-(math.sin(os.clock()) * 2))
     end
 end
 

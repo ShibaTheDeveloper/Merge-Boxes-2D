@@ -29,12 +29,12 @@ end
 function Module:playTrack(name)
     if name == self.playingTrack then return end
 
-    local track = self.loadedTracks[name]
-    if not track then return end
-
     if self.playingTrack then
         self:stopTrack(self.playingTrack)
     end
+
+    local track = self.loadedTracks[name]
+    if not track then return end
 
     track.soundObject:play()
 

@@ -118,6 +118,8 @@ function Module:update()
 end
 
 function Module:init()
+    MusicHandlerModule:playTrack("game")
+
     setupSessionPlaytimeLabel(self)
     setupBackToMenuButton(self)
     setupBackgrounds(self)

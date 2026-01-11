@@ -72,8 +72,8 @@ local function setupSaveFileBoxPreview(self, backgroundElement, save)
         templateSaveFileBoxPreview.x = backgroundElement.x
         templateSaveFileBoxPreview.y = SceneData.templateSaveFileBoxPreview.y
 
-        templateSaveFileBoxPreview.scaleX = SceneData.templateSaveFileBoxPreview.scaleX
-        templateSaveFileBoxPreview.scaleY = SceneData.templateSaveFileBoxPreview.scaleY
+        templateSaveFileBoxPreview.scaleX = SceneData.templateSaveFileBoxPreview.scaleX / (save.highestBoxTier == 12 and 2 or 1)
+        templateSaveFileBoxPreview.scaleY = SceneData.templateSaveFileBoxPreview.scaleY / (save.highestBoxTier == 12 and 2 or 1)
 
         templateSaveFileBoxPreview.zIndex = SceneData.templateSaveFileBoxPreview.zIndex
 
