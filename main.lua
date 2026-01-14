@@ -32,6 +32,10 @@ function love.mousepressed(_, _, button)
     UIHandlerModule:mousePressed(mouseX, mouseY, button)
 end
 
+function love.textinput(input)
+    UIHandlerModule:textInput(input)
+end
+
 function love.quit()
     love.window.setFullscreen(false)
     SaveFilesModule.quit()

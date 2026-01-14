@@ -3,6 +3,7 @@
 local ScreenTransitionModule = require("code.game.vfx.screenTransition")
 local MusicHandlerModule = require("code.game.musicHandler")
 
+local UITextBoxObjectModule = require("code.game.ui.objects.textBox")
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 local UISharedFunctions = require("code.game.ui.shared")
@@ -13,7 +14,7 @@ local UIData = require("code.data.ui")
 
 local Module = {}
 Module._elements = {}
-Module._buttons = {}
+Module._objects = {}
 Module.name = "mainMenu"
 
 local SceneData = UIData[Module.name]
@@ -26,12 +27,12 @@ function Module:clean()
         element:remove()
     end
 
-    for _, button in pairs(self._buttons) do
-        button:remove()
+    for _, object in pairs(self._objects) do
+        object:remove()
     end
 
     self._elements = {}
-    self._buttons = {}
+    self._objects = {}
 end
 
 local function setupLogo(self)
@@ -72,7 +73,7 @@ local function setupPlayGameButton(self)
         end
     })
 
-    table.insert(self._buttons, playGameButton)
+    table.insert(self._objects, playGameButton)
 end
 
 local function setupQuitButton(self)
@@ -100,7 +101,7 @@ local function setupQuitButton(self)
         end
     })
 
-    table.insert(self._buttons, quitButton)
+    table.insert(self._objects, quitButton)
 end
 
 function Module:update()
@@ -113,6 +114,30 @@ function Module:update()
     end
 end
 
+local function textBox(self)
+    local textBoxHitbox = RenderModule:createElement(SceneData.textBoxHitbox)
+    local textBoxField = RenderModule:createElement(SceneData.textBoxField)
+
+    table.insert(self._elements, textBoxHitbox)
+    table.insert(self._elements, textBoxField)
+
+    local textBox = UITextBoxObjectModule:createTextBox({
+        elements = {
+            textBoxHitbox,
+            textBoxField
+        },
+
+        hitboxElement = textBoxHitbox,
+        fieldElement = textBoxField,
+
+        onChange = nil,
+
+        placeholderText = SceneData.textBoxField.text,
+    })
+
+    table.insert(self._objects, textBox)
+end
+
 function Module:init()
     UISharedFunctions:setupSettingsButton(self)
     MusicHandlerModule:playTrack("mainMenu")
@@ -121,6 +146,7 @@ function Module:init()
     setupQuitButton(self)
     setupBackground(self)
     setupLogo(self)
+    textBox(self)
 end
 
 return Module

@@ -82,6 +82,27 @@ return {
     },
 
     mainMenu = {
+        textBoxHitbox = {
+            spritePath = CONSTANTS.DEFAULT_BUTTON_PATH,
+            type = "sprite",
+
+            x = 650,
+            y = 300,
+
+            zIndex = 999999
+        },
+
+        textBoxField = {
+            text = "placeholder lmao",
+            type = "text",
+
+            x = 650,
+            y = 300,
+
+            color = RenderModule:createColor(117, 124, 136),
+            zIndex = 999999
+        },
+
         background = {
             spritePath = "assets/sprites/backgrounds/menubg.png",
             type = "sprite",

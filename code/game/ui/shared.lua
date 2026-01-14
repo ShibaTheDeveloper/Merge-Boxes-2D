@@ -34,7 +34,7 @@ function Module:setupSettingsButton(scene)
         end
     })
 
-    table.insert(scene._buttons, settingsButton)
+    table.insert(scene._objects, settingsButton)
 end
 
 return Module

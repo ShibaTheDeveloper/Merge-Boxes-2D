@@ -20,7 +20,7 @@ local UIData = require("code.data.ui")
 
 local Module = {}
 Module._elements = {}
-Module._buttons = {}
+Module._objects = {}
 Module.name = "game"
 
 local SceneData = UIData[Module.name]
@@ -33,12 +33,12 @@ function Module:clean()
         element:remove()
     end
 
-    for _, button in pairs(self._buttons) do
+    for _, button in pairs(self._objects) do
         button:remove()
     end
 
     self._elements = {}
-    self._buttons = {}
+    self._objects = {}
 
     SaveFilesModule.saveFile(SaveFilesModule.loadedFile.slot)
 
@@ -82,7 +82,7 @@ local function setupBackToMenuButton(self)
         end
     })
 
-    table.insert(self._buttons, backToMenuButton)
+    table.insert(self._objects, backToMenuButton)
 end
 
 local function setupSpawnButton(self)
@@ -109,7 +109,7 @@ local function setupSpawnButton(self)
         end
     })
 
-    table.insert(self._buttons, spawnButton)
+    table.insert(self._objects, spawnButton)
 end
 
 function Module:update()

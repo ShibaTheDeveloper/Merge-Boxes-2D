@@ -20,7 +20,7 @@ local CONSTANTS = require("code.game.ui.constants")
 local Module = {}
 Module._resetButtons = {}
 Module._elements = {}
-Module._buttons = {}
+Module._objects = {}
 Module._boxes = {}
 Module.name = "saveFiles"
 
@@ -31,12 +31,12 @@ function Module:clean()
         element:remove()
     end
 
-    for _, button in pairs(self._buttons) do
+    for _, button in pairs(self._objects) do
         button:remove()
     end
 
     self._elements = {}
-    self._buttons = {}
+    self._objects = {}
 end
 
 local function startGame(save)
@@ -113,7 +113,7 @@ local function setupSaveFileLoadButton(self, backgroundElement, save)
         end
     })
 
-    table.insert(self._buttons, saveFileLoadButton)
+    table.insert(self._objects, saveFileLoadButton)
 end
 
 local function setupSaveFileResetButton(self, backgroundElement, save)
@@ -168,7 +168,7 @@ local function setupSaveFileResetButton(self, backgroundElement, save)
     saveFileResetButton.deleting = false
 
     table.insert(self._resetButtons, saveFileResetButton)
-    table.insert(self._buttons, saveFileResetButton)
+    table.insert(self._objects, saveFileResetButton)
 end
 
 local function setupSaveFileButtons(self, backgroundElement, save)
@@ -235,7 +235,7 @@ local function setupSaveFileBackgrounds(self)
                 end
             })
 
-            table.insert(self._buttons, createSaveFileButton)
+            table.insert(self._objects, createSaveFileButton)
         end
     end
 end
@@ -265,7 +265,7 @@ local function setupBackToMenuButton(self)
         end
     })
 
-    table.insert(self._buttons, backToMenuButton)
+    table.insert(self._objects, backToMenuButton)
 end
 
 function Module:update(deltaTime)
