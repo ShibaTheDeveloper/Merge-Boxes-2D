@@ -32,6 +32,10 @@ function love.mousepressed(_, _, button)
     UIHandlerModule:mousePressed(mouseX, mouseY, button)
 end
 
+function love.keypressed(input, scanCode, isRepeat)
+    UIHandlerModule:keyPressed(input, scanCode, isRepeat)
+end
+
 function love.textinput(input)
     UIHandlerModule:textInput(input)
 end

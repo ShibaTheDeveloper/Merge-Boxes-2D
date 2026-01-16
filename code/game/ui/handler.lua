@@ -12,6 +12,10 @@ function Module:mousePressed(x, y, button)
     UIButtonObjectModule:mousePressed(x, y, button)
 end
 
+function Module:keyPressed(input, scanCode, isRepeat)
+    UITextBoxObjectModule:keyPressed(input, scanCode, isRepeat)
+end
+
 function Module:textInput(input)
     UITextBoxObjectModule:textInput(input)
 end

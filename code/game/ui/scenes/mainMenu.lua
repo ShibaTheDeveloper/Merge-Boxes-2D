@@ -120,7 +120,7 @@ local function textBox(self)
 
     table.insert(self._elements, textBoxHitbox)
     table.insert(self._elements, textBoxField)
-
+    print(SceneData.textBoxField.text)
     local textBox = UITextBoxObjectModule:createTextBox({
         elements = {
             textBoxHitbox,
