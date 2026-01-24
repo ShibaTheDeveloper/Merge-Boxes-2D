@@ -1,16 +1,46 @@
 Back to [README.md](README.md)
 
-# Credits
-Fonts:
- - [fonts/Stanberry.ttf](https://www.dafont.com/stanberry.font) <br>
+## Legal Notice
+This project contains original content and third-party assets used under their respective licenses or permissions.
 
-Sound Effects:
- - [ui/click.wav](https://freesound.org/people/BiORNADE/sounds/735803/) <br>
+All original game code and original assets created by the developer are © ShibaTheDeveloper.
+Unauthorized reuse of original assets outside the game is not permitted.
 
- - merge/default.wav (UNKNOWN ORIGIN) <br>
- - merge/special.wav (UNKNOWN ORIGIN) <br>
- - merge/box16.wav contains: [this boom sound](https://www.youtube.com/watch?v=y5kWdIBCLBg) and [this angel choir sound](https://www.youtube.com/watch?v=Mn0y2K9ByYg) <br>
- - merge/box17.wav contains: TBA <br>
- - merge/box18.wav contains: TBA <br>
- - merge/box19.wav contains: [the ultrakill skull laughing](https://www.youtube.com/watch?v=LrJ_AXGz68s) and [this cat's meow sped up and enchoing](https://www.youtube.com/watch?v=SWkMYO9V_-k)  <br>
- - merge/box20.wav contains: TBA
+Third-party assets, including audio, fonts, artwork, and music, are used with permission or under applicable licenses and are credited below.
+
+## Credits
+
+### Fonts
+- **Stanberry.ttf**
+  Source: https://www.dafont.com/stanberry.font
+  License: See font license on the original source page.
+
+### Sound Effects
+- **ui/click.wav**
+  Link: https://freesound.org/people/BiORNADE/sounds/735803/
+  License: As stated on Freesound
+
+- **merge/default.wav**
+  Link: https://freesound.org/people/MLaudio/sounds/615100/
+  License: As stated on Freesound
+
+- **merge/special.wav**
+  Link: https://freesound.org/people/David819/sounds/668436/
+  License: As stated on Freesound
+
+### Art
+All artwork was created by a collaborator.
+Artwork © Gochged. Licensed for use in Merge Boxes! 2D.
+
+Artist: https://www.youtube.com/@gochgo
+
+### OST (Original Soundtrack)
+All music was composed specifically for this game by a collaborator.
+
+The composer has granted free-to-use permission for all purposes.
+Attribution is appreciated but not required, per the track descriptions on the official channel.
+
+Music © Orzech05. Licensed for use in Merge Boxes! 2D.
+
+Composer: https://www.youtube.com/@orzech05
+Playlist: https://www.youtube.com/playlist?list=PL4SfVAqmkT2WSjVqtZ7hU-KLh6ys-MNjb

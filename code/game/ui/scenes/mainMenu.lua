@@ -1,20 +1,24 @@
 -- ~/code/game/ui/scenes/mainMenu.lua
 
 local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+local MusicHandlerModule = require("code.game.musicHandler")
 
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
+local UISharedFunctions = require("code.game.ui.shared")
 
 local RenderModule = require("code.engine.render")
 
-local ScenesData = require("code.data.scenes")
+local UIData = require("code.data.ui")
 
 local Module = {}
 Module._elements = {}
-Module._buttons = {}
+Module._objects = {}
 Module.name = "mainMenu"
 
-local SceneData = ScenesData[Module.name]
+local SceneData = UIData[Module.name]
+
+local logo2 = nil
 local logo = nil
 
 function Module:clean()
@@ -22,17 +26,20 @@ function Module:clean()
         element:remove()
     end
 
-    for _, button in pairs(self._buttons) do
-        button:remove()
+    for _, object in pairs(self._objects) do
+        object:remove()
     end
 
     self._elements = {}
-    self._buttons = {}
+    self._objects = {}
 end
 
 local function setupLogo(self)
     logo = RenderModule:createElement(SceneData.logo)
     table.insert(self._elements, logo)
+
+    logo2 = RenderModule:createElement(SceneData.logo2)
+    table.insert(self._elements, logo2)
 end
 
 local function setupBackground(self)
@@ -65,7 +72,7 @@ local function setupPlayGameButton(self)
         end
     })
 
-    table.insert(self._buttons, playGameButton)
+    table.insert(self._objects, playGameButton)
 end
 
 local function setupQuitButton(self)
@@ -93,16 +100,23 @@ local function setupQuitButton(self)
         end
     })
 
-    table.insert(self._buttons, quitButton)
+    table.insert(self._objects, quitButton)
 end
 
 function Module:update()
     if logo then
         logo:setRotation(math.sin(os.clock()) * 2)
     end
+
+    if logo2 then
+        logo2:setRotation(-(math.sin(os.clock()) * 2))
+    end
 end
 
 function Module:init()
+    UISharedFunctions:setupSettingsButton(self)
+    MusicHandlerModule:playTrack("mainMenu")
+
     setupPlayGameButton(self)
     setupQuitButton(self)
     setupBackground(self)

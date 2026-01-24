@@ -151,7 +151,7 @@ function Module:createElement(data)
         zIndex = data.zIndex or 0,
 
         text = data.text or "",
-        font = data.font or love.graphics.getFont(),
+        font = data.font,
 
         anchorX = data.anchorX or .5,
         anchorY = data.anchorY or .5,
@@ -182,11 +182,18 @@ function Module:createElement(data)
         end
 
         if not Module._imageCache[data.spritePath] then
-            Module._imageCache[data.spritePath] = love.graphics.newImage(data.spritePath)
+            local drawable = love.graphics.newImage(data.spritePath)
+            Module._imageCache[data.spritePath] = drawable
         end
 
         element.drawable = Module._imageCache[data.spritePath]
         element.spritePath = data.spritePath
+    elseif data.type == "text" then
+        if not data.font then
+            data.font = love.graphics.newFont("assets/fonts/Stanberry.ttf")
+        end
+
+        data.font:setFilter("nearest", "nearest")
     end
 
     return element

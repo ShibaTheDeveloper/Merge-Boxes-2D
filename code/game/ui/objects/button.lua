@@ -33,7 +33,7 @@ function Button:remove()
     manager:release(self.id)
 end
 
-function Button:click(x, y, mouseButton)
+function Button:mousePressed(x, y, mouseButton)
     if ScreenTransitionModule.transitioning then return end
 
     if (os.clock() - self.lastUsed) < self.cooldown then return end
@@ -110,7 +110,7 @@ end
 
 function Module:mousePressed(x, y, mouseButton)
     for _, button in pairs(self._buttons) do
-        button:click(x, y, mouseButton)
+        button:mousePressed(x, y, mouseButton)
     end
 end
 

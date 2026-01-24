@@ -1,9 +1,13 @@
 -- ~/code/game/ui/scenes/game.lua
 
 local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+local ScreenFlashModule = require("code.game.vfx.screenFlash")
+
+local MusicHandlerModule = require("code.game.musicHandler")
 
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
+local UISharedFunctions = require("code.game.ui.shared")
 
 local BoxesObjectModule = require("code.game.box.object")
 local BoxFactoryModule = require("code.game.box.factory")
@@ -12,14 +16,14 @@ local SaveFilesModule = require("code.engine.saveFiles")
 local RenderModule = require("code.engine.render")
 local extra = require("code.engine.extra")
 
-local ScenesData = require("code.data.scenes")
+local UIData = require("code.data.ui")
 
 local Module = {}
 Module._elements = {}
-Module._buttons = {}
+Module._objects = {}
 Module.name = "game"
 
-local SceneData = ScenesData[Module.name]
+local SceneData = UIData[Module.name]
 
 local playtimeAtSessionStart = 0
 local sessionPlaytimeLabel = nil
@@ -29,15 +33,17 @@ function Module:clean()
         element:remove()
     end
 
-    for _, button in pairs(self._buttons) do
+    for _, button in pairs(self._objects) do
         button:remove()
     end
 
     self._elements = {}
-    self._buttons = {}
+    self._objects = {}
 
     SaveFilesModule.saveFile(SaveFilesModule.loadedFile.slot)
+
     BoxesObjectModule:clearBoxes()
+    ScreenFlashModule:stop()
 end
 
 local function setupBackgrounds(self)
@@ -76,7 +82,7 @@ local function setupBackToMenuButton(self)
         end
     })
 
-    table.insert(self._buttons, backToMenuButton)
+    table.insert(self._objects, backToMenuButton)
 end
 
 local function setupSpawnButton(self)
@@ -103,16 +109,21 @@ local function setupSpawnButton(self)
         end
     })
 
-    table.insert(self._buttons, spawnButton)
+    table.insert(self._objects, spawnButton)
 end
 
 function Module:update()
+    MusicHandlerModule:update()
+
     if sessionPlaytimeLabel then
         sessionPlaytimeLabel.text = "Session Time: " .. extra.formatTime(SaveFilesModule.loadedFile.playtime - playtimeAtSessionStart)
     end
 end
 
-function Module:init()
+function Module:init(save)
+    MusicHandlerModule:stopTrack(MusicHandlerModule.playingTrack)
+    UISharedFunctions:setupSettingsButton(self)
+
     setupSessionPlaytimeLabel(self)
     setupBackToMenuButton(self)
     setupBackgrounds(self)

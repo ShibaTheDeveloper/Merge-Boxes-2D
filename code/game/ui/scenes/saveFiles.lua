@@ -1,42 +1,49 @@
 -- ~/code/game/ui/scenes/saveFiles.lua
 
 local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+local MusicHandlerModule = require("code.game.musicHandler")
 
 local BoxesObjectModule = require("code.game.box.object")
 
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
+local UISharedFunctions = require("code.game.ui.shared")
 
 local SaveFilesModule = require("code.engine.saveFiles")
 local RenderModule = require("code.engine.render")
 local extra = require("code.engine.extra")
 
-local ScenesData = require("code.data.scenes")
+local UIData = require("code.data.ui")
+
+local CONSTANTS = require("code.game.ui.constants")
 
 local Module = {}
 Module._resetButtons = {}
 Module._elements = {}
-Module._buttons = {}
+Module._objects = {}
+Module._boxes = {}
+
+Module.selectedSlot = 0
 Module.name = "saveFiles"
 
-local SceneData = ScenesData[Module.name]
-
-local RESET_BUTTON_WARN_TIME_OUT = .5
+local SceneData = UIData[Module.name]
 
 function Module:clean()
     for _, element in pairs(self._elements) do
         element:remove()
     end
 
-    for _, button in pairs(self._buttons) do
+    for _, button in pairs(self._objects) do
         button:remove()
     end
 
     self._elements = {}
-    self._buttons = {}
+    self._objects = {}
 end
 
 local function startGame(save)
+    Module.selectedSlot = save.slot
+
     SaveFilesModule.loadFile(save.slot)
     UISceneHandlerModule:switch("game")
 end
@@ -70,13 +77,16 @@ local function setupSaveFileBoxPreview(self, backgroundElement, save)
         templateSaveFileBoxPreview.x = backgroundElement.x
         templateSaveFileBoxPreview.y = SceneData.templateSaveFileBoxPreview.y
 
-        templateSaveFileBoxPreview.scaleX = SceneData.templateSaveFileBoxPreview.scaleX
-        templateSaveFileBoxPreview.scaleY = SceneData.templateSaveFileBoxPreview.scaleY
+        templateSaveFileBoxPreview.scaleX = SceneData.templateSaveFileBoxPreview.scaleX / (save.highestBoxTier == 12 and 2 or 1)
+        templateSaveFileBoxPreview.scaleY = SceneData.templateSaveFileBoxPreview.scaleY / (save.highestBoxTier == 12 and 2 or 1)
 
         templateSaveFileBoxPreview.zIndex = SceneData.templateSaveFileBoxPreview.zIndex
-    end
 
-    table.insert(self._elements, templateSaveFileBoxPreview)
+        templateSaveFileBoxPreview.boxData = data
+
+        table.insert(self._elements, templateSaveFileBoxPreview)
+        table.insert(self._boxes, templateSaveFileBoxPreview)
+    end
 end
 
 local function setupSaveFileLoadButton(self, backgroundElement, save)
@@ -107,7 +117,7 @@ local function setupSaveFileLoadButton(self, backgroundElement, save)
         end
     })
 
-    table.insert(self._buttons, saveFileLoadButton)
+    table.insert(self._objects, saveFileLoadButton)
 end
 
 local function setupSaveFileResetButton(self, backgroundElement, save)
@@ -137,7 +147,7 @@ local function setupSaveFileResetButton(self, backgroundElement, save)
             if saveFileResetButton.deleting then return end
 
             ---@diagnostic disable-next-line: need-check-nil
-            if (os.clock() - saveFileResetButton.lastConfirm) >= RESET_BUTTON_WARN_TIME_OUT then
+            if (os.clock() - saveFileResetButton.lastConfirm) >= CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then
                 saveFileResetButtonLabel.text = "Are you sure?"
                 saveFileResetButton.lastConfirm = os.clock()
 
@@ -162,7 +172,7 @@ local function setupSaveFileResetButton(self, backgroundElement, save)
     saveFileResetButton.deleting = false
 
     table.insert(self._resetButtons, saveFileResetButton)
-    table.insert(self._buttons, saveFileResetButton)
+    table.insert(self._objects, saveFileResetButton)
 end
 
 local function setupSaveFileButtons(self, backgroundElement, save)
@@ -229,7 +239,7 @@ local function setupSaveFileBackgrounds(self)
                 end
             })
 
-            table.insert(self._buttons, createSaveFileButton)
+            table.insert(self._objects, createSaveFileButton)
         end
     end
 end
@@ -259,12 +269,21 @@ local function setupBackToMenuButton(self)
         end
     })
 
-    table.insert(self._buttons, backToMenuButton)
+    table.insert(self._objects, backToMenuButton)
 end
 
-function Module:update()
+function Module:update(deltaTime)
+    for _, box in pairs(self._boxes) do
+        if not box.boxData then goto continue end
+        if not box.boxData.onUpdateCosmetic then goto continue end
+
+        box.boxData.onUpdateCosmetic(box, deltaTime)
+
+        :: continue ::
+    end
+
     for _, button in pairs(self._resetButtons) do
-        if (os.clock() - button.lastConfirm) < RESET_BUTTON_WARN_TIME_OUT then goto continue end
+        if (os.clock() - button.lastConfirm) < CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then goto continue end
         if button.deleting then goto continue end
 
         button.elements[1].text = SceneData.templateSaveFileResetButtonLabel.text
@@ -275,6 +294,9 @@ function Module:update()
 end
 
 function Module:init()
+    UISharedFunctions:setupSettingsButton(self)
+    MusicHandlerModule:playTrack("mainMenu")
+
     setupSaveFileBackgrounds(self)
     setupBackToMenuButton(self)
     setupBackground(self)
