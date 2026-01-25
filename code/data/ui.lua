@@ -16,21 +16,11 @@ return {
             zIndex = 1001
         },
 
-        spawnButtonCostLabel = {
-            text = "Cost: (FREE)",
-            type = "text",
-            x = CONSTANTS.SPAWN_BUTTON_X,
-            y = CONSTANTS.SPAWN_BUTTON_Y + 15,
-            color = RenderModule:createColor(255, 255, 255),
-            font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 20),
-            zIndex = 1002
-        },
-
         spawnButtonLabel = {
             text = "Spawn Box!",
             type = "text",
             x = CONSTANTS.SPAWN_BUTTON_X,
-            y = CONSTANTS.SPAWN_BUTTON_Y - 8,
+            y = CONSTANTS.SPAWN_BUTTON_Y,
             color = RenderModule:createColor(255, 255, 255),
             font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 28),
             zIndex = 1002

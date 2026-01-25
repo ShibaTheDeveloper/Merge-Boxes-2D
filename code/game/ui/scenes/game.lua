@@ -94,17 +94,14 @@ end
 
 local function setupSpawnButton(self)
     local spawnButtonHitbox = RenderModule:createElement(SceneData.spawnButtonHitbox)
-    local spawnButtonCostLabel = RenderModule:createElement(SceneData.spawnButtonCostLabel)
     local spawnButtonLabel = RenderModule:createElement(SceneData.spawnButtonLabel)
 
     table.insert(self._elements, spawnButtonHitbox)
-    table.insert(self._elements, spawnButtonCostLabel)
     table.insert(self._elements, spawnButtonLabel)
 
     local spawnButton = UIButtonObjectModule:createButton({
         elements = {
             spawnButtonHitbox,
-            spawnButtonCostLabel,
             spawnButtonLabel
         },
 
@@ -127,7 +124,7 @@ function Module:update()
     end
 
     if creditsLabel then
-        creditsLabel.text = "Credits: " .. SaveFilesModule.loadedFile.credits
+        creditsLabel.text = "Credits: " .. SaveFilesModule.loadedFile.credits .. " C$"
     end
 end
 
