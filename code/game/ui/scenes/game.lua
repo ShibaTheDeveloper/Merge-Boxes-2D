@@ -66,7 +66,7 @@ local function setupCreditsLabel(self)
 end
 
 local function setupSessionPlaytimeLabel(self)
-    playtimeAtSessionStart = SaveFilesModule.loadedFile.playtime
+    playtimeAtSessionStart = SaveFilesModule.loadedFile.stats.playtime
 
     sessionPlaytimeLabel = RenderModule:createElement(SceneData.sessionPlaytimeLabel)
     table.insert(self._elements, sessionPlaytimeLabel)
@@ -124,20 +124,20 @@ function Module:update()
     MusicHandlerModule:update()
 
     if sessionPlaytimeLabel then
-        sessionPlaytimeLabel.text = "Session Time: " .. extra.formatTime(SaveFilesModule.loadedFile.playtime - playtimeAtSessionStart)
+        sessionPlaytimeLabel.text = "Session Time: " .. extra.formatTime(SaveFilesModule.loadedFile.stats.playtime - playtimeAtSessionStart)
     end
 
     if creditsLabel then
-        creditsLabel.text = SaveFilesModule.loadedFile.credits .. " C$"
+        creditsLabel.text = SaveFilesModule.loadedFile.stats.credits .. " C$"
     end
 
     if spawnButtonHitbox and spawnButtonLabel and spawnButton then
-        spawnButton.cooldown = SaveFilesModule.loadedFile.spawnCooldown
+        spawnButton.cooldown = SaveFilesModule.loadedFile.stats.spawnCooldown
 
         local time = (os.clock() - BoxFactoryModule.lastSpawned)
-        local timeLeft = SaveFilesModule.loadedFile.spawnCooldown - time
+        local timeLeft = SaveFilesModule.loadedFile.stats.spawnCooldown - time
 
-        local onCooldown = time <= SaveFilesModule.loadedFile.spawnCooldown
+        local onCooldown = time <= SaveFilesModule.loadedFile.stats.spawnCooldown
 
         spawnButtonLabel.text =  (onCooldown and string.format("%.1f", timeLeft) .. "s" or SceneData.spawnButtonLabel.text)
     end

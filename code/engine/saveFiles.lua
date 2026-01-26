@@ -13,13 +13,14 @@ local DEFAULT_FILE_DATA = {
     created = false,
     slot = 1,
 
-    highestBoxTier = 0,
+    stats = {
+        highestBoxTier = 0,
+        spawnCooldown = 1.2,
+        boxSpawnTier = 1,
 
-    spawnCooldown = 1.2,
-    boxSpawnTier = 1,
-
-    playtime = 0,
-    credits = 0,
+        playtime = 0,
+        credits = 0,
+    },
 
     boxes = {}
 }
@@ -134,7 +135,7 @@ function Module.saveFile(slot)
         if box.tier > highestTier then highestTier = box.tier end
     end
 
-    Module.loadedFile.highestBoxTier = highestTier
+    Module.loadedFile.stats.highestBoxTier = highestTier
 
     local path = string.format(SAVE_FILE_TEMPLATE, slot)
     local data = "return " .. serialize(Module.loadedFile)
@@ -215,9 +216,10 @@ end
 
 function Module:update(deltaTime)
     if not Module.loadedFile then return end
-    if Module.loadedFile.playtime == nil then return end
+    if not Module.loadedFile.stats then return end
+    if Module.loadedFile.stats.playtime == nil then return end
 
-    Module.loadedFile.playtime = Module.loadedFile.playtime + deltaTime
+    Module.loadedFile.stats.playtime = Module.loadedFile.stats.playtime + deltaTime
 end
 
 function Module.createFile(slot)

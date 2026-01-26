@@ -91,7 +91,7 @@ function Module:mergeUpdate(deltaTime)
             local newBox = BoxesObjectModule:createBox(newBoxData)
 
             if newBox then
-                SaveFilesModule.loadedFile.credits = SaveFilesModule.loadedFile.credits + newBox.mergeReward
+                SaveFilesModule.loadedFile.stats.credits = SaveFilesModule.loadedFile.stats.credits + newBox.mergeReward
 
                 newBox.element.x, newBox.element.y = merge.middleX, merge.middleY
 

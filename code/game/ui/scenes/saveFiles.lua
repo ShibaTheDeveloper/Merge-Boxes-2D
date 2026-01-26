@@ -55,7 +55,7 @@ end
 
 local function setupSavePlaytime(self, backgroundElement, save)
     local templateSavePlaytime = RenderModule:createElement(SceneData.templateSavePlaytime)
-    templateSavePlaytime.text = extra.formatTime(save.playtime)
+    templateSavePlaytime.text = extra.formatTime(save.stats.playtime)
     templateSavePlaytime.x = backgroundElement.x
 
     table.insert(self._elements, templateSavePlaytime)
@@ -63,22 +63,22 @@ end
 
 local function setupSaveHighestTier(self, backgroundElement, save)
     local templateSaveHighestTier = RenderModule:createElement(SceneData.templateSaveHighestTier)
-    templateSaveHighestTier.text = "Highest Tier: " .. save.highestBoxTier
+    templateSaveHighestTier.text = "Highest Tier: " .. save.stats.highestBoxTier
     templateSaveHighestTier.x = backgroundElement.x
 
     table.insert(self._elements, templateSaveHighestTier)
 end
 
 local function setupSaveFileBoxPreview(self, backgroundElement, save)
-    local data = BoxesObjectModule:getBoxDataByTier(save.highestBoxTier)
+    local data = BoxesObjectModule:getBoxDataByTier(save.stats.highestBoxTier)
     local templateSaveFileBoxPreview = BoxesObjectModule:createBoxElement(data)
 
     if templateSaveFileBoxPreview then
         templateSaveFileBoxPreview.x = backgroundElement.x
         templateSaveFileBoxPreview.y = SceneData.templateSaveFileBoxPreview.y
 
-        templateSaveFileBoxPreview.scaleX = SceneData.templateSaveFileBoxPreview.scaleX / (save.highestBoxTier == 12 and 2 or 1)
-        templateSaveFileBoxPreview.scaleY = SceneData.templateSaveFileBoxPreview.scaleY / (save.highestBoxTier == 12 and 2 or 1)
+        templateSaveFileBoxPreview.scaleX = SceneData.templateSaveFileBoxPreview.scaleX / (save.stats.highestBoxTier == 12 and 2 or 1)
+        templateSaveFileBoxPreview.scaleY = SceneData.templateSaveFileBoxPreview.scaleY / (save.stats.highestBoxTier == 12 and 2 or 1)
 
         templateSaveFileBoxPreview.zIndex = SceneData.templateSaveFileBoxPreview.zIndex
 
