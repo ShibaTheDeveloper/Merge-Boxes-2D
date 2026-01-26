@@ -27,6 +27,10 @@ local SceneData = UIData[Module.name]
 
 local playtimeAtSessionStart = 0
 
+local spawnButtonHitbox = nil
+local spawnButtonLabel = nil
+local spawnButton = nil
+
 local sessionPlaytimeLabel = nil
 local creditsLabel = nil
 
@@ -93,13 +97,13 @@ local function setupBackToMenuButton(self)
 end
 
 local function setupSpawnButton(self)
-    local spawnButtonHitbox = RenderModule:createElement(SceneData.spawnButtonHitbox)
-    local spawnButtonLabel = RenderModule:createElement(SceneData.spawnButtonLabel)
+    spawnButtonHitbox = RenderModule:createElement(SceneData.spawnButtonHitbox)
+    spawnButtonLabel = RenderModule:createElement(SceneData.spawnButtonLabel)
 
     table.insert(self._elements, spawnButtonHitbox)
     table.insert(self._elements, spawnButtonLabel)
 
-    local spawnButton = UIButtonObjectModule:createButton({
+    spawnButton = UIButtonObjectModule:createButton({
         elements = {
             spawnButtonHitbox,
             spawnButtonLabel
@@ -124,7 +128,18 @@ function Module:update()
     end
 
     if creditsLabel then
-        creditsLabel.text = "Credits: " .. SaveFilesModule.loadedFile.credits .. " C$"
+        creditsLabel.text = SaveFilesModule.loadedFile.credits .. " C$"
+    end
+
+    if spawnButtonHitbox and spawnButtonLabel and spawnButton then
+        spawnButton.cooldown = SaveFilesModule.loadedFile.spawnCooldown
+
+        local time = (os.clock() - BoxFactoryModule.lastSpawned)
+        local timeLeft = SaveFilesModule.loadedFile.spawnCooldown - time
+
+        local onCooldown = time <= SaveFilesModule.loadedFile.spawnCooldown
+
+        spawnButtonLabel.text =  (onCooldown and string.format("%.1f", timeLeft) .. "s" or SceneData.spawnButtonLabel.text)
     end
 end
 

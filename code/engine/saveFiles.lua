@@ -14,11 +14,13 @@ local DEFAULT_FILE_DATA = {
     slot = 1,
 
     highestBoxTier = 0,
+
+    spawnCooldown = 1.2,
     boxSpawnTier = 1,
 
     playtime = 0,
+    credits = 0,
 
-    credits = 50,
     boxes = {}
 }
 

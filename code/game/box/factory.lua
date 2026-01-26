@@ -6,6 +6,7 @@ local SaveFilesModule = require("code.engine.saveFiles")
 local CONSTANTS = require("code.game.box.constants")
 
 local Module = {}
+Module.lastSpawned = 0
 
 function Module:spawn()
     local x = math.random(-CONSTANTS.AREA_WIDTH, CONSTANTS.AREA_WIDTH)
@@ -29,6 +30,8 @@ function Module:spawn()
 
     box.velocityX = velocityX
     box.velocityY = velocityY
+
+    self.lastSpawned = os.clock()
 end
 
 return Module
