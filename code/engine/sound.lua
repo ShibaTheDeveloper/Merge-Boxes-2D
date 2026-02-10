@@ -21,6 +21,15 @@ Sound.__index = Sound
 local Module = {}
 Module._sounds = {}
 
+local function computeVolume(sound)
+    local base =
+        (sound.type == "sound"
+            and SaveFilesModule.settingsFile.soundVolume
+            or SaveFilesModule.settingsFile.trackVolume)
+
+    return sound.volume * base * SaveFilesModule.settingsFile.masterVolume
+end
+
 function Sound:pause()
     self.source:pause()
 end
@@ -32,9 +41,13 @@ function Sound:play(randomizePitch, min, max, divisor)
         divisor = divisor or 1000
         min = min or -100
         max = max or 100
-
         self.pitch = defaultPitch + math.random(min, max) / divisor
     end
+
+    self.source:setPitch(self.pitch)
+
+    local volume = computeVolume(self)
+    self.source:setVolume(volume)
 
     self.source:stop()
     self.source:play()
@@ -83,9 +96,6 @@ end
 function Module:update()
     for _, sound in pairs(self._sounds) do
         if not sound.source:isPlaying() then goto continue end
-
-        local baseVolumeMulti = (sound.type == "sound" and SaveFilesModule.settingsFile.soundVolume or SaveFilesModule.settingsFile.trackVolume)
-        sound.source:setVolume(sound.volume * (baseVolumeMulti * SaveFilesModule.settingsFile.masterVolume))
 
         sound.source:setLooping(sound.loop)
         sound.source:setPitch(sound.pitch)

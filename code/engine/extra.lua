@@ -23,6 +23,14 @@ function Module.lerp(a, b, lerpFactor)
     return a + (b - a) * lerpFactor
 end
 
+function Module.getRotationByWave(type, speed)
+    local mathFunction = math[type]
+    if not mathFunction then return end
+    
+    local rotation = mathFunction(love.timer.getTime() * speed)
+    return rotation
+end
+
 function Module.formatTime(seconds)
     local hours = math.floor(seconds / 3600)
     local minutes = math.floor((seconds % 3600) / 60)

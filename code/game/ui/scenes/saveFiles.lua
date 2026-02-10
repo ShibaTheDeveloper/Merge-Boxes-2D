@@ -55,7 +55,7 @@ end
 
 local function setupSavePlaytime(self, backgroundElement, save)
     local templateSavePlaytime = RenderModule:createElement(SceneData.templateSavePlaytime)
-    templateSavePlaytime.text = extra.formatTime(save.playtime)
+    templateSavePlaytime.text = extra.formatTime(save.stats.playtime)
     templateSavePlaytime.x = backgroundElement.x
 
     table.insert(self._elements, templateSavePlaytime)
@@ -63,22 +63,22 @@ end
 
 local function setupSaveHighestTier(self, backgroundElement, save)
     local templateSaveHighestTier = RenderModule:createElement(SceneData.templateSaveHighestTier)
-    templateSaveHighestTier.text = "Highest Tier: " .. save.highestBoxTier
+    templateSaveHighestTier.text = "Highest Tier: " .. save.stats.highestBoxTier
     templateSaveHighestTier.x = backgroundElement.x
 
     table.insert(self._elements, templateSaveHighestTier)
 end
 
 local function setupSaveFileBoxPreview(self, backgroundElement, save)
-    local data = BoxesObjectModule:getBoxDataByTier(save.highestBoxTier)
+    local data = BoxesObjectModule:getBoxDataByTier(save.stats.highestBoxTier)
     local templateSaveFileBoxPreview = BoxesObjectModule:createBoxElement(data)
 
     if templateSaveFileBoxPreview then
         templateSaveFileBoxPreview.x = backgroundElement.x
         templateSaveFileBoxPreview.y = SceneData.templateSaveFileBoxPreview.y
 
-        templateSaveFileBoxPreview.scaleX = SceneData.templateSaveFileBoxPreview.scaleX / (save.highestBoxTier == 12 and 2 or 1)
-        templateSaveFileBoxPreview.scaleY = SceneData.templateSaveFileBoxPreview.scaleY / (save.highestBoxTier == 12 and 2 or 1)
+        templateSaveFileBoxPreview.scaleX = SceneData.templateSaveFileBoxPreview.scaleX / (save.stats.highestBoxTier == 12 and 2 or 1)
+        templateSaveFileBoxPreview.scaleY = SceneData.templateSaveFileBoxPreview.scaleY / (save.stats.highestBoxTier == 12 and 2 or 1)
 
         templateSaveFileBoxPreview.zIndex = SceneData.templateSaveFileBoxPreview.zIndex
 
@@ -147,9 +147,9 @@ local function setupSaveFileResetButton(self, backgroundElement, save)
             if saveFileResetButton.deleting then return end
 
             ---@diagnostic disable-next-line: need-check-nil
-            if (os.clock() - saveFileResetButton.lastConfirm) >= CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then
+            if (love.timer.getTime() - saveFileResetButton.lastConfirm) >= CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then
                 saveFileResetButtonLabel.text = "Are you sure?"
-                saveFileResetButton.lastConfirm = os.clock()
+                saveFileResetButton.lastConfirm = love.timer.getTime()
 
                 return
             else
@@ -283,7 +283,7 @@ function Module:update(deltaTime)
     end
 
     for _, button in pairs(self._resetButtons) do
-        if (os.clock() - button.lastConfirm) < CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then goto continue end
+        if (love.timer.getTime() - button.lastConfirm) < CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then goto continue end
         if button.deleting then goto continue end
 
         button.elements[1].text = SceneData.templateSaveFileResetButtonLabel.text

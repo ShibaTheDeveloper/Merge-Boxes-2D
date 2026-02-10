@@ -26,7 +26,13 @@ Module.name = "game"
 local SceneData = UIData[Module.name]
 
 local playtimeAtSessionStart = 0
+
+local spawnButtonHitbox = nil
+local spawnButtonLabel = nil
+local spawnButton = nil
+
 local sessionPlaytimeLabel = nil
+local creditsLabel = nil
 
 function Module:clean()
     for _, element in pairs(self._elements) do
@@ -54,8 +60,13 @@ local function setupBackgrounds(self)
     table.insert(self._elements, sidebarBackground)
 end
 
+local function setupCreditsLabel(self)
+    creditsLabel = RenderModule:createElement(SceneData.creditsLabel)
+    table.insert(self._elements, creditsLabel)
+end
+
 local function setupSessionPlaytimeLabel(self)
-    playtimeAtSessionStart = SaveFilesModule.loadedFile.playtime
+    playtimeAtSessionStart = SaveFilesModule.loadedFile.stats.playtime
 
     sessionPlaytimeLabel = RenderModule:createElement(SceneData.sessionPlaytimeLabel)
     table.insert(self._elements, sessionPlaytimeLabel)
@@ -86,18 +97,15 @@ local function setupBackToMenuButton(self)
 end
 
 local function setupSpawnButton(self)
-    local spawnButtonHitbox = RenderModule:createElement(SceneData.spawnButtonHitbox)
-    local spawnButtonCostLabel = RenderModule:createElement(SceneData.spawnButtonCostLabel)
-    local spawnButtonLabel = RenderModule:createElement(SceneData.spawnButtonLabel)
+    spawnButtonHitbox = RenderModule:createElement(SceneData.spawnButtonHitbox)
+    spawnButtonLabel = RenderModule:createElement(SceneData.spawnButtonLabel)
 
     table.insert(self._elements, spawnButtonHitbox)
-    table.insert(self._elements, spawnButtonCostLabel)
     table.insert(self._elements, spawnButtonLabel)
 
-    local spawnButton = UIButtonObjectModule:createButton({
+    spawnButton = UIButtonObjectModule:createButton({
         elements = {
             spawnButtonHitbox,
-            spawnButtonCostLabel,
             spawnButtonLabel
         },
 
@@ -116,16 +124,32 @@ function Module:update()
     MusicHandlerModule:update()
 
     if sessionPlaytimeLabel then
-        sessionPlaytimeLabel.text = "Session Time: " .. extra.formatTime(SaveFilesModule.loadedFile.playtime - playtimeAtSessionStart)
+        sessionPlaytimeLabel.text = "Session Time: " .. extra.formatTime(SaveFilesModule.loadedFile.stats.playtime - playtimeAtSessionStart)
+    end
+
+    if creditsLabel then
+        creditsLabel.text = SaveFilesModule.loadedFile.stats.credits .. " C$"
+    end
+
+    if spawnButtonHitbox and spawnButtonLabel and spawnButton then
+        spawnButton.cooldown = SaveFilesModule.loadedFile.stats.spawnCooldown
+
+        local time = (love.timer.getTime() - BoxFactoryModule.lastSpawned)
+        local timeLeft = SaveFilesModule.loadedFile.stats.spawnCooldown - time
+        
+        local onCooldown = time <= SaveFilesModule.loadedFile.stats.spawnCooldown
+
+        spawnButtonLabel.text =  (onCooldown and string.format("%.1f", timeLeft) .. "s" or SceneData.spawnButtonLabel.text)
     end
 end
 
-function Module:init(save)
+function Module:init()
     MusicHandlerModule:stopTrack(MusicHandlerModule.playingTrack)
     UISharedFunctions:setupSettingsButton(self)
 
     setupSessionPlaytimeLabel(self)
     setupBackToMenuButton(self)
+    setupCreditsLabel(self)
     setupBackgrounds(self)
     setupSpawnButton(self)
 end

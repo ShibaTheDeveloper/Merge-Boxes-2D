@@ -46,7 +46,7 @@ function Module.init()
             soundPath = data.trackPath,
             volume = data.volume or 1,
             type = "track",
-            loop = false
+            loop = not data.isGameplayTrack
         })
 
         data.soundObject = soundObject

@@ -8,6 +8,7 @@ local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 local UISharedFunctions = require("code.game.ui.shared")
 
 local RenderModule = require("code.engine.render")
+local extra = require("code.engine.extra")
 
 local UIData = require("code.data.ui")
 
@@ -105,11 +106,11 @@ end
 
 function Module:update()
     if logo then
-        logo:setRotation(math.sin(os.clock()) * 2)
+        logo:setRotation(extra.getRotationByWave("sin", 2))
     end
 
     if logo2 then
-        logo2:setRotation(-(math.sin(os.clock()) * 2))
+        logo2:setRotation(-extra.getRotationByWave("sin", 2))
     end
 end
 
