@@ -134,9 +134,9 @@ function Module:update()
     if spawnButtonHitbox and spawnButtonLabel and spawnButton then
         spawnButton.cooldown = SaveFilesModule.loadedFile.stats.spawnCooldown
 
-        local time = (os.clock() - BoxFactoryModule.lastSpawned)
+        local time = (love.timer.getTime() - BoxFactoryModule.lastSpawned)
         local timeLeft = SaveFilesModule.loadedFile.stats.spawnCooldown - time
-
+        
         local onCooldown = time <= SaveFilesModule.loadedFile.stats.spawnCooldown
 
         spawnButtonLabel.text =  (onCooldown and string.format("%.1f", timeLeft) .. "s" or SceneData.spawnButtonLabel.text)

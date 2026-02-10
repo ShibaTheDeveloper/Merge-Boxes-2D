@@ -36,11 +36,11 @@ end
 function Button:mousePressed(x, y, mouseButton)
     if ScreenTransitionModule.transitioning then return end
 
-    if (os.clock() - self.lastUsed) < self.cooldown then return end
+    if (love.timer.getTime() - self.lastUsed) < self.cooldown then return end
     if not self.hitboxElement:isPointInside(x, y) then return end
     if mouseButton ~= self.mouseButton then return end
 
-    self.lastUsed = os.clock()
+    self.lastUsed = love.timer.getTime()
 
     for _, element in pairs(self.elements) do
         if not element._baseScaleX then element._baseScaleX = element._baseScaleX or (element.scaleX or 1) end

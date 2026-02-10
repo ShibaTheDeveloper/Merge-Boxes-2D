@@ -31,7 +31,7 @@ function Module:spawn()
     box.velocityX = velocityX
     box.velocityY = velocityY
 
-    self.lastSpawned = os.clock()
+    self.lastSpawned = love.timer.getTime()
 end
 
 return Module

@@ -258,7 +258,7 @@ return {
         --flashScreen = true,
 
         onUpdateCosmetic = function(element)
-            local hue = (os.clock() % 5) / 5
+            local hue = (love.timer.getTime() % 5) / 5
             element.color = HSVtoRGB(hue, 1, 1)
         end,
 

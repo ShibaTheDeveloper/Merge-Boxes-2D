@@ -147,9 +147,9 @@ local function setupSaveFileResetButton(self, backgroundElement, save)
             if saveFileResetButton.deleting then return end
 
             ---@diagnostic disable-next-line: need-check-nil
-            if (os.clock() - saveFileResetButton.lastConfirm) >= CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then
+            if (love.timer.getTime() - saveFileResetButton.lastConfirm) >= CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then
                 saveFileResetButtonLabel.text = "Are you sure?"
-                saveFileResetButton.lastConfirm = os.clock()
+                saveFileResetButton.lastConfirm = love.timer.getTime()
 
                 return
             else
@@ -283,7 +283,7 @@ function Module:update(deltaTime)
     end
 
     for _, button in pairs(self._resetButtons) do
-        if (os.clock() - button.lastConfirm) < CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then goto continue end
+        if (love.timer.getTime() - button.lastConfirm) < CONSTANTS.RESET_BUTTON_WARN_TIME_OUT then goto continue end
         if button.deleting then goto continue end
 
         button.elements[1].text = SceneData.templateSaveFileResetButtonLabel.text
