@@ -343,6 +343,24 @@ return {
             zIndex = 1002
         },
     },
+
+    upgradeShop = {
+        background = {
+            spritePath = "assets/sprites/backgrounds/menubg.png",
+            type = "sprite",
+            anchorX = 0,
+            anchorY = 0,
+            zIndex = 1
+        },
+        shopkeeper = {
+            spritePath = "assets/sprites/boxes/box1.png",
+            type = "sprite",
+            scaleX = 2,
+            scaleY = 2,
+            zIndex = 2
+        },
+    },
+
     shared = {
         settingsButtonHitbox = {
             spritePath = "assets/sprites/ui/buttoncog74x74.png",

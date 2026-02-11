@@ -8,8 +8,8 @@ return {
 
         isGameplayTrack = false
     },
-    shop = {
-        trackPath = "assets/tracks/shop.ogg",
+    upgradeShop = {
+        trackPath = "assets/tracks/upgradeshop.ogg",
         author = "Orzech05",
         trackName = "Blue Business",
 
