@@ -16,6 +16,6 @@ function Module:update(deltaTime)
     BoxesObjectModule:update(deltaTime)
     BoxRotationHandlerModule:update()
     BoxDragHandlerModule:update()
- end
+end
 
 return Module

@@ -37,4 +37,9 @@ function Module:setupSettingsButton(scene)
     table.insert(scene._objects, settingsButton)
 end
 
+function Module:setupSidebarBackground(scene)
+    local sidebarBackground = RenderModule:createElement(UIData.shared.sidebarBackground)
+    table.insert(scene._elements, sidebarBackground)
+end
+
 return Module

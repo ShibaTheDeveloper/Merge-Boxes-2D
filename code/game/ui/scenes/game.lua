@@ -52,12 +52,9 @@ function Module:clean()
     ScreenFlashModule:stop()
 end
 
-local function setupBackgrounds(self)
+local function setupBackground(self)
     local playAreaBackground = RenderModule:createElement(SceneData.playAreaBackground)
-    local sidebarBackground = RenderModule:createElement(SceneData.sidebarBackground)
-
     table.insert(self._elements, playAreaBackground)
-    table.insert(self._elements, sidebarBackground)
 end
 
 local function setupCreditsLabel(self)
@@ -94,6 +91,30 @@ local function setupBackToMenuButton(self)
     })
 
     table.insert(self._objects, backToMenuButton)
+end
+
+local function setupUpgradeShopButton(self)
+    local upgradeShopButtonHitbox = RenderModule:createElement(SceneData.upgradeShopButtonHitbox)
+    table.insert(self._elements, upgradeShopButtonHitbox)
+
+    local upgradeShopButton = UIButtonObjectModule:createButton({
+        elements = {
+            upgradeShopButtonHitbox,
+        },
+
+        hitboxElement = upgradeShopButtonHitbox,
+
+        mouseButton = 1,
+        onClick = function()
+            ScreenTransitionModule:transition({
+                callback = function()
+                    UISceneHandlerModule:switch("upgradeShop")
+                end
+            })
+        end
+    })
+
+    table.insert(self._objects, upgradeShopButton)
 end
 
 local function setupSpawnButton(self)
@@ -145,13 +166,16 @@ end
 
 function Module:init()
     MusicHandlerModule:stopTrack(MusicHandlerModule.playingTrack)
+
+    UISharedFunctions:setupSidebarBackground(self)
     UISharedFunctions:setupSettingsButton(self)
 
     setupSessionPlaytimeLabel(self)
+    setupUpgradeShopButton(self)
     setupBackToMenuButton(self)
     setupCreditsLabel(self)
-    setupBackgrounds(self)
     setupSpawnButton(self)
+    setupBackground(self)
 end
 
 return Module

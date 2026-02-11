@@ -34,16 +34,6 @@ return {
             zIndex = 1
         },
 
-        sidebarBackground = {
-            spritePath = "assets/sprites/ui/sidebar.png",
-            type = "sprite",
-            anchorX = 0,
-            anchorY = 0,
-            x = BOX_CONSTANTS.AREA_WIDTH,
-            color = RenderModule:createColor(42, 42, 42),
-            zIndex = 1000
-        },
-
         sessionPlaytimeLabel = {
             text = "Session Time: ",
             type = "text",
@@ -83,6 +73,17 @@ return {
             y = CONSTANTS.SETTINGS_BUTTON_OFFSET,
             scaleX = .6,
             scaleY = .6,
+            color = RenderModule:createColor(117, 124, 136),
+            zIndex = 1004
+        },
+
+        upgradeShopButtonHitbox = {
+            spritePath = "assets/sprites/ui/buttoncart74x74.png",
+            type = "sprite",
+            x = CONSTANTS.SPAWN_BUTTON_X - 60,
+            y = CONSTANTS.SPAWN_BUTTON_Y + 75,
+            scaleX = .75,
+            scaleY = .75,
             color = RenderModule:createColor(117, 124, 136),
             zIndex = 1004
         }
@@ -359,6 +360,23 @@ return {
             scaleY = 2,
             zIndex = 2
         },
+        backButtonHitbox = {
+            spritePath = CONSTANTS.DEFAULT_BUTTON_PATH,
+            type = "sprite",
+            x = CONSTANTS.SPAWN_BUTTON_X,
+            y = CONSTANTS.SPAWN_BUTTON_Y + 50,
+            color = RenderModule:createColor(204, 49, 61),
+            zIndex = 1001
+        },
+        backButtonLabel = {
+            text = "Back",
+            type = "text",
+            x = CONSTANTS.SPAWN_BUTTON_X,
+            y = CONSTANTS.SPAWN_BUTTON_Y + 50,
+            color = RenderModule:createColor(255, 255, 255),
+            font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 28),
+            zIndex = 1002
+        },
     },
 
     shared = {
@@ -374,6 +392,15 @@ return {
 
             color = RenderModule:createColor(117, 124, 136),
             zIndex = 1004
-        }
+        },
+        sidebarBackground = {
+            spritePath = "assets/sprites/ui/sidebar.png",
+            type = "sprite",
+            anchorX = 0,
+            anchorY = 0,
+            x = BOX_CONSTANTS.AREA_WIDTH,
+            color = RenderModule:createColor(42, 42, 42),
+            zIndex = 1000
+        },
     }
 }

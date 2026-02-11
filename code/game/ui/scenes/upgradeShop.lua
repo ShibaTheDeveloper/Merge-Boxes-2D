@@ -3,9 +3,14 @@
 local ScreenTransitionModule = require("code.game.vfx.screenTransition")
 local MusicHandlerModule = require("code.game.musicHandler")
 
+local UIButtonObjectModule = require("code.game.ui.objects.button")
+local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 local UISharedFunctions = require("code.game.ui.shared")
 
+local SaveFilesModule = require("code.engine.saveFiles")
 local RenderModule = require("code.engine.render")
+
+local SaveFilesScene = require("code.game.ui.scenes.saveFiles")
 local UIData = require("code.data.ui")
 
 local Module = {}
@@ -26,11 +31,6 @@ function Module:clean()
 
     self._elements = {}
     self._objects = {}
-
-    SaveFilesModule.saveFile(SaveFilesModule.loadedFile.slot)
-
-    BoxesObjectModule:clearBoxes()
-    ScreenFlashModule:stop()
 end
 
 local function setupBackground(self)
@@ -38,13 +38,45 @@ local function setupBackground(self)
     table.insert(self._elements, background)
 end
 
+local function setupBackButton(self)
+    local backButtonHitbox = RenderModule:createElement(SceneData.backButtonHitbox)
+    local backButtonLabel = RenderModule:createElement(SceneData.backButtonLabel)
+
+    table.insert(self._elements, backButtonHitbox)
+    table.insert(self._elements, backButtonLabel)
+
+    local backButton = UIButtonObjectModule:createButton({
+        elements = {
+            backButtonHitbox,
+            backButtonLabel
+        },
+
+        hitboxElement = backButtonHitbox,
+
+        mouseButton = 1,
+        onClick = function()
+            ScreenTransitionModule:transition({
+                callback = function()
+                    SaveFilesModule.loadFile(SaveFilesScene.selectedSlot)
+                    UISceneHandlerModule:switch("game")
+                end
+            })
+        end
+    })
+
+    table.insert(self._objects, backButton)
+end
+
 function Module:update(deltaTime)
 end
 
-function Module:init()
-    UISharedFunctions:setupSettingsButton(self)
+function Module:init()    
     MusicHandlerModule:playTrack("upgradeShop")
 
+    UISharedFunctions:setupSidebarBackground(self)
+    UISharedFunctions:setupSettingsButton(self)
+
+    setupBackButton(self)
     setupBackground(self)
 end
 
