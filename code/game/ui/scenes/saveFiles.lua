@@ -23,7 +23,7 @@ Module._elements = {}
 Module._objects = {}
 Module._boxes = {}
 
-Module.selectedSlot = 0
+_G.SaveFilesSelectedSlot = 0
 Module.name = "saveFiles"
 
 local SceneData = UIData[Module.name]
@@ -42,7 +42,7 @@ function Module:clean()
 end
 
 local function startGame(save)
-    Module.selectedSlot = save.slot
+    _G.SaveFilesSelectedSlot = save.slot
 
     SaveFilesModule.loadFile(save.slot)
     UISceneHandlerModule:switch("game")

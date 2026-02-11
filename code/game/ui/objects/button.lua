@@ -1,6 +1,7 @@
 -- ~/code/game/ui/objects/button.lua
 
 local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+local RenderModule = require("code.engine.render")
 
 local IdManagerModule = require("code.engine.idManager")
 local SoundModule = require("code.engine.sound")
@@ -21,7 +22,11 @@ local Button = {
     onClick = nil,
 
     _clickScale = .1,
-    _scaleSpeed = .5
+    _hoverScale = .05,
+    
+    _scaleSpeed = .5,
+
+    _isHovered = false
 }
 Button.__index = Button
 
@@ -43,8 +48,8 @@ function Button:mousePressed(x, y, mouseButton)
     self.lastUsed = love.timer.getTime()
 
     for _, element in pairs(self.elements) do
-        if not element._baseScaleX then element._baseScaleX = element._baseScaleX or (element.scaleX or 1) end
-        if not element._baseScaleY then element._baseScaleY = element._baseScaleY or (element.scaleY or 1) end
+        element._baseScaleX = element._baseScaleX or (element.scaleX or 1)
+        element._baseScaleY = element._baseScaleY or (element.scaleY or 1)
 
         element.scaleX = element._baseScaleX - self._clickScale
         element.scaleY = element._baseScaleY - self._clickScale
@@ -67,16 +72,23 @@ end
 function Button:update(deltaTime)
     if not self.hitboxElement then self:remove() return end
 
+    local mouseX, mouseY = RenderModule:getMousePos()
+    self._isHovered = self.hitboxElement:isPointInside(mouseX, mouseY)
+
     for _, element in pairs(self.elements) do
         element._baseScaleX = element._baseScaleX or (element.scaleX or 1)
         element._baseScaleY = element._baseScaleY or (element.scaleY or 1)
 
-        if element.scaleX < element._baseScaleX then
-            element.scaleX = math.min(element.scaleX + self._scaleSpeed * deltaTime, element._baseScaleX)
+        local targetScaleX = element._baseScaleX
+        local targetScaleY = element._baseScaleY
+
+        if self._isHovered then
+            targetScaleX = targetScaleX + self._hoverScale
+            targetScaleY = targetScaleY + self._hoverScale
         end
-        if element.scaleY < element._baseScaleY then
-            element.scaleY = math.min(element.scaleY + self._scaleSpeed * deltaTime, element._baseScaleY)
-        end
+
+        element.scaleX = element.scaleX + (targetScaleX - element.scaleX) * math.min(1, self._scaleSpeed * deltaTime * 10)
+        element.scaleY = element.scaleY + (targetScaleY - element.scaleY) * math.min(1, self._scaleSpeed * deltaTime * 10)
     end
 end
 
@@ -101,6 +113,8 @@ function Module:createButton(data)
         onClick = data.onClick or nil,
 
         _clickScale = data.clickScale or .1,
+        _hoverScale = data.hoverScale or .05,
+        
         _scaleSpeed = data.scaleSpeed or .5
     }, Button)
 

@@ -76,15 +76,34 @@ return {
             color = RenderModule:createColor(117, 124, 136),
             zIndex = 1004
         },
-
-        upgradeShopButtonHitbox = {
+                upgradeShopButtonHitbox = {
             spritePath = "assets/sprites/ui/buttoncart74x74.png",
             type = "sprite",
-            x = CONSTANTS.SPAWN_BUTTON_X - 60,
+            x = CONSTANTS.SPAWN_BUTTON_X - 75,
             y = CONSTANTS.SPAWN_BUTTON_Y + 75,
             scaleX = .75,
             scaleY = .75,
-            color = RenderModule:createColor(117, 124, 136),
+            color = RenderModule:createColor(110, 153, 202),
+            zIndex = 1004
+        },
+        blackMarketButtonHitbox = {
+            spritePath = "assets/sprites/ui/buttonbm74x74.png",
+            type = "sprite",
+            x = CONSTANTS.SPAWN_BUTTON_X,
+            y = CONSTANTS.SPAWN_BUTTON_Y + 75,
+            scaleX = .75,
+            scaleY = .75,
+            color = RenderModule:createColor(248, 217, 109),
+            zIndex = 1004
+        },
+        sacraficeButtonHitbox = {
+            spritePath = "assets/sprites/ui/buttonsac74x74.png",
+            type = "sprite",
+            x = CONSTANTS.SPAWN_BUTTON_X + 75,
+            y = CONSTANTS.SPAWN_BUTTON_Y + 75,
+            scaleX = .75,
+            scaleY = .75,
+            color = RenderModule:createColor(204, 49, 61),
             zIndex = 1004
         }
     },
@@ -358,25 +377,46 @@ return {
             type = "sprite",
             scaleX = 2,
             scaleY = 2,
+            x = 300,
+            y = 300,
             zIndex = 2
-        },
-        backButtonHitbox = {
-            spritePath = CONSTANTS.DEFAULT_BUTTON_PATH,
+        }
+    },
+    blackMarket = {
+        background = {
+            spritePath = "assets/sprites/backgrounds/menubg.png",
             type = "sprite",
-            x = CONSTANTS.SPAWN_BUTTON_X,
-            y = CONSTANTS.SPAWN_BUTTON_Y + 50,
-            color = RenderModule:createColor(204, 49, 61),
-            zIndex = 1001
+            anchorX = 0,
+            anchorY = 0,
+            zIndex = 1
         },
-        backButtonLabel = {
-            text = "Back",
-            type = "text",
-            x = CONSTANTS.SPAWN_BUTTON_X,
-            y = CONSTANTS.SPAWN_BUTTON_Y + 50,
-            color = RenderModule:createColor(255, 255, 255),
-            font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 28),
-            zIndex = 1002
+        shopkeeper = {
+            spritePath = "assets/sprites/boxes/box10.png",
+            type = "sprite",
+            scaleX = 2,
+            scaleY = 2,
+            x = 300,
+            y = 300,
+            zIndex = 2
+        }
+    },
+    sacrafice = {
+        background = {
+            spritePath = "assets/sprites/backgrounds/menubg.png",
+            type = "sprite",
+            anchorX = 0,
+            anchorY = 0,
+            zIndex = 1
         },
+        shopkeeper = {
+            spritePath = "assets/sprites/boxes/boxgodhappy.png",
+            type = "sprite",
+            scaleX = 2,
+            scaleY = 2,
+            x = 300,
+            y = 300,
+            zIndex = 2
+        }
     },
 
     shared = {
@@ -402,5 +442,22 @@ return {
             color = RenderModule:createColor(42, 42, 42),
             zIndex = 1000
         },
+        shopBackButtonHitbox = {
+            spritePath = CONSTANTS.DEFAULT_BUTTON_PATH,
+            type = "sprite",
+            x = CONSTANTS.SPAWN_BUTTON_X,
+            y = CONSTANTS.SPAWN_BUTTON_Y + 65,
+            color = RenderModule:createColor(204, 49, 61),
+            zIndex = 1001
+        },
+        shopBackButtonLabel = {
+            text = "Back",
+            type = "text",
+            x = CONSTANTS.SPAWN_BUTTON_X,
+            y = CONSTANTS.SPAWN_BUTTON_Y + 65,
+            color = RenderModule:createColor(255, 255, 255),
+            font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 28),
+            zIndex = 1002
+        }
     }
 }

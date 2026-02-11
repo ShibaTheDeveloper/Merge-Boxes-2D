@@ -1,4 +1,4 @@
--- ~/code/game/ui/scenes/upgradeShop.lua
+-- ~/code/game/ui/scenes/sacrafice.lua
 
 local ScreenTransitionModule = require("code.game.vfx.screenTransition")
 local MusicHandlerModule = require("code.game.musicHandler")
@@ -14,7 +14,7 @@ local UIData = require("code.data.ui")
 local Module = {}
 Module._elements = {}
 Module._objects = {}
-Module.name = "upgradeShop"
+Module.name = "sacrafice"
 
 local SceneData = UIData[Module.name]
 
@@ -44,8 +44,8 @@ end
 function Module:update(deltaTime)
 end
 
-function Module:init()    
-    MusicHandlerModule:playTrack("upgradeShop")
+function Module:init()
+    MusicHandlerModule:playTrack("sacrafice")
 
     UISharedFunctions:setupSidebarBackground(self)
     UISharedFunctions:setupSettingsButton(self)

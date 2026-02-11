@@ -122,6 +122,7 @@ function Module:mergeUpdate(deltaTime)
                 end
             end
 
+            SaveFilesModule.setHighestBoxTier()
             table.remove(self._activeMerges, i)
         end
 

@@ -117,6 +117,25 @@ local function mergeDefaults(targetData, defaultData)
     end
 end
 
+function Module.setHighestBoxTier()
+    local highestTier = 0
+    for _, box in pairs(BoxesObjectModule:getSortedArray()) do
+        table.insert(Module.loadedFile.boxes, {
+            velocityX = box.velocityX,
+            velocityY = box.velocityY,
+
+            rotation = box.element.rotation,
+            x = box.element.x,
+            y = box.element.y,
+            tier = box.tier
+        })
+
+        if box.tier > highestTier then highestTier = box.tier end
+    end
+
+    Module.loadedFile.stats.highestBoxTier = highestTier 
+end
+
 function Module.saveFile(slot)
     Module.loadedFile.boxes = {}
 

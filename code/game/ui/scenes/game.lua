@@ -93,30 +93,6 @@ local function setupBackToMenuButton(self)
     table.insert(self._objects, backToMenuButton)
 end
 
-local function setupUpgradeShopButton(self)
-    local upgradeShopButtonHitbox = RenderModule:createElement(SceneData.upgradeShopButtonHitbox)
-    table.insert(self._elements, upgradeShopButtonHitbox)
-
-    local upgradeShopButton = UIButtonObjectModule:createButton({
-        elements = {
-            upgradeShopButtonHitbox,
-        },
-
-        hitboxElement = upgradeShopButtonHitbox,
-
-        mouseButton = 1,
-        onClick = function()
-            ScreenTransitionModule:transition({
-                callback = function()
-                    UISceneHandlerModule:switch("upgradeShop")
-                end
-            })
-        end
-    })
-
-    table.insert(self._objects, upgradeShopButton)
-end
-
 local function setupSpawnButton(self)
     spawnButtonHitbox = RenderModule:createElement(SceneData.spawnButtonHitbox)
     spawnButtonLabel = RenderModule:createElement(SceneData.spawnButtonLabel)
@@ -139,6 +115,84 @@ local function setupSpawnButton(self)
     })
 
     table.insert(self._objects, spawnButton)
+end
+
+local function setupUpgradeShopButton(scene)
+    local upgradeShopButtonHitbox = RenderModule:createElement(SceneData.upgradeShopButtonHitbox)
+    table.insert(scene._elements, upgradeShopButtonHitbox)
+
+    local upgradeShopButton = UIButtonObjectModule:createButton({
+        elements = {
+            upgradeShopButtonHitbox,
+        },
+
+        hitboxElement = upgradeShopButtonHitbox,
+
+        mouseButton = 1,
+        onClick = function()
+            if SaveFilesModule.loadedFile.stats.highestBoxTier < 5 then return end
+
+            ScreenTransitionModule:transition({
+                callback = function()
+                    UISceneHandlerModule:switch("upgradeShop")
+                end
+            })
+        end
+    })
+
+    table.insert(scene._objects, upgradeShopButton)
+end
+
+local function setupBlackMarketButton(scene)
+    local blackMarketButtonHitbox = RenderModule:createElement(SceneData.blackMarketButtonHitbox)
+    table.insert(scene._elements, blackMarketButtonHitbox)
+
+    local blackMarketButton = UIButtonObjectModule:createButton({
+        elements = {
+            blackMarketButtonHitbox,
+        },
+
+        hitboxElement = blackMarketButtonHitbox,
+
+        mouseButton = 1,
+        onClick = function()
+            if SaveFilesModule.loadedFile.stats.highestBoxTier < 10 then return end
+
+            ScreenTransitionModule:transition({
+                callback = function()
+                    UISceneHandlerModule:switch("blackMarket")
+                end
+            })
+        end
+    })
+
+    table.insert(scene._objects, blackMarketButton)
+end
+
+local function setupSacraficeButton(scene)
+    local sacraficeButtonHitbox = RenderModule:createElement(SceneData.sacraficeButtonHitbox)
+    table.insert(scene._elements, sacraficeButtonHitbox)
+
+    local sacraficeButton = UIButtonObjectModule:createButton({
+        elements = {
+            sacraficeButtonHitbox,
+        },
+
+        hitboxElement = sacraficeButtonHitbox,
+
+        mouseButton = 1,
+        onClick = function()
+            if SaveFilesModule.loadedFile.stats.highestBoxTier < 20 then return end
+
+            ScreenTransitionModule:transition({
+                callback = function()
+                    UISceneHandlerModule:switch("sacrafice")
+                end
+            })
+        end
+    })
+
+    table.insert(scene._objects, sacraficeButton)
 end
 
 function Module:update()
@@ -169,10 +223,12 @@ function Module:init()
 
     UISharedFunctions:setupSidebarBackground(self)
     UISharedFunctions:setupSettingsButton(self)
-
+    
     setupSessionPlaytimeLabel(self)
     setupUpgradeShopButton(self)
+    setupBlackMarketButton(self)
     setupBackToMenuButton(self)
+    setupSacraficeButton(self)
     setupCreditsLabel(self)
     setupSpawnButton(self)
     setupBackground(self)

@@ -5,6 +5,7 @@ local ScreenTransitionModule = require("code.game.vfx.screenTransition")
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 
+local SaveFilesModule = require("code.engine.saveFiles")
 local RenderModule = require("code.engine.render")
 
 local UIData = require("code.data.ui")
@@ -40,6 +41,35 @@ end
 function Module:setupSidebarBackground(scene)
     local sidebarBackground = RenderModule:createElement(UIData.shared.sidebarBackground)
     table.insert(scene._elements, sidebarBackground)
+end
+
+function Module:setupShopBackButton(self)
+    local shopBackButtonHitbox = RenderModule:createElement(UIData.shared.shopBackButtonHitbox)
+    local shopBackButtonLabel = RenderModule:createElement(UIData.shared.shopBackButtonLabel)
+
+    table.insert(self._elements, shopBackButtonHitbox)
+    table.insert(self._elements, shopBackButtonLabel)
+
+    local shopBackButton = UIButtonObjectModule:createButton({
+        elements = {
+            shopBackButtonHitbox,
+            shopBackButtonLabel
+        },
+
+        hitboxElement = shopBackButtonHitbox,
+
+        mouseButton = 1,
+        onClick = function()
+            ScreenTransitionModule:transition({
+                callback = function()
+                    SaveFilesModule.loadFile(_G.SaveFilesSelectedSlot)
+                    UISceneHandlerModule:switch("game")
+                end
+            })
+        end
+    })
+
+    table.insert(self._objects, shopBackButton)
 end
 
 return Module
