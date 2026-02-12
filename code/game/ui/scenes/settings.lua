@@ -6,7 +6,6 @@ local MusicHandlerModule = require("code.game.musicHandler")
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 
-local SaveFilesModule = require("code.engine.saveFiles")
 local RenderModule = require("code.engine.render")
 
 local UIData = require("code.data.ui")
@@ -56,7 +55,7 @@ local function setupBackButton(self)
             ScreenTransitionModule:transition({
                 callback = function()
                     if UISceneHandlerModule.lastScene.name == "game" then
-                        SaveFilesModule.loadFile(_G.SaveFilesSelectedSlot)
+                        
                     end
 
                     UISceneHandlerModule:switch(UISceneHandlerModule.lastScene.name)

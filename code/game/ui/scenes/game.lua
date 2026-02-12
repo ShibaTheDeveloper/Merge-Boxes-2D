@@ -12,7 +12,7 @@ local UISharedFunctions = require("code.game.ui.shared")
 local BoxesObjectModule = require("code.game.box.object")
 local BoxFactoryModule = require("code.game.box.factory")
 
-local SaveFilesModule = require("code.engine.saveFiles")
+local SaveFilesModule = require("code.engine.saves.files")
 local RenderModule = require("code.engine.render")
 local extra = require("code.engine.extra")
 
@@ -25,14 +25,15 @@ Module.name = "game"
 
 local SceneData = UIData[Module.name]
 
-local playtimeAtSessionStart = 0
-
 local spawnButtonHitbox = nil
 local spawnButtonLabel = nil
 local spawnButton = nil
 
 local sessionPlaytimeLabel = nil
 local creditsLabel = nil
+
+local keepSessionPlaytime = false
+local backButtonClicked = false
 
 function Module:clean()
     for _, element in pairs(self._elements) do
@@ -46,7 +47,9 @@ function Module:clean()
     self._elements = {}
     self._objects = {}
 
-    SaveFilesModule.saveFile(SaveFilesModule.loadedFile.slot)
+    if not backButtonClicked then
+        SaveFilesModule:saveFile(SaveFilesModule.loadedFile)
+    end
 
     BoxesObjectModule:clearBoxes()
     ScreenFlashModule:stop()
@@ -63,13 +66,17 @@ local function setupCreditsLabel(self)
 end
 
 local function setupSessionPlaytimeLabel(self)
-    playtimeAtSessionStart = SaveFilesModule.loadedFile.stats.playtime
+    if not keepSessionPlaytime then
+        SaveFilesModule.loadedFile.stats.playtimeAtSessionStart = SaveFilesModule.loadedFile.stats.playtime
+    end
 
     sessionPlaytimeLabel = RenderModule:createElement(SceneData.sessionPlaytimeLabel)
     table.insert(self._elements, sessionPlaytimeLabel)
 end
 
 local function setupBackToMenuButton(self)
+    backButtonClicked = false
+
     local backToMenuButtonHitbox = RenderModule:createElement(SceneData.backToMenuButtonHitbox)
     table.insert(self._elements, backToMenuButtonHitbox)
 
@@ -82,8 +89,11 @@ local function setupBackToMenuButton(self)
 
         mouseButton = 1,
         onClick = function()
+            backButtonClicked = true
+
             ScreenTransitionModule:transition({
                 callback = function()
+                    SaveFilesModule:unloadFile(SaveFilesModule.loadedFile)
                     UISceneHandlerModule:switch("saveFiles")
                 end
             })
@@ -199,27 +209,31 @@ function Module:update()
     MusicHandlerModule:update()
 
     if sessionPlaytimeLabel then
-        sessionPlaytimeLabel.text = "Session Time: " .. extra.formatTime(SaveFilesModule.loadedFile.stats.playtime - playtimeAtSessionStart)
+        sessionPlaytimeLabel.text = "Session Time: " .. extra.formatTime(SaveFilesModule.loadedFile.stats.playtime - SaveFilesModule.loadedFile.stats.playtimeAtSessionStart)
     end
 
     if creditsLabel then
-        creditsLabel.text = SaveFilesModule.loadedFile.stats.credits .. " C$"
+        creditsLabel.text = SaveFilesModule.loadedFile.currencies.credits .. " C$"
     end
 
     if spawnButtonHitbox and spawnButtonLabel and spawnButton then
-        spawnButton.cooldown = SaveFilesModule.loadedFile.stats.spawnCooldown
+        spawnButton.cooldown = SaveFilesModule.loadedFile.stats.boxSpawnCooldown
 
         local time = (love.timer.getTime() - BoxFactoryModule.lastSpawned)
-        local timeLeft = SaveFilesModule.loadedFile.stats.spawnCooldown - time
+        local timeLeft = SaveFilesModule.loadedFile.stats.boxSpawnCooldown - time
         
-        local onCooldown = time <= SaveFilesModule.loadedFile.stats.spawnCooldown
+        local onCooldown = time <= SaveFilesModule.loadedFile.stats.boxSpawnCooldown
 
         spawnButtonLabel.text =  (onCooldown and string.format("%.1f", timeLeft) .. "s" or SceneData.spawnButtonLabel.text)
     end
 end
 
-function Module:init()
+function Module:init(slot, keepSessionPlaytimeValue)
+    SaveFilesModule:loadFile(slot)
+
     MusicHandlerModule:stopTrack(MusicHandlerModule.playingTrack)
+
+    keepSessionPlaytime = keepSessionPlaytimeValue
 
     UISharedFunctions:setupSidebarBackground(self)
     UISharedFunctions:setupSettingsButton(self)

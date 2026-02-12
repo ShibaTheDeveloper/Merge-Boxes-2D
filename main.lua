@@ -5,11 +5,9 @@ local BoxHandlerModule = require("code.game.box.handler")
 local VFXHandlerModule = require("code.game.vfx.handler")
 local UIHandlerModule = require("code.game.ui.handler")
 
-local SaveFilesModule = require("code.engine.saveFiles")
+local SaveFilesModule = require("code.engine.saves.files")
 local RenderModule = require("code.engine.render")
 local SoundModule = require("code.engine.sound")
-
-SaveFilesModule.init()
 
 MusicHandlerModule.init()
 VFXHandlerModule.init()
@@ -19,6 +17,7 @@ function love.update(deltaTime)
     BoxHandlerModule:update(deltaTime)
     VFXHandlerModule:update(deltaTime)
     UIHandlerModule:update(deltaTime)
+
     SaveFilesModule:update(deltaTime)
     SoundModule:update()
 end
@@ -42,5 +41,8 @@ end
 
 function love.quit()
     love.window.setFullscreen(false)
-    SaveFilesModule.quit()
+
+    if SaveFilesModule.loadedFile then
+        SaveFilesModule:unloadFile(SaveFilesModule.loadedFile)
+    end
 end

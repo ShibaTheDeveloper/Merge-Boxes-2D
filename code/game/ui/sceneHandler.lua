@@ -18,7 +18,7 @@ function Module:update(deltaTime)
     end
 end
 
-function Module:switch(name)
+function Module:switch(name, ...)
     if not sceneExists(name) then return end
 
     self.lastScene = self.currentScene
@@ -28,7 +28,7 @@ function Module:switch(name)
     end
 
     local scene = require("code.game.ui.scenes." .. name)
-    scene:init()
+    scene:init(...)
 
     self.currentScene = scene
 end

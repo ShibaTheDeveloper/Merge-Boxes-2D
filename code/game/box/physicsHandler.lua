@@ -81,13 +81,14 @@ function Module:update(deltaTime)
     end
 
     local boxesArray = BoxesObjectModule:getSortedArray()
-    for _, box in pairs(boxesArray) do
+    local boxesCount = #boxesArray
+
+    for index = 1, boxesCount do
+        local box = boxesArray[index]
         if box.merging then goto continue end
 
         changePosition(box, deltaTime)
-
         applyFriction(box, deltaTime)
-
         edgeBounceLR(box)
         edgeBounceUD(box)
 

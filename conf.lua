@@ -3,6 +3,8 @@
 math.randomseed(os.time())
 math.random()
 
+_G.SAWE_FILE_ENCRYPTION_KEY = "Next Update: Femboys"
+
 _G.WINDOW_WIDTH = 800
 _G.WINDOW_HEIGHT = 600
 

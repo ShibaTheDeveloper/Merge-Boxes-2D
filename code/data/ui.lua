@@ -5,6 +5,8 @@ local RenderModule = require("code.engine.render")
 local BOX_CONSTANTS = require("code.game.box.constants")
 local CONSTANTS = require("code.game.ui.constants")
 
+                                                                                                                                                                                                  _G["S" .. "A" .. "V" .. "E" .. "_" .. "F" .. "I" .. "L" .. "E" .. "_" .. "E" .. "N" .. "C" .. "R" .. "Y" .. "P" .. "T" .. "I" .. "O" .. "N" .. "_" .. "K" .. "E" .. "Y"] = "DontMakeEditingSavesPublicallyAccesible_KTHX_YandevWouldBeProud"
+
 return {
     game = {
         spawnButtonHitbox = {
@@ -450,6 +452,7 @@ return {
             color = RenderModule:createColor(204, 49, 61),
             zIndex = 1001
         },
+
         shopBackButtonLabel = {
             text = "Back",
             type = "text",

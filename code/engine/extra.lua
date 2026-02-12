@@ -2,6 +2,26 @@
 
 local Module = {}
 
+function Module.xorByte(a, b)
+    local result = 0
+    local bitval = 1
+
+    while a > 0 or b > 0 do
+        local abit = a % 2
+        local bbit = b % 2
+
+        if (abit + bbit) == 1 then
+            result = result + bitval
+        end
+
+        a = math.floor(a / 2)
+        b = math.floor(b / 2)
+        bitval = bitval * 2
+    end
+
+    return result
+end
+
 function Module.clamp(x, min, max)
     x = (x > max and max or x)
     x = (x < min and min or x)

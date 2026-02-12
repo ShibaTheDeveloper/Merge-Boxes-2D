@@ -16,27 +16,23 @@ function Module:update()
     local mouseDown = love.mouse.isDown(1)
     local mouseX, mouseY = RenderModule:getMousePos()
 
-    if mouseDown and not self.draggedBox then
-        local boxesArray = BoxesObjectModule:getSortedArray()
-        local success = false
+    local boxesArray = BoxesObjectModule:getSortedArray()
 
-        for _, box in pairs(boxesArray) do
+    if mouseDown and not self.draggedBox then
+        for index = 1, #boxesArray do
+            local box = boxesArray[index]
             box.element.zIndex = CONSTANTS.BASE_BOX_ZINDEX
 
-            if not box.element:isPointInside(mouseX, mouseY) then goto continue end
+            if box.element:isPointInside(mouseX, mouseY) then
+                self.draggedBox = box
+                self.draggedBox.dragging = true
 
-            success = true
+                lastDraggedBoxAlpha = box.element.color.alpha
+                box.element.color.alpha = CONSTANTS.DRAGGED_BOX_ALPHA
 
-            self.draggedBox = box
-            self.draggedBox.dragging = true
-
-            lastDraggedBoxAlpha = self.draggedBox.element.color.alpha
-            self.draggedBox.element.color.alpha = CONSTANTS.DRAGGED_BOX_ALPHA
-
-            self.draggedBox.element.zIndex = CONSTANTS.BASE_BOX_ZINDEX + 2
-
-            if success then break end
-            :: continue ::
+                box.element.zIndex = CONSTANTS.BASE_BOX_ZINDEX + 2
+                break
+            end
         end
     elseif not mouseDown and self.draggedBox then
         self.draggedBox.element.color.alpha = lastDraggedBoxAlpha

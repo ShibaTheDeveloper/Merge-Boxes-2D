@@ -5,7 +5,7 @@ local ScreenTransitionModule = require("code.game.vfx.screenTransition")
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 
-local SaveFilesModule = require("code.engine.saveFiles")
+local SaveFilesModule = require("code.engine.saves.files")
 local RenderModule = require("code.engine.render")
 
 local UIData = require("code.data.ui")
@@ -62,8 +62,7 @@ function Module:setupShopBackButton(self)
         onClick = function()
             ScreenTransitionModule:transition({
                 callback = function()
-                    SaveFilesModule.loadFile(_G.SaveFilesSelectedSlot)
-                    UISceneHandlerModule:switch("game")
+                    UISceneHandlerModule:switch("game", SaveFilesModule.loadedFile.slot, true)
                 end
             })
         end

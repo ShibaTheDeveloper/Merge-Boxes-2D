@@ -3,7 +3,7 @@
 local ScreenFlashModule = require("code.game.vfx.screenFlash")
 local BoxesObjectModule = require("code.game.box.object")
 
-local SaveFilesModule = require("code.engine.saveFiles")
+local SaveFilesModule = require("code.engine.saves.files")
 local SoundModule = require("code.engine.sound")
 local extra = require("code.engine.extra")
 
@@ -91,7 +91,9 @@ function Module:mergeUpdate(deltaTime)
             local newBox = BoxesObjectModule:createBox(newBoxData)
 
             if newBox then
-                SaveFilesModule.loadedFile.stats.credits = SaveFilesModule.loadedFile.stats.credits + newBox.mergeReward
+                if SaveFilesModule.loadedFile.stats.highestBoxTier < newBoxTier then
+                    SaveFilesModule.loadedFile.stats.highestBoxTier = newBoxTier
+                end
 
                 newBox.element.x, newBox.element.y = merge.middleX, merge.middleY
 
@@ -122,7 +124,6 @@ function Module:mergeUpdate(deltaTime)
                 end
             end
 
-            SaveFilesModule.setHighestBoxTier()
             table.remove(self._activeMerges, i)
         end
 
@@ -140,11 +141,15 @@ end
 function Module:checkMerges()
     --%note TODO: optimize this with quadtrees
     local boxesArray = BoxesObjectModule:getSortedArray()
+    local boxesCount = #boxesArray
 
-    for _, boxA in pairs(boxesArray) do
+    for indexA = 1, boxesCount do
+        local boxA = boxesArray[indexA]
         if boxA.merging then goto continue end
 
-        for _, boxB in pairs(boxesArray) do
+        for indexB = 1, boxesCount do
+            local boxB = boxesArray[indexB]
+
             if boxA.merging or boxB.merging then goto continue end
             if boxA.tier ~= boxB.tier then goto continue end
             if boxA == boxB then goto continue end
