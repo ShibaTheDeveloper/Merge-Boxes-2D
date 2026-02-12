@@ -79,7 +79,7 @@ function Module:encode(file)
 
         self:encodeBoxes(file.boxes)
     )
-    print(finalOutput)
+
     finalOutput = encryptBase64(finalOutput)
     finalOutput = encryptWithKey(finalOutput)
 

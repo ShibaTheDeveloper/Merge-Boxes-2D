@@ -14,7 +14,6 @@ local BoxFactoryModule = require("code.game.box.factory")
 
 local SaveFilesModule = require("code.engine.saves.files")
 local RenderModule = require("code.engine.render")
-local extra = require("code.engine.extra")
 
 local UIData = require("code.data.ui")
 
@@ -29,11 +28,10 @@ local spawnButtonHitbox = nil
 local spawnButtonLabel = nil
 local spawnButton = nil
 
-local sessionPlaytimeLabel = nil
-local creditsLabel = nil
-
-local keepSessionPlaytime = false
 local backButtonClicked = false
+
+local sessionPlaytimeLabelUpdateFunction = nil
+local creditsLabelUpdateFunction = nil
 
 function Module:clean()
     for _, element in pairs(self._elements) do
@@ -58,20 +56,6 @@ end
 local function setupBackground(self)
     local playAreaBackground = RenderModule:createElement(SceneData.playAreaBackground)
     table.insert(self._elements, playAreaBackground)
-end
-
-local function setupCreditsLabel(self)
-    creditsLabel = RenderModule:createElement(SceneData.creditsLabel)
-    table.insert(self._elements, creditsLabel)
-end
-
-local function setupSessionPlaytimeLabel(self)
-    if not keepSessionPlaytime then
-        SaveFilesModule.loadedFile.stats.playtimeAtSessionStart = SaveFilesModule.loadedFile.stats.playtime
-    end
-
-    sessionPlaytimeLabel = RenderModule:createElement(SceneData.sessionPlaytimeLabel)
-    table.insert(self._elements, sessionPlaytimeLabel)
 end
 
 local function setupBackToMenuButton(self)
@@ -208,12 +192,12 @@ end
 function Module:update()
     MusicHandlerModule:update()
 
-    if sessionPlaytimeLabel then
-        sessionPlaytimeLabel.text = "Session Time: " .. extra.formatTime(SaveFilesModule.loadedFile.stats.playtime - SaveFilesModule.loadedFile.stats.playtimeAtSessionStart)
+    if creditsLabelUpdateFunction then
+        creditsLabelUpdateFunction()
     end
 
-    if creditsLabel then
-        creditsLabel.text = SaveFilesModule.loadedFile.currencies.credits .. " C$"
+    if sessionPlaytimeLabelUpdateFunction then
+        sessionPlaytimeLabelUpdateFunction()
     end
 
     if spawnButtonHitbox and spawnButtonLabel and spawnButton then
@@ -228,22 +212,21 @@ function Module:update()
     end
 end
 
-function Module:init(slot, keepSessionPlaytimeValue)
+function Module:init(slot, keepSessionPlaytime)
     SaveFilesModule:loadFile(slot)
 
     MusicHandlerModule:stopTrack(MusicHandlerModule.playingTrack)
 
-    keepSessionPlaytime = keepSessionPlaytimeValue
-
     UISharedFunctions:setupSidebarBackground(self)
     UISharedFunctions:setupSettingsButton(self)
-    
-    setupSessionPlaytimeLabel(self)
+
+    sessionPlaytimeLabelUpdateFunction = UISharedFunctions:setupSessionPlaytimeLabel(self, keepSessionPlaytime)
+    creditsLabelUpdateFunction = UISharedFunctions:setupCreditsLabel(self)
+
     setupUpgradeShopButton(self)
     setupBlackMarketButton(self)
     setupBackToMenuButton(self)
     setupSacraficeButton(self)
-    setupCreditsLabel(self)
     setupSpawnButton(self)
     setupBackground(self)
 end

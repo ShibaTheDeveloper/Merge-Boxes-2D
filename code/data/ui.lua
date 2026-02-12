@@ -35,39 +35,6 @@ return {
             anchorY = 0,
             zIndex = 1
         },
-
-        sessionPlaytimeLabel = {
-            text = "Session Time: ",
-            type = "text",
-
-            font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 20),
-
-            anchorX = 0,
-            anchorY = 0,
-
-            x = 5,
-            y = 5,
-
-            zIndex = 1003,
-        },
-
-        creditsLabel = {
-            text = "Credits:",
-            type = "text",
-
-            font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 20),
-
-            anchorX = 0,
-            anchorY = 0,
-
-            x = 5,
-            y = 5 + 20,
-
-            color = RenderModule:createColor(255, 200, 0),
-
-            zIndex = 1003,
-        },
-
         backToMenuButtonHitbox = {
             spritePath = "assets/sprites/ui/buttonmenu74x74.png",
             type = "sprite",
@@ -111,27 +78,6 @@ return {
     },
 
     mainMenu = {
-        textBoxHitbox = {
-            spritePath = CONSTANTS.DEFAULT_BUTTON_PATH,
-            type = "sprite",
-
-            x = 650,
-            y = 300,
-
-            zIndex = 999999
-        },
-
-        textBoxField = {
-            text = "placeholder lmao",
-            type = "text",
-
-            x = 650,
-            y = 300,
-
-            color = RenderModule:createColor(117, 124, 136),
-            zIndex = 999999
-        },
-
         background = {
             spritePath = "assets/sprites/backgrounds/menubg.png",
             type = "sprite",
@@ -452,7 +398,6 @@ return {
             color = RenderModule:createColor(204, 49, 61),
             zIndex = 1001
         },
-
         shopBackButtonLabel = {
             text = "Back",
             type = "text",
@@ -461,6 +406,36 @@ return {
             color = RenderModule:createColor(255, 255, 255),
             font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 28),
             zIndex = 1002
-        }
+        },
+        creditsLabel = {
+            text = "Credits:",
+            type = "text",
+
+            font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 20),
+
+            anchorX = 0,
+            anchorY = 0,
+
+            x = 5,
+            y = 5 + 20,
+
+            color = RenderModule:createColor(255, 200, 0),
+
+            zIndex = 1003,
+        },
+        sessionPlaytimeLabel = {
+            text = "Session Time: ",
+            type = "text",
+
+            font = love.graphics.newFont(CONSTANTS.STANBERRY_FONT_PATH, 20),
+
+            anchorX = 0,
+            anchorY = 0,
+
+            x = 5,
+            y = 5,
+
+            zIndex = 1003,
+        },
     }
 }

@@ -9,6 +9,7 @@ local extra = require("code.engine.extra")
 local CONSTANTS = require("code.engine.saves.constants")
 
 local Module = {}
+Module.lastSaveSlot = 1
 Module.loadedFile = nil
 
 function Module:update(deltaTime)
@@ -77,7 +78,9 @@ function Module:loadFile(slot)
 
     loadBoxes(decodedFile.boxes)
 
+    self.lastSaveSlot = decodedFile.slot
     self.loadedFile = decodedFile
+
     return decodedFile
 end
 
