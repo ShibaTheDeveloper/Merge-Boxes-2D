@@ -30,9 +30,6 @@ local spawnButton = nil
 
 local backButtonClicked = false
 
-local sessionPlaytimeLabelUpdateFunction = nil
-local creditsLabelUpdateFunction = nil
-
 function Module:clean()
     for _, element in pairs(self._elements) do
         element:remove()
@@ -47,9 +44,10 @@ function Module:clean()
 
     if not backButtonClicked then
         SaveFilesModule:saveFile(SaveFilesModule.loadedFile)
+    else
+        BoxesObjectModule:clearBoxes()
     end
 
-    BoxesObjectModule:clearBoxes()
     ScreenFlashModule:stop()
 end
 
@@ -61,7 +59,7 @@ end
 local function setupBackToMenuButton(self)
     backButtonClicked = false
 
-    local backToMenuButtonHitbox = RenderModule:createElement(SceneData.backToMenuButtonHitbox)
+    local backToMenuButtonHitbox = RenderModule:createElement(UIData.shared.backToMenuButtonHitbox)
     table.insert(self._elements, backToMenuButtonHitbox)
 
     local backToMenuButton = UIButtonObjectModule:createButton({
@@ -191,14 +189,7 @@ end
 
 function Module:update()
     MusicHandlerModule:update()
-
-    if creditsLabelUpdateFunction then
-        creditsLabelUpdateFunction()
-    end
-
-    if sessionPlaytimeLabelUpdateFunction then
-        sessionPlaytimeLabelUpdateFunction()
-    end
+    UISharedFunctions:update()
 
     if spawnButtonHitbox and spawnButtonLabel and spawnButton then
         spawnButton.cooldown = SaveFilesModule.loadedFile.stats.boxSpawnCooldown
@@ -212,16 +203,22 @@ function Module:update()
     end
 end
 
-function Module:init(slot, keepSessionPlaytime)
-    SaveFilesModule:loadFile(slot)
+function Module:init(slot)
+    if slot then
+        SaveFilesModule:loadFile(slot)
+
+        SaveFilesModule.loadedFile.stats.playtimeAtSessionStart = SaveFilesModule.loadedFile.stats.playtime
+    end
+
+    BoxesObjectModule.renderBoxes = true
 
     MusicHandlerModule:stopTrack(MusicHandlerModule.playingTrack)
 
     UISharedFunctions:setupSidebarBackground(self)
     UISharedFunctions:setupSettingsButton(self)
 
-    sessionPlaytimeLabelUpdateFunction = UISharedFunctions:setupSessionPlaytimeLabel(self, keepSessionPlaytime)
-    creditsLabelUpdateFunction = UISharedFunctions:setupCreditsLabel(self)
+    UISharedFunctions:setupSessionPlaytimeLabel(self)
+    UISharedFunctions:setupCreditsLabel(self)
 
     setupUpgradeShopButton(self)
     setupBlackMarketButton(self)

@@ -95,6 +95,8 @@ function Module:mergeUpdate(deltaTime)
                     SaveFilesModule.loadedFile.stats.highestBoxTier = newBoxTier
                 end
 
+                SaveFilesModule.loadedFile.currencies.credits = SaveFilesModule.loadedFile.currencies.credits + newBox.mergeReward
+
                 newBox.element.x, newBox.element.y = merge.middleX, merge.middleY
 
                 newBox.velocityX = (merge.boxA.velocityX + merge.boxB.velocityX) * CONSTANTS.ELASTICITY

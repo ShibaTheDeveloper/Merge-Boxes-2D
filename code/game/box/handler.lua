@@ -10,12 +10,15 @@ local BoxesObjectModule = require("code.game.box.object")
 local Module = {}
 
 function Module:update(deltaTime)
-    BoxPhysicsHandlerModule:update(deltaTime)
-    BoxMergeManagerModule:update(deltaTime)
-    BoxScaleTweenModule:update(deltaTime)
+    if BoxesObjectModule.renderBoxes then
+        BoxPhysicsHandlerModule:update(deltaTime)
+        BoxMergeManagerModule:update(deltaTime)
+        BoxScaleTweenModule:update(deltaTime)
+        BoxRotationHandlerModule:update()
+        BoxDragHandlerModule:update()
+    end
+
     BoxesObjectModule:update(deltaTime)
-    BoxRotationHandlerModule:update()
-    BoxDragHandlerModule:update()
 end
 
 return Module

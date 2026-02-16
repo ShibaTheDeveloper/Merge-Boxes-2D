@@ -7,6 +7,8 @@ local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 local UISharedFunctions = require("code.game.ui.shared")
 
+local BoxesObjectModule = require("code.game.box.object")
+
 local RenderModule = require("code.engine.render")
 
 local UIData = require("code.data.ui")
@@ -42,14 +44,22 @@ local function setupShopkeeper(self)
 end
 
 function Module:update(deltaTime)
+    UISharedFunctions:update()
 end
 
 function Module:init()    
     MusicHandlerModule:playTrack("blackMarket")
 
+    BoxesObjectModule.renderBoxes = false
+
     UISharedFunctions:setupSidebarBackground(self)
     UISharedFunctions:setupSettingsButton(self)
     UISharedFunctions:setupShopBackButton(self)
+
+    UISharedFunctions:setupSessionPlaytimeLabel(self)
+    UISharedFunctions:setupCreditsLabel(self)
+
+    UISharedFunctions:setupBackToMenuButton(self)
 
     setupBackground(self)
     setupShopkeeper(self)

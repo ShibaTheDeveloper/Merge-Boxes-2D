@@ -39,6 +39,7 @@ local Element = {
     rotation = 0,
 
     reflective = false,
+    render = true,
     flip = false
 }
 Element.__index = Element
@@ -153,8 +154,8 @@ function Module:createElement(data)
         text = data.text or "",
         font = data.font,
 
-        anchorX = data.anchorX or .5,
-        anchorY = data.anchorY or .5,
+        anchorX = data.anchorX or 0.5,
+        anchorY = data.anchorY or 0.5,
 
         offsetX = data.offsetX or 0,
         offsetY = data.offsetY or 0,
@@ -169,9 +170,10 @@ function Module:createElement(data)
         rotation = data.rotation or 0,
 
         reflectionPath = data.reflectionPath or "",
-        reflective = data.reflective or false,
+        reflective = (data.reflective ~= nil) and data.reflective or false,
 
-        flip = data.flip or false
+        render = (data.render ~= nil) and data.render or true,
+        flip = (data.flip ~= nil) and data.flip or false
     }, Element)
 
     self._elements[element.id] = element
@@ -239,6 +241,8 @@ function Module:drawAll()
     end)
 
     for _, element in ipairs(elementsArray) do
+        if not element.render then goto continue end
+
         local currentWindowWidth, currentWindowHeight = love.graphics.getDimensions()
         local baseWindowWidth, baseWindowHeight = _G.WINDOW_WIDTH, _G.WINDOW_HEIGHT
 
@@ -253,6 +257,8 @@ function Module:drawAll()
         element:draw(windowScaleFactor, windowOffsetX, windowOffsetY)
 
         love.graphics.setScissor()
+
+        :: continue ::
     end
 end
 
