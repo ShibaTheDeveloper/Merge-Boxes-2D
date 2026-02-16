@@ -1,0 +1,30 @@
+name: "Feature Request"
+description: "Suggest a new feature or improvement"
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What is your idea?
+      placeholder: Describe the feature or improvement you would like to see.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why should I add this?
+      placeholder: Explain the benefits or problems this feature solves.
+    validations:
+      required: true
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: What impact would this have?
+      options:
+        - label: Improves user experience
+        - label: Boosts performance
+        - label: Adds new functionality
+        - label: Other
+    validations:
+      required: true
