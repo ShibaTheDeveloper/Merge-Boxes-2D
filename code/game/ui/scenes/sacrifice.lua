@@ -1,4 +1,4 @@
--- ~/code/game/ui/scenes/sacrafice.lua
+-- ~/code/game/ui/scenes/sacrifice.lua
 
 local ScreenTransitionModule = require("code.game.vfx.screenTransition")
 local MusicHandlerModule = require("code.game.musicHandler")
@@ -16,7 +16,7 @@ local UIData = require("code.data.ui")
 local Module = {}
 Module._elements = {}
 Module._objects = {}
-Module.name = "sacrafice"
+Module.name = "sacrifice"
 
 local SceneData = UIData[Module.name]
 
@@ -48,7 +48,7 @@ function Module:update(deltaTime)
 end
 
 function Module:init()
-    MusicHandlerModule:playTrack("sacrafice")
+    MusicHandlerModule:playTrack("sacrifice")
 
     BoxesObjectModule.renderBoxes = false
 

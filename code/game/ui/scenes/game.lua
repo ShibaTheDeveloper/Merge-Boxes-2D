@@ -161,16 +161,16 @@ local function setupBlackMarketButton(scene)
     table.insert(scene._objects, blackMarketButton)
 end
 
-local function setupSacraficeButton(scene)
-    local sacraficeButtonHitbox = RenderModule:createElement(SceneData.sacraficeButtonHitbox)
-    table.insert(scene._elements, sacraficeButtonHitbox)
+local function setupsacrificeButton(scene)
+    local sacrificeButtonHitbox = RenderModule:createElement(SceneData.sacrificeButtonHitbox)
+    table.insert(scene._elements, sacrificeButtonHitbox)
 
-    local sacraficeButton = UIButtonObjectModule:createButton({
+    local sacrificeButton = UIButtonObjectModule:createButton({
         elements = {
-            sacraficeButtonHitbox,
+            sacrificeButtonHitbox,
         },
 
-        hitboxElement = sacraficeButtonHitbox,
+        hitboxElement = sacrificeButtonHitbox,
 
         mouseButton = 1,
         onClick = function()
@@ -178,13 +178,13 @@ local function setupSacraficeButton(scene)
 
             ScreenTransitionModule:transition({
                 callback = function()
-                    UISceneHandlerModule:switch("sacrafice")
+                    UISceneHandlerModule:switch("sacrifice")
                 end
             })
         end
     })
 
-    table.insert(scene._objects, sacraficeButton)
+    table.insert(scene._objects, sacrificeButton)
 end
 
 function Module:update()
@@ -223,7 +223,7 @@ function Module:init(slot)
     setupUpgradeShopButton(self)
     setupBlackMarketButton(self)
     setupBackToMenuButton(self)
-    setupSacraficeButton(self)
+    setupsacrificeButton(self)
     setupSpawnButton(self)
     setupBackground(self)
 end

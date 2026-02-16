@@ -78,7 +78,7 @@ return {
             zIndex = 1004,
         },
 
-        sacraficeButtonHitbox = {
+        sacrificeButtonHitbox = {
             spritePath = "assets/sprites/ui/buttonsac74x74.png",
 
             type = "sprite",
@@ -485,7 +485,7 @@ return {
 
     },
 
-    sacrafice = {
+    sacrifice = {
 
         background = {
             spritePath = "assets/sprites/backgrounds/menubg.png",
