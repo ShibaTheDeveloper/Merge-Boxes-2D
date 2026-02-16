@@ -15,6 +15,8 @@ local BoxFactoryModule = require("code.game.box.factory")
 local SaveFilesModule = require("code.engine.saves.files")
 local RenderModule = require("code.engine.render")
 
+local SHOP_CONSTANTS = require("code.game.shop.constants")
+
 local Module = {}
 Module._elements = {}
 Module._objects = {}
@@ -28,6 +30,10 @@ local spawnButtonLabel = nil
 local spawnButton = nil
 
 local backButtonClicked = false
+
+local upgradeShopButtonHitbox = nil
+local blackMarketButtonHitbox = nil
+local sacrificeButtonHitbox = nil
 
 function Module:clean()
     for _, element in pairs(self._elements) do
@@ -109,7 +115,7 @@ local function setupSpawnButton(self)
 end
 
 local function setupUpgradeShopButton(scene)
-    local upgradeShopButtonHitbox = RenderModule:createElement(SceneData.upgradeShopButtonHitbox)
+    upgradeShopButtonHitbox = RenderModule:createElement(SceneData.upgradeShopButtonHitbox)
     table.insert(scene._elements, upgradeShopButtonHitbox)
 
     local upgradeShopButton = UIButtonObjectModule:createButton({
@@ -121,7 +127,7 @@ local function setupUpgradeShopButton(scene)
 
         mouseButton = 1,
         onClick = function()
-            if SaveFilesModule.loadedFile.stats.highestBoxTier < 5 then return end
+            if SaveFilesModule.loadedFile.stats.highestBoxTier < SHOP_CONSTANTS.UPGRADE_SHOP_UNLOCK_REQUIREMENT then return end
 
             ScreenTransitionModule:transition({
                 callback = function()
@@ -135,7 +141,7 @@ local function setupUpgradeShopButton(scene)
 end
 
 local function setupBlackMarketButton(scene)
-    local blackMarketButtonHitbox = RenderModule:createElement(SceneData.blackMarketButtonHitbox)
+    blackMarketButtonHitbox = RenderModule:createElement(SceneData.blackMarketButtonHitbox)
     table.insert(scene._elements, blackMarketButtonHitbox)
 
     local blackMarketButton = UIButtonObjectModule:createButton({
@@ -147,7 +153,7 @@ local function setupBlackMarketButton(scene)
 
         mouseButton = 1,
         onClick = function()
-            if SaveFilesModule.loadedFile.stats.highestBoxTier < 10 then return end
+            if SaveFilesModule.loadedFile.stats.highestBoxTier < SHOP_CONSTANTS.BLACK_MARKET_BUYING_REQUIREMENT then return end
 
             ScreenTransitionModule:transition({
                 callback = function()
@@ -160,8 +166,8 @@ local function setupBlackMarketButton(scene)
     table.insert(scene._objects, blackMarketButton)
 end
 
-local function setupsacrificeButton(scene)
-    local sacrificeButtonHitbox = RenderModule:createElement(SceneData.sacrificeButtonHitbox)
+local function setupSacrificeButton(scene)
+    sacrificeButtonHitbox = RenderModule:createElement(SceneData.sacrificeButtonHitbox)
     table.insert(scene._elements, sacrificeButtonHitbox)
 
     local sacrificeButton = UIButtonObjectModule:createButton({
@@ -173,7 +179,7 @@ local function setupsacrificeButton(scene)
 
         mouseButton = 1,
         onClick = function()
-            if SaveFilesModule.loadedFile.stats.highestBoxTier < 20 then return end
+            if SaveFilesModule.loadedFile.stats.highestBoxTier < SHOP_CONSTANTS.SACRIFICE_UNLOCK_REQUIREMENT then return end
 
             ScreenTransitionModule:transition({
                 callback = function()
@@ -186,9 +192,39 @@ local function setupsacrificeButton(scene)
     table.insert(scene._objects, sacrificeButton)
 end
 
+local function lockedImageLogic(current, requirement, originalPath)
+    if current >= requirement then
+        return RenderModule.imageCache[originalPath]
+    else
+        return RenderModule.imageCache["assets/sprites/ui/buttonlocked74x74.png"]
+    end
+end
+
 function Module:update()
     MusicHandlerModule:update()
     UISharedFunctions:update()
+
+    if upgradeShopButtonHitbox and blackMarketButtonHitbox and sacrificeButtonHitbox then
+        
+        upgradeShopButtonHitbox.drawable = lockedImageLogic(
+            SaveFilesModule.loadedFile.stats.highestBoxTier, 
+            SHOP_CONSTANTS.UPGRADE_SHOP_UNLOCK_REQUIREMENT, 
+            SceneData.upgradeShopButtonHitbox.spritePath
+        )
+
+        blackMarketButtonHitbox.drawable = lockedImageLogic(
+            SaveFilesModule.loadedFile.stats.highestBoxTier, 
+            SHOP_CONSTANTS.BLACK_MARKET_BUYING_REQUIREMENT, 
+            SceneData.blackMarketButtonHitbox.spritePath
+        )
+
+        sacrificeButtonHitbox.drawable = lockedImageLogic(
+            SaveFilesModule.loadedFile.stats.highestBoxTier, 
+            SHOP_CONSTANTS.SACRIFICE_UNLOCK_REQUIREMENT, 
+            SceneData.sacrificeButtonHitbox.spritePath
+        )
+
+    end
 
     if spawnButtonHitbox and spawnButtonLabel and spawnButton then
         spawnButton.cooldown = SaveFilesModule.loadedFile.stats.boxSpawnCooldown
@@ -232,7 +268,7 @@ function Module:init(slot)
     setupUpgradeShopButton(self)
     setupBlackMarketButton(self)
     setupBackToMenuButton(self)
-    setupsacrificeButton(self)
+    setupSacrificeButton(self)
     setupSpawnButton(self)
     setupBackground(self)
 end

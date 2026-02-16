@@ -286,4 +286,17 @@ return {
         scale = 2.15,
         tier = 18,
     },
+    {
+        spritePath = "assets/sprites/boxes/box19.png",
+
+        description = "A rage-baiting, baguette loving, machine loving chimera who has their own territory and also happens to be a virtual japanese singer who also happens to be a 31 year old minor who also happens to be an april fools joke. I don't have anybody in mind here, just to clarify. I'm talking about a fully original character in my own game.",
+        quote = "Thanks for sending me a message. Unfortunately, you're very ugly and I will not be replying to you.",
+        name = "Tasane Keto",
+
+        mergeReward = 666,
+
+        weight = 2000,
+        scale = 2.25,
+        tier = 19,
+    },
 }
