@@ -10,24 +10,6 @@ Third-party assets, including audio, fonts, artwork, and music, are used with pe
 
 ## Credits
 
-### Fonts
-- **Stanberry.ttf**
-  Source: https://www.dafont.com/stanberry.font
-  License: See font license on the original source page.
-
-### Sound Effects
-- **ui/click.wav**
-  Link: https://freesound.org/people/BiORNADE/sounds/735803/
-  License: As stated on Freesound
-
-- **merge/default.wav**
-  Link: https://freesound.org/people/MLaudio/sounds/615100/
-  License: As stated on Freesound
-
-- **merge/special.wav**
-  Link: https://freesound.org/people/David819/sounds/668436/
-  License: As stated on Freesound
-
 ### Art
 All artwork was created by a collaborator.
 Artwork © Gochged. Licensed for use in Merge Boxes! 2D.
@@ -44,3 +26,21 @@ Music © Orzech05. Licensed for use in Merge Boxes! 2D.
 
 Composer: https://www.youtube.com/@orzech05
 Playlist: https://www.youtube.com/playlist?list=PL4SfVAqmkT2WSjVqtZ7hU-KLh6ys-MNjb
+
+### Fonts
+- **Stanberry.ttf**
+  Link: https://www.dafont.com/stanberry.font
+  License: See font license on the original source page.
+
+### Sound Effects
+- **ui/click.wav**
+  Link: https://freesound.org/people/BiORNADE/sounds/735803/
+  License: As stated on Freesound
+
+- **merge/default.wav**
+  Link: https://freesound.org/people/MLaudio/sounds/615100/
+  License: As stated on Freesound
+
+- **merge/special.wav**
+  Link: https://freesound.org/people/David819/sounds/668436/
+  License: As stated on Freesound

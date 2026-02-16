@@ -13,8 +13,6 @@ local SaveFilesModule = require("code.engine.saves.files")
 local RenderModule = require("code.engine.render")
 local extra = require("code.engine.extra")
 
-local UIData = require("code.data.ui")
-
 local SAVES_CONSTANTS = require("code.engine.saves.constants")
 local CONSTANTS = require("code.game.ui.constants")
 
@@ -26,7 +24,7 @@ Module._boxes = {}
 
 Module.name = "saveFiles"
 
-local SceneData = UIData[Module.name]
+local SceneData = require("code.data.ui.saveFiles")
 
 function Module:clean()
     for _, element in pairs(self._elements) do

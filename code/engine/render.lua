@@ -5,7 +5,7 @@ local manager = IdManagerModule:createManager()
 
 local Module = {}
 Module.fullscreen = false
-Module._imageCache = {}
+Module.imageCache = {}
 Module._elements = {}
 
 function Module:createColor(r, g, b, alpha)
@@ -98,11 +98,11 @@ function Element:draw(windowScaleFactor, windowOffsetX, windowOffsetY)
         local offsetY = self.drawable:getHeight() * self.anchorY
 
         if self.reflective and self.reflectionPath then
-            if not Module._imageCache[self.reflectionPath] then
-                Module._imageCache[self.reflectionPath] = love.graphics.newImage(self.reflectionPath)
+            if not Module.imageCache[self.reflectionPath] then
+                Module.imageCache[self.reflectionPath] = love.graphics.newImage(self.reflectionPath)
             end
 
-            local reflectionImage = Module._imageCache[self.reflectionPath]
+            local reflectionImage = Module.imageCache[self.reflectionPath]
 
             local iw, ih = reflectionImage:getWidth(), reflectionImage:getHeight()
 
@@ -183,12 +183,12 @@ function Module:createElement(data)
             data.spritePath = "assets/sprites/missing.png"
         end
 
-        if not Module._imageCache[data.spritePath] then
+        if not Module.imageCache[data.spritePath] then
             local drawable = love.graphics.newImage(data.spritePath)
-            Module._imageCache[data.spritePath] = drawable
+            Module.imageCache[data.spritePath] = drawable
         end
 
-        element.drawable = Module._imageCache[data.spritePath]
+        element.drawable = Module.imageCache[data.spritePath]
         element.spritePath = data.spritePath
     elseif data.type == "text" then
         if not data.font then

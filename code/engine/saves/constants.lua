@@ -1,6 +1,9 @@
 -- ~/code/engine/saves/constants.lua
 
 return {
+    SAVE_FILE_EXTENSION = ".mbsave",
+    SAVE_FILE_PREFIX = "slot-",
+
     MAX_SAVE_SLOTS = 3,
     
     DEFAULT_DATA = {
@@ -21,5 +24,14 @@ return {
         },
 
         boxes = {}
+    },
+
+    SETTINGS_FILE_NAME = "settings.conf",
+
+    DEFAULT_SETTINGS = {
+        masterVolume = 0.5,
+
+        soundVolume = 1,
+        trackVolume = 1,
     }
 }

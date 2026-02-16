@@ -70,6 +70,12 @@ function Module:encodeSlot(slot)
     return "slot " .. slot .. "\n"
 end
 
+function Module:encodeSettings(file)
+    local finalOutput = self:encodeSimple(file)
+
+    return finalOutput
+end
+
 function Module:encode(file)
     local finalOutput = addStringNewLine(
         self:encodeSlot(file.slot),

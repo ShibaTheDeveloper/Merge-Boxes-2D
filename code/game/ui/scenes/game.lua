@@ -15,14 +15,13 @@ local BoxFactoryModule = require("code.game.box.factory")
 local SaveFilesModule = require("code.engine.saves.files")
 local RenderModule = require("code.engine.render")
 
-local UIData = require("code.data.ui")
-
 local Module = {}
 Module._elements = {}
 Module._objects = {}
 Module.name = "game"
 
-local SceneData = UIData[Module.name]
+local SharedData = require("code.data.ui.shared")
+local SceneData = require("code.data.ui.game")
 
 local spawnButtonHitbox = nil
 local spawnButtonLabel = nil
@@ -59,7 +58,7 @@ end
 local function setupBackToMenuButton(self)
     backButtonClicked = false
 
-    local backToMenuButtonHitbox = RenderModule:createElement(UIData.shared.backToMenuButtonHitbox)
+    local backToMenuButtonHitbox = RenderModule:createElement(SharedData.backToMenuButtonHitbox)
     table.insert(self._elements, backToMenuButtonHitbox)
 
     local backToMenuButton = UIButtonObjectModule:createButton({
@@ -204,6 +203,16 @@ function Module:update()
 end
 
 function Module:init(slot)
+    --%note shitty preloading
+    if not RenderModule.imageCache["assets/sprites/ui/buttonlocked74x74.png"] then
+        local temp = RenderModule:createElement({
+            type = "sprite",
+            spritePath = "assets/sprites/ui/buttonlocked74x74.png"
+        })
+
+        temp:remove()
+    end
+
     if slot then
         SaveFilesModule:loadFile(slot)
 

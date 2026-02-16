@@ -28,7 +28,7 @@ function Module:saveFile(file)
     end
 
     local finalOutput = SavesEncodeModule:encode(file)
-    local fileName = tostring(file.slot) .. ".txt"
+    local fileName = CONSTANTS.SAVE_FILE_PREFIX .. tostring(file.slot) .. CONSTANTS.SAVE_FILE_EXTENSION
 
     love.filesystem.write(fileName, finalOutput)
 end
@@ -39,7 +39,7 @@ function Module:unloadFile(file)
 end
 
 function Module:readFile(slot)
-    local fileName = tostring(slot) .. ".txt"
+    local fileName = CONSTANTS.SAVE_FILE_PREFIX .. tostring(slot) .. CONSTANTS.SAVE_FILE_EXTENSION
 
     local file = love.filesystem.read(fileName)
     local decodedFile = (file and SavesDecodeModule:decode(file) or nil)
@@ -86,7 +86,7 @@ end
 
 function Module:deleteFile(slot)
     slot = extra.clamp(slot, 1, CONSTANTS.MAX_SAVE_SLOTS)
-    local fileName = tostring(slot) .. ".txt"
+    local fileName = CONSTANTS.SAVE_FILE_PREFIX .. tostring(slot) .. CONSTANTS.SAVE_FILE_EXTENSION
 
     if love.filesystem.getInfo(fileName) then
         love.filesystem.remove(fileName)

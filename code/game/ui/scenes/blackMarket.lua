@@ -11,14 +11,12 @@ local BoxesObjectModule = require("code.game.box.object")
 
 local RenderModule = require("code.engine.render")
 
-local UIData = require("code.data.ui")
-
 local Module = {}
 Module._elements = {}
 Module._objects = {}
 Module.name = "blackMarket"
 
-local SceneData = UIData[Module.name]
+local SceneData = require("code.data.ui.blackMarket")
 
 function Module:clean()
     for _, element in pairs(self._elements) do

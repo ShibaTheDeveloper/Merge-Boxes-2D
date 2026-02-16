@@ -10,8 +10,7 @@ local SaveFilesModule = require("code.engine.saves.files")
 local RenderModule = require("code.engine.render")
 local extra = require("code.engine.extra")
 
-local UIData = require("code.data.ui")
-local SharedData = UIData.shared
+local SharedData = require("code.data.ui.shared")
 
 local Module = {}
 Module._updateFunctions = {}
@@ -88,8 +87,6 @@ function Module:setupBackToMenuButton(scene)
                     BoxesObjectModule:clearBoxes()
                     
                     UISceneHandlerModule:switch("saveFiles")
-
-                    
                 end
             })
         end

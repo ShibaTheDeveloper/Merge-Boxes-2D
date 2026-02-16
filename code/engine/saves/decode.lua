@@ -107,6 +107,13 @@ function Module:decodeSlot(section)
     return tonumber(output)
 end
 
+function Module:decodeSettings(file)
+    local finalOutput = self:decodeSimple(file)
+    finalOutput = normalizeTable(finalOutput, CONSTANTS.DEFAULT_SETTINGS)
+
+    return finalOutput
+end
+
 function Module:decode(file)
     file = decryptWithKey(file)
     file = decryptBase64(file)
@@ -115,8 +122,10 @@ function Module:decode(file)
 
     local finalOutput = {
         slot = self:decodeSlot(sections[1]),
+
         currencies = self:decodeSimple(sections[2]),
         stats = self:decodeSimple(sections[3]),
+
         boxes = self:decodeBoxes(sections[4])
     }
 
