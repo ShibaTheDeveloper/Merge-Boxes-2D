@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 -- ~/code/engine/saves/decode.lua
 
 local CONSTANTS = require("code.engine.saves.constants")

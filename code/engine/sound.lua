@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 -- ~/code/engine/sound.lua
 
 local SettingsModule = require("code.engine.saves.settings")

@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 -- ~/code/engine/saves/encode.lua
 
 local extra = require("code.engine.extra")
