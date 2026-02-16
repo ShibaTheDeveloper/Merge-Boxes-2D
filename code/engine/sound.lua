@@ -1,7 +1,7 @@
 -- ~/code/engine/sound.lua
 
+local SettingsModule = require("code.engine.saves.settings")
 local IdManagerModule = require("code.engine.idManager")
-local SaveFilesModule = require("code.engine.saveFiles")
 
 local manager = IdManagerModule:createManager()
 
@@ -23,11 +23,13 @@ Module._sounds = {}
 
 local function computeVolume(sound)
     local base =
-        (sound.type == "sound"
-            and SaveFilesModule.settingsFile.soundVolume
-            or SaveFilesModule.settingsFile.trackVolume)
+    (
+        sound.type == "sound"
+        and SettingsModule.loadedFile.soundVolume
+        or SettingsModule.loadedFile.trackVolume
+    )
 
-    return sound.volume * base * SaveFilesModule.settingsFile.masterVolume
+    return sound.volume * base * SettingsModule.loadedFile.masterVolume
 end
 
 function Sound:pause()

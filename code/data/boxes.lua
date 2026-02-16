@@ -1,28 +1,6 @@
 -- ~/code/data/boxes.lua
 
-local RenderModule = require("code.engine.render")
-
-local function HSVtoRGB(h, s, v)
-    local r, g, b
-
-    local i = math.floor(h * 6)
-    local f = h * 6 - i
-    local p = v * (1 - s)
-    local q = v * (1 - f * s)
-    local t = v * (1 - (1 - f) * s)
-
-    i = i % 6
-
-    if i == 0 then r, g, b = v, t, p
-    elseif i == 1 then r, g, b = q, v, p
-    elseif i == 2 then r, g, b = p, v, t
-    elseif i == 3 then r, g, b = p, q, v
-    elseif i == 4 then r, g, b = t, p, v
-    elseif i == 5 then r, g, b = v, p, q
-    end
-
-    return RenderModule:createColor(math.floor(r*255), math.floor(g*255), math.floor(b*255))
-end
+local extra = require("code.engine.extra")
 
 return {
     {
@@ -259,7 +237,7 @@ return {
 
         onUpdateCosmetic = function(element)
             local hue = (love.timer.getTime() % 5) / 5
-            element.color = HSVtoRGB(hue, 1, 1)
+            element.color = extra.HSVtoRGB(hue, 1, 1)
         end,
 
         --mergeSoundData = {soundPath = "assets/sounds/merge/box16.wav"},
@@ -307,5 +285,18 @@ return {
         weight = 1300,
         scale = 2.15,
         tier = 18,
+    },
+    {
+        spritePath = "assets/sprites/boxes/box19.png",
+
+        description = "A rage-baiting, baguette loving, machine loving chimera who has their own territory and also happens to be a virtual japanese singer who also happens to be a 31 year old minor who also happens to be an april fools joke. I don't have anybody in mind here, just to clarify. I'm talking about a fully original character in my own game.",
+        quote = "Thanks for sending me a message. Unfortunately, you're very ugly and I will not be replying to you.",
+        name = "Tasane Keto",
+
+        mergeReward = 666,
+
+        weight = 2000,
+        scale = 2.25,
+        tier = 19,
     },
 }

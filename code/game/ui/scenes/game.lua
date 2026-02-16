@@ -12,27 +12,28 @@ local UISharedFunctions = require("code.game.ui.shared")
 local BoxesObjectModule = require("code.game.box.object")
 local BoxFactoryModule = require("code.game.box.factory")
 
-local SaveFilesModule = require("code.engine.saveFiles")
+local SaveFilesModule = require("code.engine.saves.files")
 local RenderModule = require("code.engine.render")
-local extra = require("code.engine.extra")
 
-local UIData = require("code.data.ui")
+local SHOP_CONSTANTS = require("code.game.shop.constants")
 
 local Module = {}
 Module._elements = {}
 Module._objects = {}
 Module.name = "game"
 
-local SceneData = UIData[Module.name]
-
-local playtimeAtSessionStart = 0
+local SharedData = require("code.data.ui.shared")
+local SceneData = require("code.data.ui.game")
 
 local spawnButtonHitbox = nil
 local spawnButtonLabel = nil
 local spawnButton = nil
 
-local sessionPlaytimeLabel = nil
-local creditsLabel = nil
+local backButtonClicked = false
+
+local upgradeShopButtonHitbox = nil
+local blackMarketButtonHitbox = nil
+local sacrificeButtonHitbox = nil
 
 function Module:clean()
     for _, element in pairs(self._elements) do
@@ -46,34 +47,24 @@ function Module:clean()
     self._elements = {}
     self._objects = {}
 
-    SaveFilesModule.saveFile(SaveFilesModule.loadedFile.slot)
+    if not backButtonClicked then
+        SaveFilesModule:saveFile(SaveFilesModule.loadedFile)
+    else
+        BoxesObjectModule:clearBoxes()
+    end
 
-    BoxesObjectModule:clearBoxes()
     ScreenFlashModule:stop()
 end
 
-local function setupBackgrounds(self)
+local function setupBackground(self)
     local playAreaBackground = RenderModule:createElement(SceneData.playAreaBackground)
-    local sidebarBackground = RenderModule:createElement(SceneData.sidebarBackground)
-
     table.insert(self._elements, playAreaBackground)
-    table.insert(self._elements, sidebarBackground)
-end
-
-local function setupCreditsLabel(self)
-    creditsLabel = RenderModule:createElement(SceneData.creditsLabel)
-    table.insert(self._elements, creditsLabel)
-end
-
-local function setupSessionPlaytimeLabel(self)
-    playtimeAtSessionStart = SaveFilesModule.loadedFile.stats.playtime
-
-    sessionPlaytimeLabel = RenderModule:createElement(SceneData.sessionPlaytimeLabel)
-    table.insert(self._elements, sessionPlaytimeLabel)
 end
 
 local function setupBackToMenuButton(self)
-    local backToMenuButtonHitbox = RenderModule:createElement(SceneData.backToMenuButtonHitbox)
+    backButtonClicked = false
+
+    local backToMenuButtonHitbox = RenderModule:createElement(SharedData.backToMenuButtonHitbox)
     table.insert(self._elements, backToMenuButtonHitbox)
 
     local backToMenuButton = UIButtonObjectModule:createButton({
@@ -85,8 +76,11 @@ local function setupBackToMenuButton(self)
 
         mouseButton = 1,
         onClick = function()
+            backButtonClicked = true
+
             ScreenTransitionModule:transition({
                 callback = function()
+                    SaveFilesModule:unloadFile(SaveFilesModule.loadedFile)
                     UISceneHandlerModule:switch("saveFiles")
                 end
             })
@@ -120,38 +114,163 @@ local function setupSpawnButton(self)
     table.insert(self._objects, spawnButton)
 end
 
+local function setupUpgradeShopButton(scene)
+    upgradeShopButtonHitbox = RenderModule:createElement(SceneData.upgradeShopButtonHitbox)
+    table.insert(scene._elements, upgradeShopButtonHitbox)
+
+    local upgradeShopButton = UIButtonObjectModule:createButton({
+        elements = {
+            upgradeShopButtonHitbox,
+        },
+
+        hitboxElement = upgradeShopButtonHitbox,
+
+        mouseButton = 1,
+        onClick = function()
+            if SaveFilesModule.loadedFile.stats.highestBoxTier < SHOP_CONSTANTS.UPGRADE_SHOP_UNLOCK_REQUIREMENT then return end
+
+            ScreenTransitionModule:transition({
+                callback = function()
+                    UISceneHandlerModule:switch("upgradeShop")
+                end
+            })
+        end
+    })
+
+    table.insert(scene._objects, upgradeShopButton)
+end
+
+local function setupBlackMarketButton(scene)
+    blackMarketButtonHitbox = RenderModule:createElement(SceneData.blackMarketButtonHitbox)
+    table.insert(scene._elements, blackMarketButtonHitbox)
+
+    local blackMarketButton = UIButtonObjectModule:createButton({
+        elements = {
+            blackMarketButtonHitbox,
+        },
+
+        hitboxElement = blackMarketButtonHitbox,
+
+        mouseButton = 1,
+        onClick = function()
+            if SaveFilesModule.loadedFile.stats.highestBoxTier < SHOP_CONSTANTS.BLACK_MARKET_BUYING_REQUIREMENT then return end
+
+            ScreenTransitionModule:transition({
+                callback = function()
+                    UISceneHandlerModule:switch("blackMarket")
+                end
+            })
+        end
+    })
+
+    table.insert(scene._objects, blackMarketButton)
+end
+
+local function setupSacrificeButton(scene)
+    sacrificeButtonHitbox = RenderModule:createElement(SceneData.sacrificeButtonHitbox)
+    table.insert(scene._elements, sacrificeButtonHitbox)
+
+    local sacrificeButton = UIButtonObjectModule:createButton({
+        elements = {
+            sacrificeButtonHitbox,
+        },
+
+        hitboxElement = sacrificeButtonHitbox,
+
+        mouseButton = 1,
+        onClick = function()
+            if SaveFilesModule.loadedFile.stats.highestBoxTier < SHOP_CONSTANTS.SACRIFICE_UNLOCK_REQUIREMENT then return end
+
+            ScreenTransitionModule:transition({
+                callback = function()
+                    UISceneHandlerModule:switch("sacrifice")
+                end
+            })
+        end
+    })
+
+    table.insert(scene._objects, sacrificeButton)
+end
+
+local function lockedImageLogic(current, requirement, originalPath)
+    if current >= requirement then
+        return RenderModule.imageCache[originalPath]
+    else
+        return RenderModule.imageCache["assets/sprites/ui/buttonlocked74x74.png"]
+    end
+end
+
 function Module:update()
     MusicHandlerModule:update()
+    UISharedFunctions:update()
 
-    if sessionPlaytimeLabel then
-        sessionPlaytimeLabel.text = "Session Time: " .. extra.formatTime(SaveFilesModule.loadedFile.stats.playtime - playtimeAtSessionStart)
-    end
+    if upgradeShopButtonHitbox and blackMarketButtonHitbox and sacrificeButtonHitbox then
+        
+        upgradeShopButtonHitbox.drawable = lockedImageLogic(
+            SaveFilesModule.loadedFile.stats.highestBoxTier, 
+            SHOP_CONSTANTS.UPGRADE_SHOP_UNLOCK_REQUIREMENT, 
+            SceneData.upgradeShopButtonHitbox.spritePath
+        )
 
-    if creditsLabel then
-        creditsLabel.text = SaveFilesModule.loadedFile.stats.credits .. " C$"
+        blackMarketButtonHitbox.drawable = lockedImageLogic(
+            SaveFilesModule.loadedFile.stats.highestBoxTier, 
+            SHOP_CONSTANTS.BLACK_MARKET_BUYING_REQUIREMENT, 
+            SceneData.blackMarketButtonHitbox.spritePath
+        )
+
+        sacrificeButtonHitbox.drawable = lockedImageLogic(
+            SaveFilesModule.loadedFile.stats.highestBoxTier, 
+            SHOP_CONSTANTS.SACRIFICE_UNLOCK_REQUIREMENT, 
+            SceneData.sacrificeButtonHitbox.spritePath
+        )
+
     end
 
     if spawnButtonHitbox and spawnButtonLabel and spawnButton then
-        spawnButton.cooldown = SaveFilesModule.loadedFile.stats.spawnCooldown
+        spawnButton.cooldown = SaveFilesModule.loadedFile.stats.boxSpawnCooldown
 
         local time = (love.timer.getTime() - BoxFactoryModule.lastSpawned)
-        local timeLeft = SaveFilesModule.loadedFile.stats.spawnCooldown - time
+        local timeLeft = SaveFilesModule.loadedFile.stats.boxSpawnCooldown - time
         
-        local onCooldown = time <= SaveFilesModule.loadedFile.stats.spawnCooldown
+        local onCooldown = time <= SaveFilesModule.loadedFile.stats.boxSpawnCooldown
 
         spawnButtonLabel.text =  (onCooldown and string.format("%.1f", timeLeft) .. "s" or SceneData.spawnButtonLabel.text)
     end
 end
 
-function Module:init()
+function Module:init(slot)
+    --%note shitty preloading
+    if not RenderModule.imageCache["assets/sprites/ui/buttonlocked74x74.png"] then
+        local temp = RenderModule:createElement({
+            type = "sprite",
+            spritePath = "assets/sprites/ui/buttonlocked74x74.png"
+        })
+
+        temp:remove()
+    end
+
+    if slot then
+        SaveFilesModule:loadFile(slot)
+
+        SaveFilesModule.loadedFile.stats.playtimeAtSessionStart = SaveFilesModule.loadedFile.stats.playtime
+    end
+
+    BoxesObjectModule.renderBoxes = true
+
     MusicHandlerModule:stopTrack(MusicHandlerModule.playingTrack)
+
+    UISharedFunctions:setupSidebarBackground(self)
     UISharedFunctions:setupSettingsButton(self)
 
-    setupSessionPlaytimeLabel(self)
+    UISharedFunctions:setupSessionPlaytimeLabel(self)
+    UISharedFunctions:setupCreditsLabel(self)
+
+    setupUpgradeShopButton(self)
+    setupBlackMarketButton(self)
     setupBackToMenuButton(self)
-    setupCreditsLabel(self)
-    setupBackgrounds(self)
+    setupSacrificeButton(self)
     setupSpawnButton(self)
+    setupBackground(self)
 end
 
 return Module

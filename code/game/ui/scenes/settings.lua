@@ -6,18 +6,16 @@ local MusicHandlerModule = require("code.game.musicHandler")
 local UIButtonObjectModule = require("code.game.ui.objects.button")
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 
-local SaveFilesModule = require("code.engine.saveFiles")
-local RenderModule = require("code.engine.render")
+local BoxesObjectModule = require("code.game.box.object")
 
-local SaveFilesScene = require("code.game.ui.scenes.saveFiles")
-local UIData = require("code.data.ui")
+local RenderModule = require("code.engine.render")
 
 local Module = {}
 Module._elements = {}
 Module._objects = {}
 Module.name = "settings"
 
-local SceneData = UIData[Module.name]
+local SceneData = require("code.data.ui.settings")
 
 function Module:clean()
     for _, element in pairs(self._elements) do
@@ -56,10 +54,6 @@ local function setupBackButton(self)
         onClick = function()
             ScreenTransitionModule:transition({
                 callback = function()
-                    if UISceneHandlerModule.lastScene.name == "game" then
-                        SaveFilesModule.loadFile(SaveFilesScene.selectedSlot)
-                    end
-
                     UISceneHandlerModule:switch(UISceneHandlerModule.lastScene.name)
                 end
             })
@@ -74,6 +68,8 @@ end
 
 function Module:init()
     MusicHandlerModule:playTrack("mainMenu")
+
+    BoxesObjectModule.renderBoxes = false
 
     setupBackButton(self)
     setupBackground(self)

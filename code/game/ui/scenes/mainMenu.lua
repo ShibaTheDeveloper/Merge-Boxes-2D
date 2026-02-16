@@ -10,14 +10,12 @@ local UISharedFunctions = require("code.game.ui.shared")
 local RenderModule = require("code.engine.render")
 local extra = require("code.engine.extra")
 
-local UIData = require("code.data.ui")
-
 local Module = {}
 Module._elements = {}
 Module._objects = {}
 Module.name = "mainMenu"
 
-local SceneData = UIData[Module.name]
+local SceneData = require("code.data.ui.mainMenu")
 
 local logo2 = nil
 local logo = nil

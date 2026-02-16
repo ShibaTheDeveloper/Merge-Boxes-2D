@@ -5,7 +5,7 @@ local manager = IdManagerModule:createManager()
 
 local Module = {}
 Module.fullscreen = false
-Module._imageCache = {}
+Module.imageCache = {}
 Module._elements = {}
 
 function Module:createColor(r, g, b, alpha)
@@ -39,6 +39,7 @@ local Element = {
     rotation = 0,
 
     reflective = false,
+    render = true,
     flip = false
 }
 Element.__index = Element
@@ -97,11 +98,11 @@ function Element:draw(windowScaleFactor, windowOffsetX, windowOffsetY)
         local offsetY = self.drawable:getHeight() * self.anchorY
 
         if self.reflective and self.reflectionPath then
-            if not Module._imageCache[self.reflectionPath] then
-                Module._imageCache[self.reflectionPath] = love.graphics.newImage(self.reflectionPath)
+            if not Module.imageCache[self.reflectionPath] then
+                Module.imageCache[self.reflectionPath] = love.graphics.newImage(self.reflectionPath)
             end
 
-            local reflectionImage = Module._imageCache[self.reflectionPath]
+            local reflectionImage = Module.imageCache[self.reflectionPath]
 
             local iw, ih = reflectionImage:getWidth(), reflectionImage:getHeight()
 
@@ -153,8 +154,8 @@ function Module:createElement(data)
         text = data.text or "",
         font = data.font,
 
-        anchorX = data.anchorX or .5,
-        anchorY = data.anchorY or .5,
+        anchorX = data.anchorX or 0.5,
+        anchorY = data.anchorY or 0.5,
 
         offsetX = data.offsetX or 0,
         offsetY = data.offsetY or 0,
@@ -169,9 +170,10 @@ function Module:createElement(data)
         rotation = data.rotation or 0,
 
         reflectionPath = data.reflectionPath or "",
-        reflective = data.reflective or false,
+        reflective = (data.reflective ~= nil) and data.reflective or false,
 
-        flip = data.flip or false
+        render = (data.render ~= nil) and data.render or true,
+        flip = (data.flip ~= nil) and data.flip or false
     }, Element)
 
     self._elements[element.id] = element
@@ -181,12 +183,12 @@ function Module:createElement(data)
             data.spritePath = "assets/sprites/missing.png"
         end
 
-        if not Module._imageCache[data.spritePath] then
+        if not Module.imageCache[data.spritePath] then
             local drawable = love.graphics.newImage(data.spritePath)
-            Module._imageCache[data.spritePath] = drawable
+            Module.imageCache[data.spritePath] = drawable
         end
 
-        element.drawable = Module._imageCache[data.spritePath]
+        element.drawable = Module.imageCache[data.spritePath]
         element.spritePath = data.spritePath
     elseif data.type == "text" then
         if not data.font then
@@ -239,6 +241,8 @@ function Module:drawAll()
     end)
 
     for _, element in ipairs(elementsArray) do
+        if not element.render then goto continue end
+
         local currentWindowWidth, currentWindowHeight = love.graphics.getDimensions()
         local baseWindowWidth, baseWindowHeight = _G.WINDOW_WIDTH, _G.WINDOW_HEIGHT
 
@@ -253,6 +257,8 @@ function Module:drawAll()
         element:draw(windowScaleFactor, windowOffsetX, windowOffsetY)
 
         love.graphics.setScissor()
+
+        :: continue ::
     end
 end
 

@@ -9,8 +9,12 @@ local Module = {}
 
 function Module:update(deltaTime)
     local boxesArray = BoxesObjectModule:getSortedArray()
-    for _, box in pairs(boxesArray) do
+    local boxesCount = #boxesArray
+
+    for index = 1, boxesCount do
+        local box = boxesArray[index]
         local tween = box._scaleTween
+        
         if tween then
             tween.timeSinceStart = tween.timeSinceStart + deltaTime
 

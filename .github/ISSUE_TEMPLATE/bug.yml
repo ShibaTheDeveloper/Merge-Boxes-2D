@@ -1,0 +1,48 @@
+name: Bug Report
+description: Report a bug or issue
+title: "[Bug]: "
+labels: ["bug"]
+assignees:
+  - ShibaTheDeveloper
+body:
+  - type: textarea
+    id: issue
+    attributes:
+      label: What happened?
+      description: Tell me what broke, and how it broke.
+      placeholder: Describe the issue, including any relevant error messages or behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Tell me how I can recreate the issue.
+      placeholder: |
+        1. Open the game
+        2. Spawn a box
+        3. Game crashes and your entire system gets rm -rf'd
+    validations:
+      required: true
+  - type: checkboxes
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - label: Windows
+  - type: input
+    id: version
+    attributes:
+      label: Build Version
+      placeholder: e.g. 'v1.1.2-dev'
+    validations:
+      required: true
+  - type: checkboxes
+    id: agreement
+    attributes:
+      label: Submission
+      options:
+        - label: I have checked the latest release (https://github.com/ShibaTheDeveloper/Merge-Boxes-2D/releases) to make sure my issue has not been fixed.
+          required: true
+        - label: I have searched the closed and open issues to make sure that this problem has not already been reported.
+          required: true

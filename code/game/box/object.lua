@@ -41,6 +41,7 @@ local Box = {
 Box.__index = Box
 
 local Module = {}
+Module.renderBoxes = true
 Module.boxes = {}
 
 function Box:remove()
@@ -152,6 +153,8 @@ function Module:update(deltaTime)
     for _, box in pairs(array) do
         if box.onUpdateCosmetic then box.onUpdateCosmetic(box.element, deltaTime) end
         if box.onUpdate then box.onUpdate(box, deltaTime) end
+        
+        box.element.render = self.renderBoxes
     end
 end
 

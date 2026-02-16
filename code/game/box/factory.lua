@@ -1,8 +1,9 @@
 -- ~/code/game/box/factory.lua
 
+local SaveFilesModule = require("code.engine.saves.files")
+
 local BoxesObjectModule = require("code.game.box.object")
 
-local SaveFilesModule = require("code.engine.saveFiles")
 local CONSTANTS = require("code.game.box.constants")
 
 local Module = {}
@@ -12,10 +13,10 @@ function Module:spawn()
     local x = math.random(-CONSTANTS.AREA_WIDTH, CONSTANTS.AREA_WIDTH)
     local y = math.random(-CONSTANTS.AREA_HEIGHT, CONSTANTS.AREA_HEIGHT)
 
-    local spawnTier = 1
-
-    if SaveFilesModule.loadedFile.boxSpawnTier then
-        spawnTier = SaveFilesModule.loadedFile.boxSpawnTier
+    local spawnTier = SaveFilesModule.loadedFile.stats.boxSpawnTier
+    
+    if SaveFilesModule.loadedFile.stats.highestBoxTier < spawnTier then 
+        SaveFilesModule.loadedFile.stats.highestBoxTier = spawnTier
     end
 
     local data = BoxesObjectModule:getBoxDataByTier(spawnTier)
@@ -23,15 +24,15 @@ function Module:spawn()
 
     if box then
         box.element.x, box.element.y = x, y
+
+        local velocityX = math.random(CONSTANTS.MIN_SPAWN_VELOCITY, CONSTANTS.MAX_SPAWN_VELOCITY)
+        local velocityY = math.random(CONSTANTS.MIN_SPAWN_VELOCITY, CONSTANTS.MAX_SPAWN_VELOCITY)
+
+        box.velocityX = velocityX
+        box.velocityY = velocityY
+
+        self.lastSpawned = love.timer.getTime()
     end
-
-    local velocityX = math.random(CONSTANTS.MIN_SPAWN_VELOCITY, CONSTANTS.MAX_SPAWN_VELOCITY)
-    local velocityY = math.random(CONSTANTS.MIN_SPAWN_VELOCITY, CONSTANTS.MAX_SPAWN_VELOCITY)
-
-    box.velocityX = velocityX
-    box.velocityY = velocityY
-
-    self.lastSpawned = love.timer.getTime()
 end
 
 return Module
