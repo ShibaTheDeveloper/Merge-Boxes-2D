@@ -1,15 +1,28 @@
 -- ~/code/game/ui/shared.lua
 
-local ScreenTransitionModule = require("code.game.vfx.screenTransition")
-local UIButtonObjectModule = require("code.game.ui.objects.button")
-local UISceneHandlerModule = require("code.game.ui.sceneHandler")
+--/// ENGINE \\\--
+local RenderModule = require("code.engine.render")
 
+--// SAVES \\--
+local SaveFilesModule = require("code.engine.saves.files")
+
+--// HELPERS \\--
+local string = require("code.engine.helpers.string")
+local table = require("code.engine.helpers.table")
+
+--// BOX \\--
 local BoxesObjectModule = require("code.game.box.object")
 
-local SaveFilesModule = require("code.engine.saves.files")
-local RenderModule = require("code.engine.render")
-local extra = require("code.engine.extra")
+--// UI \\--
+local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 
+--/ UI OBJECTS \--
+local UIButtonObjectModule = require("code.game.ui.objects.button")
+
+--// VFX \\--
+local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+
+--/// DATA \\\--
 local SharedData = require("code.data.ui.shared")
 
 local Module = {}
@@ -114,9 +127,9 @@ function Module:setupSessionPlaytimeLabel(scene)
         if not sessionPlaytimeLabel then return end
 
         sessionPlaytimeLabel.text = 
-        "Session Time: " .. extra.formatTime(
-            SaveFilesModule.loadedFile.stats.playtime 
-            - 
+        "Session Time: " .. string.formatTime(
+            SaveFilesModule.loadedFile.stats.playtime
+            -
             SaveFilesModule.loadedFile.stats.playtimeAtSessionStart
         )
 

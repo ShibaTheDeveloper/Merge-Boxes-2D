@@ -1,10 +1,14 @@
 -- ~/code/game/box/factory.lua
 
+--// SAVES \\--
 local SaveFilesModule = require("code.engine.saves.files")
 
-local BoxesObjectModule = require("code.game.box.object")
+--// HELPERS \\--
+local math = require("code.engine.helpers.math")
 
+--// BOX \\--
 local CONSTANTS = require("code.game.box.constants")
+local BoxesObjectModule = require("code.game.box.object")
 
 local Module = {}
 Module.lastSpawned = 0

@@ -1,12 +1,15 @@
 -- ~/code/game/ui/objects/button.lua
 
-local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+--/// ENGINE \\\--
 local RenderModule = require("code.engine.render")
-
-local IdManagerModule = require("code.engine.idManager")
 local SoundModule = require("code.engine.sound")
 
-local manager = IdManagerModule:createManager()
+--// HELPERS \\--
+local IdManagerModule = require("code.engine.helpers.id-manager")
+local math = require("code.engine.helpers.math")
+
+--// VFX \\--
+local ScreenTransitionModule = require("code.game.vfx.screenTransition")
 
 local Button = {
     id = 0,
@@ -32,6 +35,8 @@ Button.__index = Button
 
 local Module = {}
 Module._buttons = {}
+
+local manager = IdManagerModule:createManager()
 
 function Button:remove()
     Module._buttons[self.id] = nil

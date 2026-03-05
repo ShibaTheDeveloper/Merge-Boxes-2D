@@ -1,8 +1,12 @@
 -- ~/code/game/vfx/screenFlash.lua
 
+--/// ENGINE \\\--
 local RenderModule = require("code.engine.render")
-local extra = require("code.engine.extra")
 
+--// HELPERS \\--
+local table = require("code.engine.helpers.table")
+
+--// VFX \\--
 local CONSTANTS = require("code.game.vfx.constants")
 
 local Module = {}
@@ -10,7 +14,7 @@ Module._screenFlashElement = nil
 Module._fadeDuration = 2
 
 function Module:flash(color, fadeDuration)
-    if color then color = extra.cloneTable(color) end
+    if color then color = table.clone(color) end
 
     self._screenFlashElement.color = color or RenderModule:createColor(
         CONSTANTS.BASE_SCREEN_FLASH_COLOR.r * 255,

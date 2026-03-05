@@ -1,12 +1,17 @@
 -- ~/code/engine/saves/files.lua
 
-local BoxesObjectModule = require("code.game.box.object")
+--// SAVES \\--
+local CONSTANTS = require("code.engine.saves.constants")
 
 local SavesDecodeModule = require("code.engine.saves.decode")
 local SavesEncodeModule = require("code.engine.saves.encode")
-local extra = require("code.engine.extra")
 
-local CONSTANTS = require("code.engine.saves.constants")
+--// HELPERS \\--
+local table = require("code.engine.helpers.table")
+local math = require("code.engine.helpers.math")
+
+--// BOX \\--
+local BoxesObjectModule = require("code.game.box.object")
 
 local Module = {}
 Module.lastSaveSlot = 1
@@ -67,12 +72,12 @@ local function loadBoxes(boxesData)
 end
 
 function Module:loadFile(slot)
-    slot = extra.clamp(slot, 1, CONSTANTS.MAX_SAVE_SLOTS)
+    slot = math.clamp(slot, 1, CONSTANTS.MAX_SAVE_SLOTS)
 
     local decodedFile = Module:readFile(slot)
 
     if not decodedFile then
-        decodedFile = extra.cloneTable(CONSTANTS.DEFAULT_DATA)
+        decodedFile = table.clone(CONSTANTS.DEFAULT_DATA)
         decodedFile.slot = slot
     end
 
@@ -85,7 +90,7 @@ function Module:loadFile(slot)
 end
 
 function Module:deleteFile(slot)
-    slot = extra.clamp(slot, 1, CONSTANTS.MAX_SAVE_SLOTS)
+    slot = math.clamp(slot, 1, CONSTANTS.MAX_SAVE_SLOTS)
     local fileName = CONSTANTS.SAVE_FILE_PREFIX .. tostring(slot) .. CONSTANTS.SAVE_FILE_EXTENSION
 
     if love.filesystem.getInfo(fileName) then

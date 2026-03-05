@@ -1,9 +1,14 @@
 -- ~/code/game/musicHandler.lua
 
+--/// ENGINE \\\--
 local SoundModule = require("code.engine.sound")
-local extra = require("code.engine.extra")
 
-local TrackData = require("code.data.tracks")
+--// HELPERS \\--
+local table = require("code.engine.helpers.table")
+local math = require("code.engine.helpers.math")
+
+--/// DATA \\\--
+local TracksData = require("code.data.tracks")
 
 local Module = {}
 
@@ -39,8 +44,8 @@ function Module:update()
 end
 
 function Module.init()
-    for name, track in pairs(TrackData) do
-        local data = extra.cloneTable(track)
+    for name, track in pairs(TracksData) do
+        local data = table.clone(track)
 
         local soundObject = SoundModule:createSound({
             soundPath = data.trackPath,

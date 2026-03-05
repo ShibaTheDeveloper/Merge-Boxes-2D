@@ -2,13 +2,17 @@
 
 local Module = {}
 
-local BoxDragHandlerModule = require("code.game.box.dragHandler")
-local BoxesObjectModule = require("code.game.box.object")
-local extra = require("code.engine.extra")
-
+--/// ENGINE \\\--
 local RenderModule = require("code.engine.render")
 
+--// HELPERS \\--
+local math = require("code.engine.helpers.math")
+
+--// BOX \\--
 local CONSTANTS = require("code.game.box.constants")
+
+local BoxDragHandlerModule = require("code.game.box.dragHandler")
+local BoxesObjectModule = require("code.game.box.object")
 
 local function getWeightFactor(box)
     return box.weight / CONSTANTS.BASE_WEIGHT
@@ -54,8 +58,8 @@ local function dragPhysics(box)
     if box.dragging then
         local mouseX, mouseY = RenderModule:getMousePos()
 
-        mouseY = extra.clamp(mouseY, 0, CONSTANTS.AREA_HEIGHT)
-        mouseX = extra.clamp(mouseX, 0, CONSTANTS.AREA_WIDTH)
+        mouseY = math.clamp(mouseY, 0, CONSTANTS.AREA_HEIGHT)
+        mouseX = math.clamp(mouseX, 0, CONSTANTS.AREA_WIDTH)
 
         local weightFactor = math.max(getWeightFactor(box), .01)
 

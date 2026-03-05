@@ -1,10 +1,13 @@
 ---@diagnostic disable: undefined-field
 -- ~/code/engine/sound.lua
 
+--// SAVES \\--
 local SettingsModule = require("code.engine.saves.settings")
-local IdManagerModule = require("code.engine.idManager")
 
-local manager = IdManagerModule:createManager()
+--// HELPERS \\--
+local IdManagerModule = require("code.engine.helpers.id-manager")
+
+local math = require("code.engine.helpers.math")
 
 local Sound = {
     id = 0,
@@ -21,6 +24,8 @@ Sound.__index = Sound
 
 local Module = {}
 Module._sounds = {}
+
+local manager = IdManagerModule:createManager()
 
 local function computeVolume(sound)
     local base =

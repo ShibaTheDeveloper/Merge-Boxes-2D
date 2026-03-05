@@ -1,9 +1,11 @@
 -- ~/code/game/box/scaleTween.lua
 
-local BoxesObjectModule = require("code.game.box.object")
-local extra = require("code.engine.extra")
+--// HELPERS \\--
+local easing = require("code.engine.helpers.easing")
+local math = require("code.engine.helpers.math")
 
-local EasingData = require("code.data.easing")
+--// BOX \\--
+local BoxesObjectModule = require("code.game.box.object")
 
 local Module = {}
 
@@ -19,10 +21,10 @@ function Module:update(deltaTime)
             tween.timeSinceStart = tween.timeSinceStart + deltaTime
 
             local timerLocalized = math.min(tween.timeSinceStart / tween.duration, 1)
-            local lerpFactor = EasingData.easeOutQuad(timerLocalized)
+            local lerpFactor = easing.easeOutQuad(timerLocalized)
 
-            box.element.scaleX = extra.lerp(tween.startX, tween.targetX, lerpFactor)
-            box.element.scaleY = extra.lerp(tween.startY, tween.targetY, lerpFactor)
+            box.element.scaleX = math.lerp(tween.startX, tween.targetX, lerpFactor)
+            box.element.scaleY = math.lerp(tween.startY, tween.targetY, lerpFactor)
 
             if timerLocalized >= 1 then
                 box._scaleTween = nil

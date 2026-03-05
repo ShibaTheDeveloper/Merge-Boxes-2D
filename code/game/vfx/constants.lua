@@ -1,5 +1,6 @@
 -- ~/code/game/vfx/constants.lua
 
+--/// ENGINE \\\--
 local RenderModule = require("code.engine.render")
 
 return {

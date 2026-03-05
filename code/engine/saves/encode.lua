@@ -1,7 +1,9 @@
 ---@diagnostic disable: undefined-field
 -- ~/code/engine/saves/encode.lua
 
-local extra = require("code.engine.extra")
+--// HELPERS \\--
+local table = require("code.engine.helpers.table")
+local math = require("code.engine.helpers.math")
 
 local Module = {}
 
@@ -18,7 +20,7 @@ local function encryptWithKey(string)
     for index = 1, #string do
         local sByte = string:byte(index)
         local kByte = key:byte(((index - 1) % keyLength) + 1)
-        output[index] = string.char(extra.xorByte(sByte, kByte))
+        output[index] = string.char(math.xorByte(sByte, kByte))
     end
 
     return table.concat(output)
@@ -81,7 +83,7 @@ function Module:encode(file)
     local finalOutput = addStringNewLine(
         self:encodeSlot(file.slot),
 
-        self:encodeSimple(file.currencies), 
+        self:encodeSimple(file.currencies),
         self:encodeSimple(file.stats),
 
         self:encodeBoxes(file.boxes)

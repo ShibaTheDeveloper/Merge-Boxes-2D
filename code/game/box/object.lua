@@ -1,13 +1,17 @@
 -- ~/code/game/box/object.lua
 
-local IdManagerModule = require("code.engine.idManager")
+--/// ENGINE \\\--
 local RenderModule = require("code.engine.render")
-local BoxesData = require("code.data.boxes")
-local extra = require("code.engine.extra")
 
-local manager = IdManagerModule:createManager()
+--// HELPERS \\--
+local IdManagerModule = require("code.engine.helpers.id-manager")
+local table = require("code.engine.helpers.table")
 
+-- // BOX \\--
 local CONSTANTS = require("code.game.box.constants")
+
+--/// DATA \\\--
+local BoxesData = require("code.data.boxes")
 
 local Box = {
     id = 0,
@@ -44,6 +48,8 @@ local Module = {}
 Module.renderBoxes = true
 Module.boxes = {}
 
+local manager = IdManagerModule:createManager()
+
 function Box:remove()
     local id = self.id
 
@@ -57,7 +63,7 @@ function Module:getBoxDataByTier(tier)
     local data = BoxesData[tier]
     if not BoxesData[tier] then return end
 
-    local clonedData = extra.cloneTable(data)
+    local clonedData = table.clone(data)
     return clonedData
 end
 

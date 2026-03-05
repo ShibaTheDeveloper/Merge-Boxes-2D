@@ -1,21 +1,33 @@
 -- ~/code/game/ui/scenes/settings.lua
 
-local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+--/// ENGINE \\\--
+local RenderModule = require("code.engine.render")
+
+--// HELPERS \\--
+local table = require("code.engine.helpers.table")
+
+--/// GAME \\\--
 local MusicHandlerModule = require("code.game.musicHandler")
 
-local UIButtonObjectModule = require("code.game.ui.objects.button")
-local UISceneHandlerModule = require("code.game.ui.sceneHandler")
-
+--// BOX \\--
 local BoxesObjectModule = require("code.game.box.object")
 
-local RenderModule = require("code.engine.render")
+--// UI \\--
+local UISceneHandlerModule = require("code.game.ui.sceneHandler")
+
+--/ UI OBJECTS \--
+local UIButtonObjectModule = require("code.game.ui.objects.button")
+
+--// VFX \\--
+local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+
+--/// DATA \\\--
+local SceneData = require("code.data.ui.settings")
 
 local Module = {}
 Module._elements = {}
 Module._objects = {}
 Module.name = "settings"
-
-local SceneData = require("code.data.ui.settings")
 
 function Module:clean()
     for _, element in pairs(self._elements) do
