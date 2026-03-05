@@ -1,20 +1,37 @@
 -- ~/code/game/ui/scenes/saveFiles.lua
 
-local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+--/// ENGINE \\\--
+local RenderModule = require("code.engine.render")
+
+--// SAVES \\--
+local SAVES_CONSTANTS = require("code.engine.saves.constants")
+local SaveFilesModule = require("code.engine.saves.files")
+
+--// HELPERS \\--
+local string = require("code.engine.helpers.string")
+local table = require("code.engine.helpers.table")
+local math = require("code.engine.helpers.math")
+
+--/// GAME \\\--
 local MusicHandlerModule = require("code.game.musicHandler")
 
+--// BOX \\--
 local BoxesObjectModule = require("code.game.box.object")
 
-local UIButtonObjectModule = require("code.game.ui.objects.button")
+--// UI \\--
+local CONSTANTS = require("code.game.ui.constants")
+
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 local UISharedFunctions = require("code.game.ui.shared")
 
-local SaveFilesModule = require("code.engine.saves.files")
-local RenderModule = require("code.engine.render")
-local extra = require("code.engine.extra")
+--/ UI OBJECTS \--
+local UIButtonObjectModule = require("code.game.ui.objects.button")
 
-local SAVES_CONSTANTS = require("code.engine.saves.constants")
-local CONSTANTS = require("code.game.ui.constants")
+--// VFX \\--
+local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+
+--/// DATA \\\--
+local SceneData = require("code.data.ui.saveFiles")
 
 local Module = {}
 Module._resetButtons = {}
@@ -23,8 +40,6 @@ Module._objects = {}
 Module._boxes = {}
 
 Module.name = "saveFiles"
-
-local SceneData = require("code.data.ui.saveFiles")
 
 function Module:clean()
     for _, element in pairs(self._elements) do
@@ -52,7 +67,7 @@ end
 
 local function setupSavePlaytime(self, backgroundElement, save)
     local templateSavePlaytime = RenderModule:createElement(SceneData.templateSavePlaytime)
-    templateSavePlaytime.text = extra.formatTime((save.stats and save.stats.playtime) or 0)
+    templateSavePlaytime.text = string.formatTime((save.stats and save.stats.playtime) or 0)
     templateSavePlaytime.x = backgroundElement.x
 
     table.insert(self._elements, templateSavePlaytime)

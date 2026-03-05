@@ -1,22 +1,27 @@
 -- ~/code/game/ui/scenes/sacrifice.lua
 
-local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+--/// ENGINE \\\--
+local RenderModule = require("code.engine.render")
+
+--// HELPERS \\--
+local table = require("code.engine.helpers.table")
+
+--/// GAME \\\--
 local MusicHandlerModule = require("code.game.musicHandler")
 
-local UIButtonObjectModule = require("code.game.ui.objects.button")
-local UISceneHandlerModule = require("code.game.ui.sceneHandler")
-local UISharedFunctions = require("code.game.ui.shared")
-
+--// BOX \\--
 local BoxesObjectModule = require("code.game.box.object")
 
-local RenderModule = require("code.engine.render")
+--// UI \\--
+local UISharedFunctions = require("code.game.ui.shared")
+
+--/// DATA \\\--
+local SceneData = require("code.data.ui.sacrifice")
 
 local Module = {}
 Module._elements = {}
 Module._objects = {}
 Module.name = "sacrifice"
-
-local SceneData = require("code.data.ui.sacrifice")
 
 function Module:clean()
     for _, element in pairs(self._elements) do

@@ -1,6 +1,7 @@
 -- ~/code/data/boxes.lua
 
-local extra = require("code.engine.extra")
+--// HELPERS \\--
+local color = require("code.engine.helpers.color")
 
 return {
     {
@@ -237,7 +238,7 @@ return {
 
         onUpdateCosmetic = function(element)
             local hue = (love.timer.getTime() % 5) / 5
-            element.color = extra.HSVtoRGB(hue, 1, 1)
+            element.color = color.HSVtoRGB(hue, 1, 1)
         end,
 
         --mergeSoundData = {soundPath = "assets/sounds/merge/box16.wav"},

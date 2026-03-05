@@ -1,7 +1,9 @@
 -- ~/code/data/ui/game.lua
 
+--/// ENGINE \\\--
 local RenderModule = require("code.engine.render")
 
+--// UI \\--
 local CONSTANTS = require("code.game.ui.constants")
 
 return {

@@ -1,10 +1,11 @@
 -- ~/code/game/box/dragHandler.lua
 
-local BoxesObjectModule = require("code.game.box.object")
-
+--/// ENGINE \\\--
 local RenderModule = require("code.engine.render")
 
+--// BOX \\--
 local CONSTANTS = require("code.game.box.constants")
+local BoxesObjectModule = require("code.game.box.object")
 
 local Module = {}
 Module._wasMouseDown = false

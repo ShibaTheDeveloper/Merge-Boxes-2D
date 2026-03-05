@@ -1,21 +1,32 @@
 -- ~/code/game/ui/scenes/mainMenu.lua
 
-local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+--/// ENGINE \\\--
+local RenderModule = require("code.engine.render")
+
+--// HELPERS \\--
+local table = require("code.engine.helpers.table")
+local math = require("code.engine.helpers.math")
+
+--/// GAME \\\--
 local MusicHandlerModule = require("code.game.musicHandler")
 
-local UIButtonObjectModule = require("code.game.ui.objects.button")
+--// UI \\--
 local UISceneHandlerModule = require("code.game.ui.sceneHandler")
 local UISharedFunctions = require("code.game.ui.shared")
 
-local RenderModule = require("code.engine.render")
-local extra = require("code.engine.extra")
+--/ UI OBJECTS \--
+local UIButtonObjectModule = require("code.game.ui.objects.button")
+
+--// VFX \\--
+local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+
+--/// DATA \\\--
+local SceneData = require("code.data.ui.mainMenu")
 
 local Module = {}
 Module._elements = {}
 Module._objects = {}
 Module.name = "mainMenu"
-
-local SceneData = require("code.data.ui.mainMenu")
 
 local logo2 = nil
 local logo = nil
@@ -103,12 +114,14 @@ local function setupQuitButton(self)
 end
 
 function Module:update()
+    local rotation = math.sin(love.timer.getTime()) * 2
+
     if logo then
-        logo:setRotation(extra.getRotationByWave("sin", 2))
+       logo:setRotation(rotation)
     end
 
     if logo2 then
-        logo2:setRotation(-extra.getRotationByWave("sin", 2))
+        logo2:setRotation(-rotation)
     end
 end
 

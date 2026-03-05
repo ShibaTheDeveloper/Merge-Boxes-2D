@@ -1,5 +1,6 @@
 -- ~/code/data/ui/sacrifice.lua
 
+--// UI \\--
 local CONSTANTS = require("code.game.ui.constants")
 
 return {

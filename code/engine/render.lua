@@ -1,12 +1,16 @@
 -- ~/code/engine/render.lua
 
-local IdManagerModule = require("code.engine.idManager")
-local manager = IdManagerModule:createManager()
+--// HELPERS \\--
+local IdManagerModule = require("code.engine.helpers.id-manager")
+
+local math = require("code.engine.helpers.math")
 
 local Module = {}
 Module.fullscreen = false
 Module.imageCache = {}
 Module._elements = {}
+
+local manager = IdManagerModule:createManager()
 
 function Module:createColor(r, g, b, alpha)
     return {

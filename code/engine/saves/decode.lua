@@ -1,8 +1,13 @@
+---@diagnostic disable: undefined-field
 -- ~/code/engine/saves/decode.lua
 
+--// SAVES \\--
 local CONSTANTS = require("code.engine.saves.constants")
 
-local extra = require("code.engine.extra")
+--// HELPERS \\--
+local string = require("code.engine.helpers.string")
+local table = require("code.engine.helpers.table")
+local math = require("code.engine.helpers.math")
 
 local Module = {}
 
@@ -36,7 +41,7 @@ local function decryptWithKey(string)
     for index = 1, #string do
         local eByte = string:byte(index)
         local kByte = key:byte(((index - 1) % keyLength) + 1)
-        output[index] = string.char(extra.xorByte(eByte, kByte))
+        output[index] = string.char(math.xorByte(eByte, kByte))
     end
 
     return table.concat(output)
@@ -48,7 +53,7 @@ local function seperateLines(file)
         table.insert(sections, section)
     end
 
-    local last = file:match("([^\n].*)$") 
+    local last = file:match("([^\n].*)$")
     if last then
         table.insert(sections, last)
     end

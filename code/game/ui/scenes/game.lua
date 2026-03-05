@@ -1,29 +1,44 @@
 -- ~/code/game/ui/scenes/game.lua
 
-local ScreenTransitionModule = require("code.game.vfx.screenTransition")
-local ScreenFlashModule = require("code.game.vfx.screenFlash")
+--/// ENGINE \\\--
+local RenderModule = require("code.engine.render")
 
+--// SAVES \\--
+local SaveFilesModule = require("code.engine.saves.files")
+
+--// HELPERS \\--
+local string = require("code.engine.helpers.string")
+local table = require("code.engine.helpers.table")
+
+--/// GAME \\\--
 local MusicHandlerModule = require("code.game.musicHandler")
 
-local UIButtonObjectModule = require("code.game.ui.objects.button")
-local UISceneHandlerModule = require("code.game.ui.sceneHandler")
-local UISharedFunctions = require("code.game.ui.shared")
-
+--// BOX \\--
 local BoxesObjectModule = require("code.game.box.object")
 local BoxFactoryModule = require("code.game.box.factory")
 
-local SaveFilesModule = require("code.engine.saves.files")
-local RenderModule = require("code.engine.render")
-
+--// SHOP \\--
 local SHOP_CONSTANTS = require("code.game.shop.constants")
+
+--// UI \\--
+local UISceneHandlerModule = require("code.game.ui.sceneHandler")
+local UISharedFunctions = require("code.game.ui.shared")
+
+--/ UI OBJECTS \--
+local UIButtonObjectModule = require("code.game.ui.objects.button")
+
+--// VFX \\--
+local ScreenTransitionModule = require("code.game.vfx.screenTransition")
+local ScreenFlashModule = require("code.game.vfx.screenFlash")
+
+--/// DATA \\\--
+local SharedData = require("code.data.ui.shared")
+local SceneData = require("code.data.ui.game")
 
 local Module = {}
 Module._elements = {}
 Module._objects = {}
 Module.name = "game"
-
-local SharedData = require("code.data.ui.shared")
-local SceneData = require("code.data.ui.game")
 
 local spawnButtonHitbox = nil
 local spawnButtonLabel = nil

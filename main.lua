@@ -1,15 +1,24 @@
 -- ~/main.lua
 
-local MusicHandlerModule = require("code.game.musicHandler")
-local BoxHandlerModule = require("code.game.box.handler")
-local VFXHandlerModule = require("code.game.vfx.handler")
-local UIHandlerModule = require("code.game.ui.handler")
+--/// ENGINE \\\--
+local RenderModule = require("code.engine.render")
+local SoundModule = require("code.engine.sound")
 
+--// SAVES \\--
 local SettingsModule = require("code.engine.saves.settings")
 local SaveFilesModule = require("code.engine.saves.files")
 
-local RenderModule = require("code.engine.render")
-local SoundModule = require("code.engine.sound")
+--/// GAME \\\--
+local MusicHandlerModule = require("code.game.musicHandler")
+
+--// BOX \\--
+local BoxHandlerModule = require("code.game.box.handler")
+
+--// UI \\--
+local UIHandlerModule = require("code.game.ui.handler")
+
+--// VFX \\--
+local VFXHandlerModule = require("code.game.vfx.handler")
 
 SettingsModule:loadFile()
 

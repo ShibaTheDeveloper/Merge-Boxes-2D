@@ -1,16 +1,25 @@
 -- ~/code/game/box/mergeManager.lua
 
-local ScreenFlashModule = require("code.game.vfx.screenFlash")
+--/// ENGINE \\\--
+local SoundModule = require("code.engine.sound")
+
+--// SAVES \\--
+local SaveFilesModule = require("code.engine.saves.files")
+
+--// HELPERS \\--
+local easing = require("code.engine.helpers.easing")
+local table = require("code.engine.helpers.table")
+local math = require("code.engine.helpers.math")
+
+--// BOX \\--
+local CONSTANTS = require("code.game.box.constants")
 local BoxesObjectModule = require("code.game.box.object")
 
-local SaveFilesModule = require("code.engine.saves.files")
-local SoundModule = require("code.engine.sound")
-local extra = require("code.engine.extra")
+--// VFX \\--
+local ScreenFlashModule = require("code.game.vfx.screenFlash")
 
-local EasingData = require("code.data.easing")
+--/// DATA \\\--
 local BoxesData = require("code.data.boxes")
-
-local CONSTANTS = require("code.game.box.constants")
 
 local Module = {}
 Module._activeMerges = {}
@@ -75,12 +84,12 @@ function Module:mergeUpdate(deltaTime)
         end
 
         local timerLocalized = math.min(merge.timeSinceStart / merge.duration, 1)
-        local eased = EasingData.easeInQuad(timerLocalized)
+        local eased = easing.easeInQuad(timerLocalized)
 
-        merge.boxA.element.x = extra.lerp(merge.startAX, merge.middleX, eased)
-        merge.boxA.element.y = extra.lerp(merge.startAY, merge.middleY, eased)
-        merge.boxB.element.x = extra.lerp(merge.startBX, merge.middleX, eased)
-        merge.boxB.element.y = extra.lerp(merge.startBY, merge.middleY, eased)
+        merge.boxA.element.x = math.lerp(merge.startAX, merge.middleX, eased)
+        merge.boxA.element.y = math.lerp(merge.startAY, merge.middleY, eased)
+        merge.boxB.element.x = math.lerp(merge.startBX, merge.middleX, eased)
+        merge.boxB.element.y = math.lerp(merge.startBY, merge.middleY, eased)
 
         if timerLocalized >= 1 then
             merge.boxA:remove()

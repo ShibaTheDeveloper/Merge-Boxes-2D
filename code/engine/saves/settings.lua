@@ -1,11 +1,13 @@
 -- ~/code/engine/saves/files.lua
 
+--// SAVES \\--
+local CONSTANTS = require("code.engine.saves.constants")
+
 local SavesDecodeModule = require("code.engine.saves.decode")
 local SavesEncodeModule = require("code.engine.saves.encode")
 
-local extra = require("code.engine.extra")
-
-local CONSTANTS = require("code.engine.saves.constants")
+--// HELPERS \\--
+local table = require("code.engine.helpers.table")
 
 local Module = {}
 Module.loadedFile = nil
@@ -24,7 +26,7 @@ function Module:loadFile()
     local decodedFile = (file and SavesDecodeModule:decodeSettings(file) or nil)
 
     if not decodedFile then
-        decodedFile = extra.cloneTable(CONSTANTS.DEFAULT_SETTINGS)
+        decodedFile = table.clone(CONSTANTS.DEFAULT_SETTINGS)
     end
 
     self.loadedFile = decodedFile

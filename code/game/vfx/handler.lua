@@ -1,5 +1,6 @@
 -- ~/code/game/vfx/handler.lua
 
+--// VFX \\--
 local ScreenTransitionModule = require("code.game.vfx.screenTransition")
 local ScreenFlashModule = require("code.game.vfx.screenFlash")
 
