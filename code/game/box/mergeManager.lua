@@ -7,10 +7,12 @@ local SoundModule = require("code.engine.sound")
 local SaveFilesModule = require("code.engine.saves.files")
 
 --// HELPERS \\--
+local easing = require("code.engine.helpers.easing")
 local table = require("code.engine.helpers.table")
 local math = require("code.engine.helpers.math")
 
 --// BOX \\--
+local CONSTANTS = require("code.game.box.constants")
 local BoxesObjectModule = require("code.game.box.object")
 
 --// VFX \\--
@@ -82,7 +84,7 @@ function Module:mergeUpdate(deltaTime)
         end
 
         local timerLocalized = math.min(merge.timeSinceStart / merge.duration, 1)
-        local eased = EasingData.easeInQuad(timerLocalized)
+        local eased = easing.easeInQuad(timerLocalized)
 
         merge.boxA.element.x = math.lerp(merge.startAX, merge.middleX, eased)
         merge.boxA.element.y = math.lerp(merge.startAY, merge.middleY, eased)
