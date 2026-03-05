@@ -1,8 +1,9 @@
 -- ~/code/engine/render.lua
 
---// HELPERS \\--
-local IdManagerModule = require("code.engine.helpers.id-manager")
+--// ENGINE \\--
+local IdManagerModule = require("code.engine.idManager")
 
+--// HELPERS \\--
 local math = require("code.engine.helpers.math")
 
 local Module = {}

@@ -2,6 +2,7 @@
 
 --/// ENGINE \\\--
 local SoundModule = require("code.engine.sound")
+local QuadtreesModule = require("code.engine.quadtrees")
 
 --// SAVES \\--
 local SaveFilesModule = require("code.engine.saves.files")
