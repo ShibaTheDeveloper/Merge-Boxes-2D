@@ -30,7 +30,7 @@ Playlist: https://www.youtube.com/playlist?list=PL4SfVAqmkT2WSjVqtZ7hU-KLh6ys-MN
 ### Fonts
 - **Stanberry.ttf**
   Link: https://www.dafont.com/stanberry.font
-  License: See font license on the original source page.
+  License: As stated on DaFont
 
 ### Sound Effects
 - **ui/click.wav**
