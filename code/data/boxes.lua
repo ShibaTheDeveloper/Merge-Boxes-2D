@@ -290,6 +290,7 @@ return {
         scale = 2.15,
         tier = 18,
     },
+    --[[
     {
         spritePath = "assets/sprites/boxes/box19.png",
 
@@ -303,4 +304,23 @@ return {
         scale = 2.25,
         tier = 19,
     },
+    --]]
+    {
+        spritePath = "assets/sprites/boxes/boxgodangry.png",
+
+        description = "This box is an archive of all that exists and all that used to exist.",
+        quote = "/archive19",
+        name = "The Archivist",
+
+        mergeReward = 666,
+
+        --screenFlashFadeDuration = 2.25,
+        --flashScreen = true,
+
+        --mergeSoundData = {soundPath = "assets/sounds/merge/box18.wav"},
+
+        weight = 1400,
+        scale = 2.2,
+        tier = 19,
+    }
 }
