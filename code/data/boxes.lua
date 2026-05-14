@@ -150,7 +150,7 @@ return {
     {
         spritePath = "assets/sprites/boxes/box11.png",
 
-        description = "A dizzy cube which bears a striking resemblance to the creator of the game.",
+        description = "A box whose perception is always a few seconds behind reality. It reacts to things that already happened.",
         quote = "Whuh? wha-?",
         name = "Dizzy",
 
@@ -163,7 +163,7 @@ return {
     {
         spritePath = "assets/sprites/boxes/box12.png",
 
-        description = "A granite-man transformed into a box. He's the creator of the faces you see on the boxes.",
+        description = "A granite-man transformed into a box. He is the original artist behind every face you see on the boxes.",
         quote = "ROCK NOISES!!!",
         name = "Gochged",
 
@@ -211,12 +211,6 @@ return {
 
         mergeReward = 222,
 
-        --screenFlashColor = RenderModule:createColor(255, 255, 255, 1),
-        --screenFlashFadeDuration = 2.25,
-        --flashScreen = true,
-
-        --mergeSoundData = {soundPath = "assets/sounds/merge/box15.wav"},
-
         screenFlashFadeDuration = 1.2,
         flashScreen = true,
 
@@ -235,16 +229,10 @@ return {
 
         mergeReward = 333,
 
-        --screenFlashColor = RenderModule:createColor(255, 255, 255, 1),
-        --screenFlashFadeDuration = 2.25,
-        --flashScreen = true,
-
         onUpdateCosmetic = function(element)
             local hue = (love.timer.getTime() % 5) / 5
             element.color = RenderModule:createColor(color.HSVtoRGB(hue, 1, 1))
         end,
-
-        --mergeSoundData = {soundPath = "assets/sounds/merge/box16.wav"},
 
         weight = 1100,
         scale = 2,
@@ -259,14 +247,8 @@ return {
 
         mergeReward = 444,
 
-        --screenFlashColor = RenderModule:createColor(43, 43, 255, 1),
-        --screenFlashFadeDuration = 2.25,
-        --flashScreen = true,
-
         reflectionPath = "assets/sprites/reflections/box17.png",
         reflective = true,
-
-        --mergeSoundData = {soundPath = "assets/sounds/merge/box17.wav"},
 
         weight = -60,
         scale = 2.05,
@@ -281,46 +263,164 @@ return {
 
         mergeReward = 555,
 
-        --screenFlashFadeDuration = 2.25,
-        --flashScreen = true,
-
-        --mergeSoundData = {soundPath = "assets/sounds/merge/box18.wav"},
-
         weight = 1300,
         scale = 2.15,
         tier = 18,
     },
-    --[[
     {
         spritePath = "assets/sprites/boxes/box19.png",
 
-        description = "A rage-baiting, baguette loving, machine loving chimera who has their own territory and also happens to be a virtual japanese singer who also happens to be a 31 year old minor who also happens to be an april fools joke. I don't have anybody in mind here, just to clarify. I'm talking about a fully original character in my own game.",
-        quote = "Thanks for sending me a message. Unfortunately, you're very ugly and I will not be replying to you.",
-        name = "Tasane Keto",
+        description = "An ancient cosmic entity that has existed since before the universe. Was in the middle of the best nap it has ever had. You woke it up by merging too much. It is not happy about this and it wants you to know that specifically.",
+        quote = "I was SLEEPING!!",
+        name = "Great Old Grumpy One",
 
         mergeReward = 666,
-
-        weight = 2000,
-        scale = 2.25,
-        tier = 19,
-    },
-    --]]
-    {
-        spritePath = "assets/sprites/boxes/boxgodangry.png",
-
-        description = "This box is an archive of all that exists and all that used to exist.",
-        quote = "/archive19",
-        name = "The Archivist",
-
-        mergeReward = 666,
-
-        --screenFlashFadeDuration = 2.25,
-        --flashScreen = true,
-
-        --mergeSoundData = {soundPath = "assets/sounds/merge/box18.wav"},
 
         weight = 1400,
         scale = 2.2,
         tier = 19,
-    }
+    },
+    {
+        spritePath = "assets/sprites/boxes/box20.png",
+
+        description = "A very important box with a very important briefcase that literially is made of cheese. Nobody knows what's in the briefcase. Nobody has ever been important enough to find out. He's got places to be and you are not on his schedule.",
+        quote = "I'm very busy, y'know? I ain't got time enough for these 'ere antics!",
+        name = "The Big Cheese",
+
+        mergeReward = 1000,
+
+        weight = 1500,
+        scale = 2.35,
+        tier = 20,
+    },
+    {
+        spritePath = "assets/sprites/boxes/box21.png",
+
+        description = "Nobody has ever understood a word he says. He has predicted every major cosmic event with perfect accuracy. He warned everyone about all of them. Every single time.",
+        quote = "mghmmfmhghmjghrmmmffhmhhhhgh",
+        name = "Mumbles",
+
+        mergeReward = 1250,
+
+        weight = 1600,
+        scale = 2.4,
+        tier = 21,
+    },
+    {
+        spritePath = "assets/sprites/boxes/box22.png",
+
+        description = "A box that cries a lot. Looks like it has some familial problems.",
+        quote = "wah",
+        name = "The 'Saac",
+
+        mergeReward = 1750,
+
+        weight = 1800,
+        scale = 2.5,
+        tier = 22,
+    },
+    {
+        spritePath = "assets/sprites/boxes/box23.png",
+
+        description = "A carefree box who suspiciously looks a lot like the creator of the game. The universe could be collapsing around her and she would think that's pretty neat. Has never once stressed about anything.",
+        quote = "yea",
+        name = "Mellow",
+
+        mergeReward = 2000,
+
+        weight = 1900,
+        scale = 2.55,
+        tier = 23,
+    },
+    -- {
+    --     spritePath = "assets/sprites/boxes/box24.png",
+
+    --     description = "",
+    --     quote = "",
+    --     name = "",
+
+    --     mergeReward = 2250,
+
+    --     weight = 2000,
+    --     scale = 2.6,
+    --     tier = 24,
+    -- },
+    -- {
+    --     spritePath = "assets/sprites/boxes/box25.png",
+
+    --     description = "",
+    --     quote = "",
+    --     name = "",
+
+    --     mergeReward = 2500,
+
+    --     weight = 2100,
+    --     scale = 2.65,
+    --     tier = 25,
+    -- },
+    -- {
+    --     spritePath = "assets/sprites/boxes/box26.png",
+
+    --     description = "",
+    --     quote = "",
+    --     name = "",
+
+    --     mergeReward = 2750,
+
+    --     weight = 2200,
+    --     scale = 2.7,
+    --     tier = 26,
+    -- },
+    -- {
+    --     spritePath = "assets/sprites/boxes/box27.png",
+
+    --     description = "",
+    --     quote = "",
+    --     name = "",
+
+    --     mergeReward = 3000,
+
+    --     weight = 2300,
+    --     scale = 2.75,
+    --     tier = 27,
+    -- },
+    -- {
+    --     spritePath = "assets/sprites/boxes/box28.png",
+
+    --     description = "",
+    --     quote = "",
+    --     name = "",
+
+    --     mergeReward = 3250,
+
+    --     weight = 2400,
+    --     scale = 2.8,
+    --     tier = 28,
+    -- },
+    -- {
+    --     spritePath = "assets/sprites/boxes/box29.png",
+
+    --     description = "",
+    --     quote = "",
+    --     name = "",
+
+    --     mergeReward = 3750,
+
+    --     weight = 2750,
+    --     scale = 2.9,
+    --     tier = 29,
+    -- },
+    -- {
+    --     spritePath = "assets/sprites/boxes/box30.png",
+
+    --     description = "",
+    --     quote = "",
+    --     name = "",
+
+    --     mergeReward = 4000,
+
+    --     weight = 3000,
+    --     scale = 3,
+    --     tier = 30,
+    -- },
 }
